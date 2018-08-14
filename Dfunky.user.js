@@ -32,12 +32,12 @@
                    bid: [448,446,464,461,479,447,504,445,465,483,449,481,460,466,462,500,463,482,477,502,"467",488,489,490,491,496,498,455,467]};
     var sum=true;
     var bdcountshow=true;
-    var loot=[0,400,1000,4500,15000,33000,60000,120000,201000,300000,446000]; //cavern loot per lvl
+//    var loot=[0,400,1000,4500,15000,33000,60000,120000,201000,300000,446000]; //cavern loot per lvl
     var bossdef=[625,3750,25000,50000,125000,187500,250000,375000,562500,750000]; //bosses defense value
     var bossdefw=[425,2500,17000,33000,83000,125000,170000,250000,375000,500000]; // bosses defense value for weakness type
     var bossmts=[6,20,100,500,2000,3500,5000,8000,12000,15000]; //minimum TS to send to a boss
     var numbs=[0,0,0];
-    var ttloot=[0,0,10,20,10,10,5,0,15,20,15,10,0,0,1000,1500,3000]; //troops loot capacity
+    var ttloot=[0,0,10,20,10,10,5,0,15,20,15,10,0,0,0,1500,3000];//troop loot
     var ttattack=[10,50,30,10,25,50,70,10,40,60,90,120,50,150,3000,1200,12000]; //troops attack value
     var iscav=[0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0]; //which troop number is cav
     var isinf=[1,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0]; //which troop number is inf
