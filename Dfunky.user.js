@@ -76,7 +76,6 @@
         setTimeout(function() {
             var a=$("#organiser > option");
             var l=a.length;
-            //console.log(a,l);
             for  (var i=0; i<l;i++) {
                 var temp=String($(a[i]).attr("value"));
                 $("#organiser").val(temp).change();
@@ -91,9 +90,7 @@
                         clc[temp].push($(tempcl[j]).attr("value"));
                     }
                 }
-                //console.log(i,temp,a[i]);
             }
-            //console.log(clc);
             $("#organiser").val("all").change();
         },4000);
     });
@@ -120,14 +117,12 @@
                     }
                      if (url.indexOf('gWrd.php')!=-1) {
                         wdata=JSON.parse(this.response);
-                        //console.log("not cfunky");
                         beentoworld=true;
                         wdata=decwdata(wdata.a);
                         getbossinfo();
                     }
                     if (url.indexOf('gPlA.php')!=-1) {
                         pldata=JSON.parse(this.response);
-                        //console.log(pldata);
                     }
                     if (url.indexOf('poll2.php')!=-1) {
                         if(poll2) {
@@ -189,7 +184,6 @@
             caverns = temp[5].split("l"),
             portals = temp[6].split("l"),
             dat = 0;
-        //console.log(ckey,skey,bkey,lkey,cavkey,pkey);
         for (var i in bosses) {
             dat = (Number(bosses[i]) + Number(bkey)) + "";
             bkey=dat;
@@ -271,7 +265,6 @@
             $(c).remove();
         }, 6000);
     }
-    //console.log(message);
  /*   function errorgo(j) {
         var errormsgs;
         errmBR = errmBR+1;
@@ -309,7 +302,6 @@
                         });
         var reslvl;
         function setloyal(ldata) {
-            //console.log(ldata);
             var faith=0;
             //domdis
             $.each(ldata.t, function(key, value) {
@@ -415,7 +407,6 @@
                     }
                 }
                 ttspeedres[6]+=resbonus[reslvl];
-                //console.log(ttres[2]);
             }
             if($(this).attr('data')==9) { //cav speed
                 var ranktext=$(this).text();
@@ -430,7 +421,6 @@
                     }
                 }
                 ttspeedres[11]+=resbonus[reslvl];
-                //console.log(ttres[2]);
             }
             if($(this).attr('data')==13) { //navy speed
                 var ranktext=$(this).text();
@@ -442,7 +432,6 @@
                 ttspeedres[14]+=resbonus[reslvl];
                 ttspeedres[15]+=resbonus[reslvl];
                 ttspeedres[16]+=resbonus[reslvl];
-                //console.log(ttres[2]);
             }
             if($(this).attr('data')==14) { //senator speed
                 var ranktext=$(this).text();
@@ -461,7 +450,6 @@
                 }
                 else var reslvl=Number(ranktext.match(/\d+/gi));
                 ttres[2]+=resbonus[reslvl];
-                //console.log(ttres[2]);
             }
             if($(this).attr('data')==31) { //triari
                 var ranktext=$(this).text();
@@ -575,7 +563,6 @@
             }
             if($(this).attr('data')==46) { //scouts
                 var ranktext=$(this).text();
-                //console.log(ranktext);
                 var cmp=new RegExp("complete");
                 if (cmp.test(ranktext)) {
                     reslvl=12;
@@ -841,7 +828,6 @@
             if ($("#d"+i+"x").val()) {
                 tempx=$("#d"+i+"x").val();
                 tempy=$("#d"+i+"y").val();
-                //console.log(tempx,tempy);
                 targets.x.push(tempx);
                 targets.y.push(tempy);
                 targets.dist.push(Math.sqrt((tempx-city.x)*(tempx-city.x)+(tempy-city.y)*(tempy-city.y)));
@@ -865,11 +851,9 @@
         }
         var maxdist=Math.max.apply(Math, targets.dist);
         var time;
- //       console.log(t);
         //galley defend
         if (t.type.indexOf(14)>-1 && $("#usedef14").prop( "checked")==true) {
             time=ttspeed[14]/ttspeedres[14]*maxdist;
-            //console.log(time);
             var gali=t.type.indexOf(14);
             var galnumb=Math.floor(t.home[gali]/tarnumb);
             var maxts=0;
@@ -942,19 +926,16 @@
             if ($("#defdeparture").val()==2) {
                 var rh=Number($("#dretHr").val());
                 var hr=Number($("#defHr").val())-(Math.floor(time/60)+rh);
-                //console.log(hr);
                 var returndate=$('#defDat').datepicker('getDate');
                 var min=$("#defMin").val()-Math.floor(time%60);
                 if (min<0) {
                     min+=60;
                     hr-=1;
                 }
-                //console.log(hr);
                 if (hr<0 && hr>=-24) {
                     hr+=24;
                     returndate.setDate(returndate.getDate() - 1);
                 }
-                //console.log(hr);
                 if (hr<-24 && hr>= -48) {
                     hr+=48;
                     returndate.setDate(returndate.getDate() - 2);
@@ -963,12 +944,8 @@
                     hr+=72;
                     returndate.setDate(returndate.getDate() - 3);
                 }
-                //console.log(hr);
                 if (hr<10) {hr="0"+hr;}
-                //console.log(hr);
-                //console.log(min,hr)
                 var retdate=getFormattedDate(returndate)+" "+hr+":"+min+":"+$("#defSec").val();
-                //console.log(retdate);
                 $("#raidrettimesela").val(3).change();
             }
             if ($("#defdeparture").val()==1) {
@@ -1038,7 +1015,6 @@
             if ($("#t"+i+"x").val()) {
                 tempx=$("#t"+i+"x").val();
                 tempy=$("#t"+i+"y").val();
-                //console.log(tempx,tempy);
                 targets.x.push(tempx);
                 targets.y.push(tempy);
                 targets.real.push($("#type"+i).val());
@@ -1062,8 +1038,6 @@
             }}
         var maxdist=Math.max.apply(Math, targets.dist);
         var time;
-        console.log("scouttts:"+scouttts);
-        console.log("thome:"+t.home);
         var faketss;
         var fakeg;
         var tscbr=cdata.tt;
@@ -1087,7 +1061,6 @@
         else if(tscbr<200000){faketss=2000;fakeg=4;}
         else if(tscbr<240000){faketss=2500;fakeg=5;}
         else{faketss=3000;fakeg=5;}
-        console.log("tscbr:"+tscbr);
         if (scouttts>0){
             if($("#realtype").val()==3 && $("#faketype").val()==3) {
                 if($("#usereal14").prop( "checked")===true){
@@ -1274,13 +1247,10 @@
                     }
                 }
                 }
-                console.log("fake:"+t.fake);
-                console.log("real:"+t.real);
         }
         var alltimes={a:[],b:[],c:[],d:[]};
         var l=0; var end=targets.x.length;
         function loop() {
-            //console.log(l,end);
             if (targets.real[l]==1) {
                 if ($("#realtype").val()==0) {
                     pvptabs.tabs( "option", "active", 0 );
@@ -1349,10 +1319,8 @@
                     }
             }
             if (targets.real[l]==0) {
-                //console.log("fake");
                 if ($("#faketype").val()==0) {
                         pvptabs.tabs( "option", "active", 0 );
-                    //console.log("assault");
                     for (var i in t.real) {
                         $("#assIP"+t.type[i]).val(t.fake[i]);
                     }
@@ -1369,7 +1337,6 @@
                 }
                     if ($("#faketype").val()==1) {
                         pvptabs.tabs( "option", "active", 1 );
-                        //console.log("siege");
                         for (var i in t.real) {
                             $("#sieIP"+t.type[i]).val(t.fake[i]);
                         }
@@ -1386,7 +1353,6 @@
                     }
                 if ($("#faketype").val()==2) {
                     pvptabs.tabs( "option", "active", 2 );
-                    //console.log("plunder");
                     for (var i in t.real) {
                         $("#pluIP"+t.type[i]).val(t.fake[i]);
                     }
@@ -1449,19 +1415,16 @@
             },500);
             var rh=Number($("#retHr").val());
             var hr=Number($("#attackHr").val())-(Math.floor(time/60)+rh);
-            //console.log(hr);
             var returndate=$('#attackDat').datepicker('getDate');
             var min=$("#attackMin").val()-Math.floor(time%60);
             if (min<0) {
                 min+=60;
                 hr-=1;
             }
-            //console.log(hr);
             if (hr<0 && hr>=-24) {
                 hr+=24;
                 returndate.setDate(returndate.getDate() - 1);
             }
-            //console.log(hr);
             if (hr<-24 && hr>= -48) {
                 hr+=48;
                 returndate.setDate(returndate.getDate() - 2);
@@ -1470,12 +1433,8 @@
                 hr+=72;
                 returndate.setDate(returndate.getDate() - 3);
             }
-            //console.log(hr);
             if (hr<10) {hr="0"+hr;}
-            //console.log(hr);
-            //console.log(min,hr)
             var retdate=getFormattedDate(returndate)+" "+hr+":"+min+":"+$("#attackSec").val();
-            //console.log(retdate);
             $("#raidrettimesela").val(3).change();
             $("#raidrettimeselinp").val(retdate);
             jQuery("#doneOGAll")[0].click();
@@ -1515,7 +1474,6 @@
             }
         });
         $("#sumWin").click(function() {
-            console.log("popsum");
         });
         var autodemobut='<button id="autodemow" style="margin-top: 14px; width: 90px; margin-right: 7px; float: right; font-family: trojan !important; font-size:11px !important; color:white !important" class="regButton greenb">Quick Demo</button>';
    //     var autodemobut="<button id='autodemow' style='float: right; font-size: 10px; font-family: trojan; margin-right: 7px; border: 0; color: #e8e8e8; cursor: pointer; margin-right: 7px;' class='greenb tooltipstered'>Quick Demo</button>";
@@ -1551,7 +1509,6 @@
             $("#autodemow").removeClass('couoffpos').addClass('couonpos');
         });
         $("#city_map").click(function() {
-            //console.log(autodemoon);
             if (autodemoon==1) {
                 //$('#buildingDemolishButton').trigger({type:"click",originalEvent:"1"});
                  $("#buildingDemolishButton").trigger({type:"click",originalEvent:"1"});
@@ -1565,7 +1522,6 @@
         $("#buildQueue").before(bdcountbox);
         $("#bdcountbut").click(function() {
             if (bdcountshow) {
-                //console.log(1);
                 $("#bdcountwin").hide();
                 $("#bdcountbut").removeClass('tradeqarr2').addClass('tradeqarr1');
                 bdcountshow=false;
@@ -1656,14 +1612,12 @@
             }
         }
     }
-    //console.log(currentbd);
     var bdtable="<table id='bdtable'><tbody><tr>";
     for (var i in currentbd.bid) {
         if (i<9 || ((i>9 && i<19) || (i>19 && i<29))) {
             bdtable+="<td style='text-align:center; width:32px; height:32px;'><div style='background-image: url(/images/city/buildings/icons/"+currentbd.name[i]+".png); background-size:contain;background-repeat:no-repeat;width:32px; height:32px;'></div>"+Number(currentbd.count[i])+"</td>";
         }
         if (i==9 || i==19) {
-            //console.log(i);
             bdtable+="</tr><tr>";
             bdtable+="<td style='text-align:center; width:32px; height:32px;'><div style='background-image: url(/images/city/buildings/icons/"+currentbd.name[i]+".png); background-size:contain;background-repeat:no-repeat;width:32px; height:32px;'></div>"+Number(currentbd.count[i])+"</td>";
         }
@@ -1674,7 +1628,6 @@
 }
     //layout part,raid return part
     function openreturnwin(data) {
-        //console.log(data);
         $(".toptdinncommtbl1:first").click();
         setTimeout(function() {
             $("#outgoingPopUpBox").hide();
@@ -1766,7 +1719,6 @@
                     }
                 });
             }
-            //console.log(returncities);
             $("#organiser").val("all").change();
             //$("#outgoingPopUpBox").open();
             bb=$("#returnSel").val();
@@ -1775,7 +1727,6 @@
             } else {cc=0;}
             j=0; end=returncities.cid.length;
             aa=returncities.cid[j];
-            //console.log(aa);
             $("#cityDropdownMenu").val(aa).change();
             $("#returnTroops").show();
             $("#nextCity").show();
@@ -1789,14 +1740,12 @@
         });
         $("#nextCity").click(function() {
             j++;
-            console.log(j,end);
             if (j==end)  {
                 alert("Return all complete");
                 $("#returnAll").remove();
                          }
             else {
                 aa=returncities.cid[j];
-                console.log(aa,j,end);
                 $("#cityDropdownMenu").val(aa).change();
             }
         });
@@ -1820,7 +1769,6 @@
             }
     }
     function openbosswin() {
-        //console.log(bossinfo);
         var bosslist={name:[],x:[],y:[],lvl:[],distance:[],cid:[],time:[],cont:[]};
         for (var i in bossinfo.cont) {
             var distance=(Math.sqrt((bossinfo.x[i]-city.x)*(bossinfo.x[i]-city.x)+(bossinfo.y[i]-city.y)*(bossinfo.y[i]-city.y)));
@@ -1860,7 +1808,6 @@
                 }
             }
         }
-        //console.log(bosslist);
         //var bosswin="<table id='bosstable' class='beigetablescrollp sortable'><thead><tr><th></th><th>Type</th><th>Level</th><th>Coordinates</th><th>Travel Time</th><th id='hdistance'>Distance</th></tr></thead>";
         var bosswin="<table id='bosstable' class='beigetablescrollp sortable'><thead><tr><th>Coordinates</th><th>Level</th><th>Continent</th><th>Travel Time</th><th id='hdistance'>Distance</th></tr></thead>";
         bosswin+="<tbody>";
@@ -1888,7 +1835,6 @@
         $("#idletroops").html(idle);
         var newTableObject = document.getElementById('bosstable');
         sorttable.makeSortable(newTableObject);
-        //console.log(bosslist);
         setTimeout(function(){
             $("#hdistance").trigger("click");
             setTimeout(function(){$("#hdistance").trigger("click");},100);
@@ -2046,7 +1992,6 @@
                 }
             }
             if(dtype==="boss"){
-                console.log(Total_Combat_Research);
                 if($("#cityplayerInfo div table tbody tr").length===11){
                     bossele();
                 }
@@ -2386,10 +2331,8 @@
             temp=temp.substring(0,n);
             temp=temp.replace(",","");
             var troops=Number(temp);
-            //console.log(troops);
             var temp1=$(this).attr('id');
             var tt=Number(temp1.match(/\d+/gi));
-            //console.log(temp1);
             if (tt!==7) {
                 if (troops>0) {
                     ttc+=1;
@@ -2585,7 +2528,6 @@
     } */
     // recall button in command window
     function recallraidl100(){
-        console.log("1");
 //        var troops = cotg.city.troops();
         var loot;
         var total;
@@ -2604,7 +2546,6 @@
         var l=1;
         var m=Number($("#commandtable tbody").length);
         function loop(){
-            console.log("2");
             var trlist = $("#commandtable tbody tr:nth-child("+l+")");
             var lvlprog=$(trlist).find(".commandinntabl tbody tr:nth-child(3) td:nth-child(1) span:nth-child(1)").text();//td:nth-child(1) span:nth-child(1)
             var splitlp=lvlprog.split("(");
@@ -2619,9 +2560,7 @@
             var Units_raiding=Number(temp7[0].replace(',', ''));
             var lootperraid=lootpertroop*Units_raiding;
             var percentage_ofloot=Math.ceil((lootperraid/total_loot_c)*100);
-            console.log(percentage_ofloot);
             if(Number(percentage_ofloot)<90){
-                console.log("3");
                 jQuery(trlist).find(".commandinntabl tbody tr:nth-child(2) td:nth-child(1) table tbody tr td:nth-child(2)")[0].click(); // table tbody tr td:nth-child(2)
                 $("#raidrettimesela").val(1).change();
                 setTimeout(function() {
@@ -2850,7 +2789,6 @@
         $("#scouttraveltime").parent().next().html(cancelallyc);
         $("#assaultGo").click(function() {
             if ($("#cancelAllya").prop("checked")==false) {
-                //console.log("cancel pressed");
                 setTimeout(function() {
                     $(".shAinf").each(function() {
                         var tid=$(this).parent().next().find(".cityblink").attr("data");
@@ -2858,7 +2796,6 @@
                         var ty=(tid-tx)/65536;
                         if (tx==$("#assaultxcoord").val() && ty==$("#assaultycoord").val()) {
                             var aid=$(this).attr("data");
-                            //console.log(aid);
                             var dat={a: aid,b:1};
                             jQuery.ajax({url: 'includes/UaO.php',type: 'POST',aysnc:false, data:dat});
                         }
@@ -2869,7 +2806,6 @@
                         var ty=(tid-tx)/65536;
                         if (tx==$("#assaultxcoord").val() && ty==$("#assaultycoord").val()) {
                             var aid=$(this).attr("data");
-                            //console.log(aid);
                             var dat={a: aid,b:1};
                             jQuery.ajax({url: 'includes/UpO.php',type: 'POST',aysnc:false, data:dat});
                         }
@@ -2879,7 +2815,6 @@
         });
         $("#plunderGo").click(function() {
             if ($("#cancelAllyp").prop("checked")==false) {
-                //console.log("cancel pressed");
                 setTimeout(function() {
                     $(".shAinf").each(function() {
                         var tid=$(this).parent().next().find(".cityblink").attr("data");
@@ -2887,7 +2822,6 @@
                         var ty=(tid-tx)/65536;
                         if (tx==$("#pluxcoord").val() && ty==$("#pluycoord").val()) {
                             var aid=$(this).attr("data");
-                            //console.log(aid);
                             var dat={a: aid,b:1};
                             jQuery.ajax({url: 'includes/UaO.php',type: 'POST',aysnc:false, data:dat});
                         }
@@ -2898,7 +2832,6 @@
                         var ty=(tid-tx)/65536;
                         if (tx==$("#pluxcoord").val() && ty==$("#pluycoord").val()) {
                             var aid=$(this).attr("data");
-                            //console.log(aid);
                             var dat={a: aid,b:1};
                             jQuery.ajax({url: 'includes/UpO.php',type: 'POST',aysnc:false, data:dat});
                         }
@@ -2908,7 +2841,6 @@
         });
         $("#scoutGo").click(function() {
             if ($("#cancelAllyc").prop("checked")==false) {
-                //console.log("cancel pressed");
                 setTimeout(function() {
                     $(".shAinf").each(function() {
                         var tid=$(this).parent().next().find(".cityblink").attr("data");
@@ -2916,7 +2848,6 @@
                         var ty=(tid-tx)/65536;
                         if (tx==$("#scoxcoord").val() && ty==$("#scoycoord").val()) {
                             var aid=$(this).attr("data");
-                            //console.log(aid);
                             var dat={a: aid,b:1};
                             jQuery.ajax({url: 'includes/UaO.php',type: 'POST',aysnc:false, data:dat});
                         }
@@ -2927,7 +2858,6 @@
                         var ty=(tid-tx)/65536;
                         if (tx==$("#scoxcoord").val() && ty==$("#scoycoord").val()) {
                             var aid=$(this).attr("data");
-                            //console.log(aid);
                             var dat={a: aid,b:1};
                             jQuery.ajax({url: 'includes/UpO.php',type: 'POST',aysnc:false, data:dat});
                         }
@@ -2937,17 +2867,13 @@
         });
         $("#siegeGo").click(function() {
             if ($("#cancelAllys").prop("checked")==false) {
-                //console.log("cancel pressed");
                 setTimeout(function() {
-                    //console.log("ally");
                     $(".shAinf").each(function() {
                         var tid=$(this).parent().next().find(".cityblink").attr("data");
                         var tx=tid%65536;
                         var ty=(tid-tx)/65536;
-                        //console.log(tx,ty);
                         if (tx==$("#siexcoord").val() && ty==$("#sieycoord").val()) {
                             var aid=$(this).attr("data");
-                            //console.log(aid);
                             var dat={a: aid,b:1};
                             jQuery.ajax({url: 'includes/UaO.php',type: 'POST',aysnc:false, data:dat});
                         }
@@ -2956,10 +2882,8 @@
                         var tid=$(this).parent().next().find(".cityblink").attr("data");
                         var tx=tid%65536;
                         var ty=(tid-tx)/65536;
-                        //console.log(tx,ty);
                         if (tx==$("#siexcoord").val() && ty==$("#sieycoord").val()) {
                             var aid=$(this).attr("data");
-                            //console.log(aid);
                             var dat={a: aid,b:1};
                             jQuery.ajax({url: 'includes/UpO.php',type: 'POST',aysnc:false, data:dat});
                         }
@@ -3155,10 +3079,8 @@
                 var currentlayout=$('#currentLOtextarea').text();
                 for (var i=20; i<currentlayout.length-20;i++) {
                     var tmpchar=currentlayout.charAt(i);
-                    //console.log(tmpchar);
                     var cmp=new RegExp(tmpchar);
                     if (!(cmp.test(emptyspots))) {
-                        //console.log(String(cmp));
                         currentlayout=currentlayout.replaceAt(i,"-");
                     }
                 }
@@ -3200,8 +3122,6 @@
                 troopcounw.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
                 resw.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
                 selectbuttsdf+='</select>';
-
-                //console.log(currentlayout);
                 var selectbuttsw='<select id="funkylayoutw" style="font-size: 10px !important;margin-top:1%;margin-left:2%;width:45%;" class="regButton greenb"><option value="0">Select water layout</option>';
                 var ww=1;
                 selectbuttsw+='<option value="'+ww+'">2 sec rang/galley</option>';
@@ -3381,20 +3301,16 @@
                 $('#funkylayoutl').after(selectbuttsw);
                 $('#funkylayoutl').change(function() {
                     var newlayout=currentlayout;
-                    //console.log($('#funkylayoutl').val());
                     for (var j=1; j<layoutsl.length; j++) {
                         if ($('#funkylayoutl').val()==j) {
                             for (var i=20; i<currentlayout.length;i++) {
                                 var tmpchar=layoutsl[j].charAt(i);
                                 var cmp=new RegExp(tmpchar);
                                 if (!(cmp.test(emptyspots))) {
-                                    //console.log(String(cmp));
                                     newlayout=newlayout.replaceAt(i,tmpchar);
                                     //currentlayout=currentlayout.replaceAt(i,tmpchar);
                                 }
                             }
-                            //console.log(newlayout);
-                            //console.log(currentlayout);
                             //$('#removeoverlayGo').click();
                             $('#overlaytextarea').val(newlayout);
                             setTimeout(function(){$('#applyoverlayGo').click();},300);
@@ -3408,7 +3324,6 @@
                                 setTimeout(function(){$('#citnotesaveb').click(); },100);
                             }
                             var aa=city.mo;
-                            //console.log(aa);
                             if ($("#addtroops").prop("checked")==true) {
                                 for (var k in troopcounl[j]) {
                                     aa[9+Number(k)]=troopcounl[j][k];
@@ -3422,9 +3337,7 @@
                             }
                             if ($("#addhub").prop("checked")==true) {
                                 var hubs={cid:[],distance:[]};
-                                //console.log(clc);
                                 $.each(clc, function(key, value) {
-                                    //console.log(key,value);
                                     if (key==$("#selHub").val()) {
                                         hubs.cid=value;
                                     }
@@ -3460,10 +3373,8 @@
                                 aa[1]=1;
                             }
                             
-                            //console.log(aa);
                            //var aaa=JSON.stringify(aa);
                             var dat={a:JSON.stringify(aa),b:cdata.cid};
-                            //console.log(dat);
                             jQuery.ajax({url: 'includes/mnio.php',type: 'POST',aysnc:false,data: dat});
                             
                         }
@@ -3471,14 +3382,12 @@
                 });
                 $('#funkylayoutw').change(function() {
                     var newlayout=currentlayout;
-                    //console.log($('#funkylayoutw').val());
                     for (var j=1; j<layoutsw.length; j++) {
                         if ($('#funkylayoutw').val()==j) {
                             for (var i=20; i<currentlayout.length;i++) {
                                 var tmpchar=layoutsw[j].charAt(i);
                                 var cmp=new RegExp(tmpchar);
                                 if (!(cmp.test(emptyspots))) {
-                                    //console.log(String(cmp));
                                     newlayout=newlayout.replaceAt(i,tmpchar);
                                 }
                             }
@@ -3495,7 +3404,6 @@
                                 setTimeout(function(){$('#citnotesaveb').click(); },100);
                             }
                             var aa=city.mo;
-                            //console.log(aa);
                             if ($("#addtroops").prop("checked")==true) {
                                 for (var k in troopcounw[j]) {
                                     aa[9+Number(k)]=troopcounw[j][k];
@@ -3544,24 +3452,20 @@
                                 aa[51]=[1,$("#cablev").val()];
                                 aa[1]=1;
                             }
-                            //console.log(aa);
                            //var aaa=JSON.stringify(aa);
                             var dat={a:JSON.stringify(aa),b:cdata.cid};
-                            //console.log(dat);
                             jQuery.ajax({url: 'includes/mnio.php',type: 'POST',aysnc:false,data: dat});
                         }
                     }
                 });
                 $('#dfunkylayout').change(function() {
                     var newlayout=currentlayout;
-                    //console.log($('#funkylayoutw').val());
                     for (var j=1; j<layoutsw.length; j++) {
                         if ($('#dfunkylayout').val()==j) {
                             for (var i=20; i<currentlayout.length;i++) {
                                 var tmpchar=layoutsw[j].charAt(i);
                                 var cmp=new RegExp(tmpchar);
                                 if (!(cmp.test(emptyspots))) {
-                                    //console.log(String(cmp));
                                     newlayout=newlayout.replaceAt(i,tmpchar);
                                 }
                             }
@@ -3578,7 +3482,6 @@
                                 setTimeout(function(){$('#citnotesaveb').click(); },100);
                             }
                             var aa=city.mo;
-                            //console.log(aa);
                             if ($("#addtroops").prop("checked")==true) {
                                 for (var k in troopcounw[j]) {
                                     aa[9+Number(k)]=troopcounw[j][k];
@@ -3627,10 +3530,8 @@
                                 aa[51]=[1,$("#cablev").val()];
                                 aa[1]=1;
                             }
-                            //console.log(aa);
                            //var aaa=JSON.stringify(aa);
                             var dat={a:JSON.stringify(aa),b:cdata.cid};
-                            //console.log(dat);
                             jQuery.ajax({url: 'includes/mnio.php',type: 'POST',aysnc:false,data: dat});
                         }
                     }
@@ -3671,13 +3572,11 @@
             aa[28+Number(k)]=res[k];
         }
         var dat={a:JSON.stringify(aa),b:cdata.cid};
-        //console.log(dat);
         jQuery.ajax({url: 'includes/mnio.php',type: 'POST',aysnc:false,data: dat});
     }
     //Summary
      function opensumwin() {
          sum=false;
-         //console.log(1);
          var sumwin="<div id='sumWin' style='width:60%;height:50%;left: 360px; z-index: 2000;' class='popUpBox'><div id='popsum' class='popUpBar'><span class=\"ppspan\">Cities Summaries</span> <button id=\"sumX\" onclick=\"$('#sumWin').hide();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div class=\"popUpWindow\" style='height:100%'>";
          sumwin+="<div id='sumdiv' class='beigetabspopup' style='background:none;border: none;padding: 0px;height:74%;'><ul id='sumtabs' role='tablist'><li role='tab'><a href='#resTab' role='presentation'>Resources</a></li>";
          sumwin+="<li role='tab'><a href='#troopsTab' role='presentation'>Troops</a></li><li role='tab'><a href='#raidTab' role='presentation'>Raids</a></li><li role='tab'><a href='#raidoverTab' role='presentation'>Raids Overview</a></li>";
@@ -3706,7 +3605,6 @@
          $( "#sumWin" ).draggable({ handle: ".popUpBar" , containment: "window", scroll: false});
          $( "#sumWin" ).resizable();
          $(".popUpBar").click(function() {
-             console.log("popup");
              if ($(this).parent().attr("id")=="sumWin") {
                  setTimeout(function() {
                      $("#sumWin").css("z-index",4001);
@@ -3854,7 +3752,6 @@
      }
     //update raid overview
     function updateraidover(data,notes) {
-        console.log(notes);
         var raidovertab="<thead><tr data='0'><th></th><th>Name</th><th colspan='2'>Notes</th><th>Coords</th><th>Raids</th><th>Out</th><th>In</th><th>Raiding TS</th><th>Resources</th></tr></thead><tbody>";
         $.each(data.a, function() {
             var cid=this[0];
