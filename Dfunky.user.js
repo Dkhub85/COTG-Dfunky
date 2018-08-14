@@ -71,6 +71,7 @@
     var beentoworld=false;
     var splayers={name:[],ally:[],cities:[]};
     var shrinec=[[]];
+    var buildingdata;		
     //getting city lists
     $(document).ready(function() {
         setTimeout(function() {
@@ -105,6 +106,7 @@
                         city.cid=cdata.cid;
                         city.th=cdata.th;
                         citytc=cdata.th;
+			buildingdata=cdata.bd;
                         city.x=Number(city.cid % 65536);
                         city.y=Number((city.cid-city.x)/65536);
                         city.cont=Number(Math.floor(city.x/100)+10*Math.floor(city.y/100));
@@ -1596,15 +1598,15 @@
     var bdtypecount=-1;
     var bdNumber=-1;
 
-    for (var i in poll2.city.bd) {
-        if (buildings.bid.indexOf(poll2.city.bd[i].bid)>-1) {
-            if (currentbd.bid.indexOf(poll2.city.bd[i].bid)>-1) {
-                j=currentbd.bid.indexOf(poll2.city.bd[i].bid);
+    for (var i in buildingdata) {
+        if (buildings.bid.indexOf(buildingdata[i].bid)>-1) {
+            if (currentbd.bid.indexOf(buildingdata[i].bid)>-1) {
+                j=currentbd.bid.indexOf(buildingdata[i].bid);
                 currentbd.count[j]+=1;
                 bdNumber+=1;
             } else {
                 bdtypecount+=1;
-                j=buildings.bid.indexOf(poll2.city.bd[i].bid);
+                j=buildings.bid.indexOf(buildingdata[i].bid);
                 currentbd.name[bdtypecount]=buildings.name[j];
                 currentbd.bid[bdtypecount]=buildings.bid[j];
                 currentbd.count[bdtypecount]+=1;
@@ -1615,11 +1617,11 @@
     var bdtable="<table id='bdtable'><tbody><tr>";
     for (var i in currentbd.bid) {
         if (i<9 || ((i>9 && i<19) || (i>19 && i<29))) {
-            bdtable+="<td style='text-align:center; width:32px; height:32px;'><div style='background-image: url(/images/city/buildings/icons/"+currentbd.name[i]+".png); background-size:contain;background-repeat:no-repeat;width:32px; height:32px;'></div>"+Number(currentbd.count[i])+"</td>";
+            bdtable+="<td style='text-align:center; width:30px; height:30px;'><div style='background-image: url(/images/city/buildings/icons/"+currentbd.name[i]+".png); background-size:contain;background-repeat:no-repeat;width:30px; height:30px;'></div>"+Number(currentbd.count[i])+"</td>";
         }
         if (i==9 || i==19) {
             bdtable+="</tr><tr>";
-            bdtable+="<td style='text-align:center; width:32px; height:32px;'><div style='background-image: url(/images/city/buildings/icons/"+currentbd.name[i]+".png); background-size:contain;background-repeat:no-repeat;width:32px; height:32px;'></div>"+Number(currentbd.count[i])+"</td>";
+            bdtable+="<td style='text-align:center; width:30px; height:30px;'><div style='background-image: url(/images/city/buildings/icons/"+currentbd.name[i]+".png); background-size:contain;background-repeat:no-repeat;width:30px; height:30px;'></div>"+Number(currentbd.count[i])+"</td>";
         }
     }
     bdtable+="</tr></tbody></table>";
