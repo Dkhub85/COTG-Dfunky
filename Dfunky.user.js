@@ -71,7 +71,9 @@
     var beentoworld=false;
     var splayers={name:[],ally:[],cities:[]};
     var shrinec=[[]];
-    var buildingdata;		
+    var buildingdata;
+	var coofz;
+    var coon;
     //getting city lists
     $(document).ready(function() {
         setTimeout(function() {
@@ -116,6 +118,7 @@
                             updatedef();
                         }, 2000);
                         makebuildcount();
+			    coonvalue();
                     }
                      if (url.indexOf('gWrd.php')!=-1) {
                         wdata=JSON.parse(this.response);
@@ -1442,6 +1445,19 @@
             jQuery("#doneOGAll")[0].click();
         }
     }
+	//for on/off councilor
+	function coonvalue() {
+        if(coofz==1)
+        {
+         coon=0
+         $("#fb1").removeClass('redb').addClass('greenb');}
+        if(coofz==0)
+        {
+		coon=1
+        $("#fb1").removeClass('greenb').addClass('redb');
+	}
+        return coon;
+    }
     //Buttons convert,fill,demolish,building count
     $(document).ready(function() {
         var fourbutton="<div id='fourbuttons' class='commandinndiv'><div><button id='fb1' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>ON/OFF</button><button id='fb2' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Refine</button><button id='fb3' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Raid</button><button id='fb4' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Demolish</button></div></div>";
@@ -1467,22 +1483,22 @@
             var cB = $.post('/overview/mconv.php', { a: cfd });
         });
 
-        var nf=0;
         $("#fb1").click(function(){
-            console.log("1");
-            var cfd=poll2.city.cid;
-            if (nf==0) {
-                nf=1;
-                var cB = $.post('/includes/co00.php', { a: cfd, b: 0});
+            $('#councillorPopUpBox').show();
+            jQuery("#ui-id-11")[0].click();
+            jQuery("#couonoffdv")[0].click();
+            setTimeout(function(){
+                jQuery("#councillorXbutton")[0].click();
+            },100);
+            if (coon==0) {
+                coon=1;
                 $(this).removeClass('greenb');
                 $(this).addClass('redb');
             } else {
-                nf=0;
+                coon=0;
                 $(this).removeClass('redb');
-                var sd = $.post('/includes/co00.php', { a: cfd, b: 1});
                 $(this).addClass('greenb');
             }
-
         });
         $("#fb2").click(function() {
             $('#tradePopUpBox').show();
