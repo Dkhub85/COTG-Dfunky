@@ -1444,46 +1444,58 @@
     }
     //Buttons convert,fill,demolish,building count
     $(document).ready(function() {
-    //    $('#sortbut').css({'float':'left', 'width':'30px', 'color':'#e8e8e8'});
-   //     $('#nmbuildlf').css({'margin-right':'0px'});
+        var fourbutton="<div id='fourbuttons' class='commandinndiv'><div><button id='fb1' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>ON/OFF</button><button id='fb2' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Refine</button><button id='fb3' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Raid</button><button id='fb4' style='height:28px; width:65px; margin-left:7px; margin-bottom:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;' class='regButton greenb'>Demolish</button></div></div>";
         var bdcountbox="<div id='currentBd'><div id='bdcountbar' class='queueBar'>";
         bdcountbox+="<div id='bdcountbut' class='tradeqarr2'><div></div></div><span class='qbspan'>Current Buildings</span>";
         bdcountbox+="<div id='numbdleft' class='barRightFloat tooltipstered'>0</div>";
         bdcountbox+="</div><div id='bdcountwin' class='queueWindow' style='display: block;'></div></div>";
-  //      var convbut='<button id="convque" class="greenb tooltipstered" style="height: 28px; line-height: 20px; width: 20px; float: none; padding: 0; font-size: 10px; font-family: trojan; margin-right: 7px; text-decoration: underline; color: #e8e8e8; border: 0; background: transparent; cursor: pointer; margin-right: 7px;">Convert</button>';
-  //      $('#sortbut').after(convbut);
+        $("#buildQueue").before(fourbutton);
         var fillbut='<button id="fillque" class="greenb tooltipstered" style="height:18px; width:40px; margin-left:7px; margin-top:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;">Fill</button>';
         $('#sortbut').after(fillbut);
         $('#fillque').click(function() {
-            var cid=poll2.city.cid;
+            var dfs=poll2.city.cid;
+            console.log(dfs);
             event.stopPropagation();
-            var bB = $.post('/overview/fillq.php', { a: cid });
+            var bB = $.post('/overview/fillq.php', { a: dfs });
         });
-         var convbut='<button id="convque" class="greenb tooltipstered" style="height:18px; width:60px; margin-left:7px; margin-top:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;">Convert</button>';
+        var convbut='<button id="convque" class="greenb tooltipstered" style="height:18px; width:60px; margin-left:7px; margin-top:5px ; border-radius:4px ; font-size: 10px !important; padding: 0px;">Convert</button>';
         $('#sortbut').after(convbut);
         $('#convque').click(function() {
             var cfd=poll2.city.cid;
+            console.log(cfd);
             event.stopPropagation();
             var cB = $.post('/overview/mconv.php', { a: cfd });
         });
-        var sumbut="<button class='tabButton' id='Sum'>Summary</button>";
-        $("#items").after(sumbut);
-        $("#Sum").click(function() {
-            if(sum) {
-                opensumwin();
+
+        var nf=0;
+        $("#fb1").click(function(){
+            console.log("1");
+            var cfd=poll2.city.cid;
+            if (nf==0) {
+                nf=1;
+                var cB = $.post('/includes/co00.php', { a: cfd, b: 0});
+                $(this).removeClass('greenb');
+                $(this).addClass('redb');
             } else {
-                $('#sumWin').show();
+                nf=0;
+                $(this).removeClass('redb');
+                var sd = $.post('/includes/co00.php', { a: cfd, b: 1});
+                $(this).addClass('greenb');
             }
+
         });
-        $("#sumWin").click(function() {
+        $("#fb2").click(function() {
+            $('#tradePopUpBox').show();
+            setTimeout(function(){
+                jQuery("#ui-id-27")[0].click();
+            },100);
         });
-        var autodemobut='<button id="autodemow" style="margin-top: 14px; width: 90px; margin-right: 7px; float: right; font-family: trojan !important; font-size:11px !important; color:white !important" class="regButton greenb">Quick Demo</button>';
-   //     var autodemobut="<button id='autodemow' style='float: right; font-size: 10px; font-family: trojan; margin-right: 7px; border: 0; color: #e8e8e8; cursor: pointer; margin-right: 7px;' class='greenb tooltipstered'>Quick Demo</button>";
+        $("#fb3").click(function() {
+            $('#warcouncbox').show();
+            jQuery("#ui-id-19")[0].click();
+        });  
         var autodemoon=0;
-   //     $('#numbdleft').after(autodemobut);
-        setTimeout(1000);
-        $('#quickBuildMode').after(autodemobut);
-        $('#autodemow').click(function() {
+        $("#fb4").click(function() {
             if (autodemoon==0) {
                 autodemoon=1;
                 $(this).removeClass('greenb');
@@ -1494,36 +1506,45 @@
                 $(this).addClass('greenb');
             }
         });
-        $('#arrowNextDiv').click(function() {
+        $("#centarrowNextDiv").click(function() {
             autodemoon=0;
-            $("#autodemow").removeClass('couoffpos').addClass('couonpos');
+            $("#fb4").removeClass('redb').addClass('greenb');
         });
-        $('#arrowPrevDiv').click(function() {
+        $("#centarrowPrevDiv").click(function() {
             autodemoon=0;
-            $("#autodemow").removeClass('couoffpos').addClass('couonpos');
+            $("#fb4").removeClass('redb').addClass('greenb');
         });
-        $('#ddctd').click(function() {
+        $("#ddctd").click(function() {
             autodemoon=0;
-            $("#autodemow").removeClass('couoffpos').addClass('couonpos');
+            $("#fb4").removeClass('redb').addClass('greenb');
         });
-        $('#quickBuildMode').click(function() {
+        $("#qbuildtbButton").click(function() {
             autodemoon=0;
-            $("#autodemow").removeClass('couoffpos').addClass('couonpos');
+            $("#fb4").removeClass('redb').addClass('greenb');
         });
         $("#city_map").click(function() {
             if (autodemoon==1) {
-                //$('#buildingDemolishButton').trigger({type:"click",originalEvent:"1"});
-                 $("#buildingDemolishButton").trigger({type:"click",originalEvent:"1"});
+                $("#buildingDemolishButton").trigger({type:"click",originalEvent:"1"});
             }
-       //     setTimeout(function(){
-       //         if (autodemoon==1) {
-       //             jQuery("#buildingDemolishButton")[0].click();
-       //         }
-       //     },100);
         });
-        $("#buildQueue").before(bdcountbox);
+
+        var sumbut="<button class='tabButton' id='Sum'>Summary</button>";
+        $("#items").after(sumbut);
+        $("#Sum").click(function() {
+            if(sum) {
+                opensumwin();
+            } else {
+                $('#sumWin').show();
+            }
+        });
+        $("#sumWin").click(function() {
+            console.log("popsum");
+        });
+
+        $("#recruitmentQueue").before(bdcountbox);
         $("#bdcountbut").click(function() {
             if (bdcountshow) {
+                //console.log(1);
                 $("#bdcountwin").hide();
                 $("#bdcountbut").removeClass('tradeqarr2').addClass('tradeqarr1');
                 bdcountshow=false;
