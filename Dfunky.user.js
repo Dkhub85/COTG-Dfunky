@@ -50,7 +50,7 @@
     var layoutsw=[""];
     var cdata; //city data return
     var wdata; //world data
-    var plata; //players list on server
+    var pldata; //players list on server
     var pdata; //player data
     var poll2; //poll2data
     var clc={};// city lists info
