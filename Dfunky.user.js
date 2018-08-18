@@ -1982,7 +1982,7 @@
         $("#returnTroops").click(function() {
             $("#raidrettimesela").val(bb).change();
             $("#raidrettimeselinp").val(cc);
-            $("#doneOGAll").click();
+            jQuery("#doneOGAll")[0].click();
         });
         $("#nextCity").click(function() {
             j++;
