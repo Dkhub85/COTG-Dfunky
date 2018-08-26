@@ -14,3 +14,4 @@ This script has the following
 10) Summary tab on top right.
 11) Fill, Convert, Refine, On/off councilor, Raid, Demolish buttons.
 12) city layout designs.
+13) Nearest defence, add cords from region view panel to attack/defence sender.
