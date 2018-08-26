@@ -68,6 +68,7 @@
     var pdata; //player data
     var poll2; //poll2data
     var clc={};// city lists info
+    var oga; //city outgoing attacks info
     var city={cid:0,x:0,y:0,th:[0],cont:0}; //current city data
     var bosses={name:["Cyclops","Andar's Colosseum Challenge","Dragon","Romulus and Remus","Gorgon","GM Gordy","Triton"],
                 pic:["cyclops32 mauto bostooltip tooltipstered","andar32 mauto bostooltip tooltipstered","dragon32 mauto bostooltip tooltipstered","romrem32 mauto bostooltip tooltipstered","gorgon32 mauto bostooltip tooltipstered","gmgordy32 mauto bostooltip tooltipstered","triton32 mauto bostooltip tooltipstered"]};
@@ -790,13 +791,45 @@
         $("#Defend").click(function() {
             localStorage.setItem('defperc',$("#defperc").val());
             localStorage.setItem('dretHr',$("#dretHr").val());
+            var defobj={targets:{x:[],y:[],dist:[],numb:0,cstr:[]},t:{tot:[],home:[],type:[],use:[],speed:[],amount:[]},perc:$("#defperc").val(),dep:$("#defdeparture").val(),ret:1,rettime:$("#dretHr").val(),hr:$("#defHr").val(),min:$("#defMin").val(),sec:$("#defSec").val(),date:$("#defDat").val(),dat:$("#defDat").datepicker('getDate')};
             if ($("#dretcheck").prop( "checked")==true) {
                 localStorage.setItem('dretcheck',1);
+                defobj.ret=1;
             }
             if ($("#dretcheck").prop( "checked")==false) {
                 localStorage.setItem('dretcheck',0);
+                defobj.ret=0;
             }
-            SendDef();
+            var tempx;
+            var tempy;
+            for (var i=1;i<15;i++) {
+                if ($("#d"+i+"x").val()) {
+                    tempx=$("#d"+i+"x").val();
+                    tempy=$("#d"+i+"y").val();
+                    //console.log(tempx,tempy);
+                    defobj.targets.x.push(tempx);
+                    defobj.targets.y.push(tempy);
+                    defobj.targets.cstr.push(tempx+":"+tempy);
+                    defobj.targets.dist.push(Math.sqrt((tempx-city.x)*(tempx-city.x)+(tempy-city.y)*(tempy-city.y)));
+                    defobj.targets.numb++;
+                }
+            }
+            for (var i in poll2.city.tc) {
+                if (poll2.city.tc[i]) {
+                    defobj.t.tot.push(Math.ceil(poll2.city.tc[i]*Number($("#defperc").val())/100));
+                    defobj.t.home.push(Math.ceil(poll2.city.th[i]*Number($("#defperc").val())/100));
+                    defobj.t.type.push(Number(i));
+                    if ($("#usedef"+i).prop( "checked")==true) {
+                        defobj.t.speed.push(ttspeed[i]/ttspeedres[i]);
+                        defobj.t.use.push(1);
+                    } else {
+                        defobj.t.speed.push(0)
+                        defobj.t.use.push(0);
+                    }
+                    defobj.t.amount.push(0);
+                }
+            }
+            SendDef(defobj);
         });
         $('#attackGo').click(function() {
             $("#warcouncbox").show();
@@ -980,74 +1013,78 @@
         var event = jQuery.Event("click");
             event.user = "foo";
     }
-    function SendDef() {
+    function SendDef(defobj) {
         $("#commandsPopUpBox").show();
-        setTimeout(function() {
-            $("#commandsPopUpBox").hide();
-        },300);
+        //setTimeout(function() {
+        //    $("#commandsPopUpBox").hide();
+        //},300);
         var commandtabs=$("#commandsdiv").tabs();
         commandtabs.tabs( "option", "active", 2 );
-        jQuery("#reintabb")[0].click();
-        var targets={x:[],y:[],dist:[]};
-        var tarnumb=0;
-        var tempx;
-        var tempy;
-        for (var i=1;i<15;i++) {
-            if ($("#d"+i+"x").val()) {
-                tempx=$("#d"+i+"x").val();
-                tempy=$("#d"+i+"y").val();
-                targets.x.push(tempx);
-                targets.y.push(tempy);
-                targets.dist.push(Math.sqrt((tempx-city.x)*(tempx-city.x)+(tempy-city.y)*(tempy-city.y)));
-                tarnumb++;
-            }
-        }
-        var t={home:[],type:[],use:[],speed:[],amount:[]};
-        for (var i in cdata.tc) {
-            if (cdata.tc[i]) {
-                t.home.push(Math.ceil(cdata.tc[i]*Number($("#defperc").val())/100));
-                t.type.push(Number(i));
-                if ($("#usedef"+i).prop( "checked")==true) {
-                    t.speed.push(ttspeed[i]/ttspeedres[i]);
-                    t.use.push(1);
-                } else {
-                    t.speed.push(0);
-                    t.use.push(0);
-                }
-                t.amount.push(0);
-            }
-        }
+        $("#reintabb").trigger({type:"click",originalEvent:"1"});
+        var targets=defobj.targets;
+        var tarnumb=defobj.targets.numb;
+        var t=defobj.t;
         var maxdist=Math.max.apply(Math, targets.dist);
         var time;
+        //console.log(targets,tarnumb);
         //galley defend
-        if (t.type.indexOf(14)>-1 && $("#usedef14").prop( "checked")==true) {
-            time=ttspeed[14]/ttspeedres[14]*maxdist;
-            var gali=t.type.indexOf(14);
-            var galnumb=Math.floor(t.home[gali]/tarnumb);
-            var maxts=0;
-            for (var i in t.home) {
-                if (i!=gali) {
-                    if (t.use[i]==1) {
-                        maxts+=Math.floor(t.home[i]*ttts[t.type[i]]/tarnumb);
-                    }
+        if (t.type.indexOf(14)>-1) {
+            if (t.use[t.type.indexOf(14)]==1) {
+                time=ttspeed[14]/ttspeedres[14]*maxdist;
+                //console.log(time);
+                var gali=t.type.indexOf(14);
+                if (defobj.dep==0) {
+                    var galnumb=Math.floor(t.home[gali]/tarnumb);
+                } else {
+                    var galnumb=Math.floor(t.tot[gali]/tarnumb);
                 }
-            }
-            if (maxts<=galnumb*500) {
-                t.amount[gali]=Math.ceil(maxts/500);
+                var maxts=0;
                 for (var i in t.home) {
                     if (i!=gali) {
                         if (t.use[i]==1) {
-                            t.amount[i]=Math.floor(t.home[i]/tarnumb);
+                            if (t.type[i]!=15) {
+                                if (defobj.dep==0) {
+                                    maxts+=Math.floor(t.home[i]*ttts[t.type[i]]/tarnumb);
+                                } else {
+                                    maxts+=Math.floor(t.tot[i]*ttts[t.type[i]]/tarnumb);
+                                }
+                            }
                         }
                     }
                 }
-            } else {
-                var rat=galnumb*500/maxts;
-                t.amount[gali]=galnumb;
-                for (var i in t.home) {
-                    if (i!=gali) {
-                        if (t.use[i]==1) {
-                            t.amount[i]=Math.floor(rat*t.home[i]/tarnumb);
+                if (maxts<=galnumb*500) {
+                    t.amount[gali]=Math.ceil(maxts/500);
+                    for (var i in t.home) {
+                        if (i!=gali) {
+                            if (t.use[i]==1) {
+                                if (defobj.dep==0) {
+                                    t.amount[i]=Math.floor(t.home[i]/tarnumb);
+                                } else {
+                                    t.amount[i]=Math.floor(t.tot[i]/tarnumb);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    var rat=galnumb*500/maxts;
+                    t.amount[gali]=galnumb;
+                    for (var i in t.home) {
+                        if (i!=gali) {
+                            if (t.use[i]==1) {
+                                if (t.type[i]!=15) {
+                                    if (defobj.dep==0) {
+                                        t.amount[i]=Math.floor(rat*t.home[i]/tarnumb);
+                                    } else {
+                                        t.amount[i]=Math.floor(rat*t.tot[i]/tarnumb);
+                                    }
+                                } else {
+                                     if (defobj.dep==0) {
+                                        t.amount[i]=Math.floor(t.home[i]/tarnumb);
+                                    } else {
+                                        t.amount[i]=Math.floor(t.tot[i]/tarnumb);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -1057,11 +1094,16 @@
             time=Math.max.apply(Math, t.speed)*maxdist;
             for (var i in t.home) {
                 if (t.use[i]==1) {
-                    t.amount[i]=Math.floor(t.home[i]/tarnumb);
+                    if (defobj.dep==0) {
+                        t.amount[i]=Math.floor(t.home[i]/tarnumb);
+                    } else {
+                        t.amount[i]=Math.floor(t.tot[i]/tarnumb);
+                    }
                 }
             }
         }
         // sending def
+        //console.log(t);
         var l=0; var end=targets.x.length;
         function dloop() {
             for (var i in t.home) {
@@ -1072,21 +1114,115 @@
             $("#reinxcoord").val(targets.x[l]);
             $("#reinycoord").val(targets.y[l]);
             setTimeout(function(){
-                jQuery("#reinfcoordgo")[0].click();
+                $("#reinfcoordgo").trigger({type:"click",originalEvent:"1"});
             },100);
-            $("#reinforcetimingselect").val(Number($("#defdeparture").val())+1).change();
+            $("#reinforcetimingselect").val(Number(defobj.dep)+1).change();
             if ($("#defdeparture").val()>0) {
-                var date=$("#defDat").val()+" "+$("#defHr").val()+":"+$("#defMin").val()+":"+$("#defSec").val();
+                //console.log(defobj.min,defobj.hr,defobj.sec);
+                var date=defobj.date+" "+defobj.hr+":"+defobj.min+":"+defobj.sec;
                 $("#reinfotimeinp").val(date);
             }
-            jQuery("#reinforceGo")[0].click();
+
+            var event = jQuery.Event( "logged" );
+            event.user = "foo";
+            //$("#reinforceGo").trigger({type:"click",originalEvent:"1"});
+            $("#reinforceGo").trigger({
+                  type:"click",
+                  originalEvent:"1"
+                });
             l++;
             if (l<end) {
                 setTimeout( dloop, 1500 );
+            } else {
+                $("#commandsPopUpBox").hide();
+                setTimeout( function() {
+                    art();
+                }, 4000 );
             }
         }
         dloop();
-        if ($("#dretcheck").prop( "checked")==true) {
+        function art() { //setting return time for raids according to city view outgoing list
+            //console.log(poll2.OGA);
+            $("#commandsPopUpBox").hide();
+            if (defobj.ret==1) {
+                jQuery(".toptdinncommtbl1:first")[0].click();
+                setTimeout(function() {
+                    $("#outgoingPopUpBox").hide();
+                },500);
+                var minddate = new Date();
+                var first=true;
+                for (var i in poll2.OGA) {
+                    //console.log(targets.cstr,poll2.OGA[i][5]);
+                    if (targets.cstr.indexOf(poll2.OGA[i][5])>-1) {
+                        if (first) {
+                            first=false;
+                            var a=poll2.OGA[i][6].substr(30);
+                            var b=a.substr(0,a.indexOf('<'));
+                            var time=b.split(" ");
+                            var ttime=time[2].split(":");
+                            minddate.setHours(Number(ttime[0]));
+                            minddate.setMinutes(Number(ttime[1]));
+                            minddate.setSeconds(Number(ttime[2]));
+                            //console.log(time[1]);
+                            if (time[1]=="Tomorrow") {
+                                minddate.setDate(minddate.getDate() + 1);
+                                //console.log("tmrw");
+                            } else if (time[1]!="Today") {
+                                var ddate=time[1].split("/");
+                                //console.log(ddate);
+                                minddate.setDate(Number(ddate[1]));
+                                minddate.setMonth(Number(ddate[0]));
+                            }
+                        } else {
+                            var a=poll2.OGA[i][6].substr(30);
+                            var b=a.substr(0,a.indexOf('<'));
+                            var time=b.split(" ");
+                            var ttime=time[2].split(":");
+                            var d=new Date();
+                            d.setHours(ttime[0]);
+                            d.setMinutes(ttime[1]);
+                            d.setSeconds(ttime[2]);
+                            if (time[1]=="Tomorrow") {
+                                //console.log("tmrw");
+                                d.setDate(minddate.getDate() + 1);
+                            } else if (time[1]!="Today") {
+                                var ddate=time[1].split("/");
+                                //console.log(ddate);
+                                d.setDate(ddate[1]);
+                                d.setMonth(ddate[0]);
+                            }
+                            //console.log(d,minddate);
+                            if (d<minddate) {
+                                minddate=d;
+                            }
+                        }
+                    }
+                }
+                minddate.setHours(minddate.getHours()-defobj.rettime);
+                //console.log(minddate);
+                var hour=minddate.getHours();
+                if (hour<10) {
+                    hour="0"+hour;
+                }
+                var min=minddate.getMinutes();
+                if (min<10) {
+                    min="0"+min;
+                }
+                var sec=minddate.getSeconds();
+                if (sec<10) {
+                    sec="0"+sec;
+                }
+                var retdate=getFormattedDate(minddate)+" "+hour+":"+min+":"+sec;
+                //console.log(retdate);
+                $("#raidrettimesela").val(3).change();
+                $("#raidrettimeselinp").val(retdate);
+                jQuery("#doneOGAll")[0].click();
+                alert("Defense set and troops returned");
+            } else {
+                alert("Defense set");
+            }
+        }
+ /*       if ($("#dretcheck").prop( "checked")==true) {
             jQuery(".toptdinncommtbl1:first")[0].click();
             setTimeout(function() {
                 $("#outgoingPopUpBox").hide();
@@ -1129,7 +1265,7 @@
             }
             $("#raidrettimeselinp").val(retdate);
             jQuery("#doneOGAll")[0].click();
-        }
+        }*/
     }
     function updateattack() {
         var t={home:[],type:[]};
@@ -1174,7 +1310,7 @@
         var pvptabs=$("#pvpTab").tabs();
         jQuery("#pvptabb")[0].click();
         commandtabs.tabs( "option", "active", 1 );
-        var targets={x:[],y:[],real:[],dist:[]};
+        var targets={x:[],y:[],real:[],dist:[],cstr:[]};
         var fakenumb=0;
         var realnumb=0;
         var tempx;
@@ -1185,6 +1321,7 @@
                 tempy=$("#t"+i+"y").val();
                 targets.x.push(tempx);
                 targets.y.push(tempy);
+                targets.cstr.push(tempx+":"+tempy);
                 targets.real.push($("#type"+i).val());
                 if ($("#type"+i).val()==1) {realnumb+=1;}
                 else {fakenumb+=1;}
@@ -1572,11 +1709,97 @@
             l++;
             if (l<end) {
                 setTimeout( loop, 1000 );
-            }
+            } else {
+                setTimeout( function() {
+                    art();
+                }, 4000 );
+             }       
         }
         loop();
-       //return all troops
-        if ($("#retcheck").prop( "checked")==true) {
+        function art() { //setting return time for raids according to city view attacks list
+            //console.log(poll2.OGA);
+            $("#commandsPopUpBox").hide();
+            if ($("#retcheck").prop( "checked")==true) {
+                jQuery(".toptdinncommtbl1:first")[0].click();
+                setTimeout(function() {
+                    $("#outgoingPopUpBox").hide();
+                },500);
+                var minddate = new Date();
+                var first=true;
+                for (var i in poll2.OGA) {
+                    //console.log(targets.cstr,poll2.OGA[i][5]);
+                    if (targets.cstr.indexOf(poll2.OGA[i][5])>-1) {
+                        if (first) {
+                            first=false;
+                            var a=poll2.OGA[i][6].substr(30);
+                            var b=a.substr(0,a.indexOf('<'));
+                            var time=b.split(" ");
+                            var ttime=time[2].split(":");
+                            minddate.setHours(Number(ttime[0]));
+                            minddate.setMinutes(Number(ttime[1]));
+                            minddate.setSeconds(Number(ttime[2]));
+                            //console.log(time[1]);
+                            if (time[1]=="Tomorrow") {
+                                minddate.setDate(minddate.getDate() + 1);
+                                //console.log("tmrw");
+                            } else if (time[1]!="Today") {
+                                var ddate=time[1].split("/");
+                                console.log(ddate);
+                                minddate.setDate(Number(ddate[1]));
+                                minddate.setMonth(Number(ddate[0]-1));
+                                //console.log(minddate);
+                            }
+                        } else {
+                            var a=poll2.OGA[i][6].substr(30);
+                            var b=a.substr(0,a.indexOf('<'));
+                            var time=b.split(" ");
+                            var ttime=time[2].split(":");
+                            var d=new Date();
+                            d.setHours(ttime[0]);
+                            d.setMinutes(ttime[1]);
+                            d.setSeconds(ttime[2]);
+                            if (time[1]=="Tomorrow") {
+                                //console.log("tmrw");
+                                d.setDate(minddate.getDate() + 1);
+                            } else if (time[1]!="Today") {
+                                var ddate=time[1].split("/");
+                                //console.log(ddate);
+                                d.setDate(ddate[1]);
+                                d.setMonth(ddate[0]-1);
+                                //console.log(minddate);
+                            }
+                            //console.log(d,minddate);
+                            if (d<minddate) {
+                                minddate=d;
+                            }
+                        }
+                    }
+                }
+                minddate.setHours(minddate.getHours()-Number($("#retHr").val()));
+                //console.log(minddate);
+                var hour=minddate.getHours();
+                if (hour<10) {
+                    hour="0"+hour;
+                }
+                var min=minddate.getMinutes();
+                if (min<10) {
+                    min="0"+min;
+                }
+                var sec=minddate.getSeconds();
+                if (sec<10) {
+                    sec="0"+sec;
+                }
+                var retdate=getFormattedDate(minddate)+" "+hour+":"+min+":"+sec;
+                //console.log(retdate);
+                $("#raidrettimesela").val(3).change();
+                $("#raidrettimeselinp").val(retdate);
+                jQuery("#doneOGAll")[0].click();
+                alert("Attack set and troops returned");
+            } else {
+                alert("Attack set");
+            }
+        }
+   /*     if ($("#retcheck").prop( "checked")==true) {
             jQuery(".toptdinncommtbl1:first")[0].click();
             setTimeout(function() {
                 $("#outgoingPopUpBox").hide();
@@ -1606,7 +1829,7 @@
             $("#raidrettimesela").val(3).change();
             $("#raidrettimeselinp").val(retdate);
             jQuery("#doneOGAll")[0].click();
-        }
+        } */
     }
 	//for on/off councilor
 	function coonvalue() {
