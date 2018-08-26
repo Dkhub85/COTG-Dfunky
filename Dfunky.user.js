@@ -20,6 +20,8 @@
     var mountain_loot=[350,960,4100,14900,31000,54500,112500,190500,285500,423500];//mountain loot
     var tpicdiv=["guard32 trooptdcm","bally32 trooptdcm","ranger32 trooptdcm","triari32 trooptdcm","priest32 trooptdcm","vanq32 trooptdcm","sorc32 trooptdcm","scout32 trooptdcm","arbal32 trooptdcm","praet32 trooptdcm","horsem32 trooptdcm",
                  "druid32 trooptdcm","ram32 trooptdcm","scorp32 trooptdcm","galley32 trooptdcm","sting32 trooptdcm","wship32 trooptdcm","senat32 trooptdcm"];
+    var tpicdiv20=["guard20 trooptdcm","bally20 trooptdcm","ranger20 trooptdcm","triari20 trooptdcm","priest20 trooptdcm","vanq20 trooptdcm","sorc20 trooptdcm","scout20 trooptdcm","arbal20 trooptdcm","praet20 trooptdcm","horsem20 trooptdcm",
+                 "druid20 trooptdcm","ram20 trooptdcm","scorp20 trooptdcm","galley20 trooptdcm","sting20 trooptdcm","wship20 trooptdcm","senat20 trooptdcm"];
     var ttspeed=[0,30,20,20,20,20,20,8,10,10,10,10,30,30,5,5,5,40];
     var ttres=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
     var ibriafaith=0,ylannafaith=0,naerafaith=0,cyndrosfaith=0,domdisfaith=0,vexifaith=0,meriusfaith=0,evarafaith=0; //alliance faiths
@@ -594,7 +596,11 @@
         var raidbossbut="<button id='raidbossGo' style='left: 63%;margin-left: 10px;margin-top: 15px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Locate Bosses</button>";
         var attackbut="<button id='attackGo' style='right: 67%;margin-left: 10px;margin-top: 55px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Attack Sender</button>";
         var defbut="<button id='defGo' style='left: 63%;margin-left: 10px;margin-top: 55px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Defense Sender</button>";
-        //bosstab
+        var quickdefbut="<button id='quickdefCityGo' style='width:96%; margin-top:2%; margin-left:2%;' class='regButton greenbuttonGo greenb'>@ Quick Reinforcements @</button>";
+        var neardefbut="<button id='ndefGo' style='left: 4%;margin-left: 10px;margin-top: 95px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'> Nearest Defense</button>";
+        var addtoatt="<button id='addtoAtt' style='margin-left: 7%;margin-top: -5%;width: 40%;height: 26px !important; font-size: 12px !important;' class='regButton greenb'>Add to Attack Sender</button>";
+        var addtodef="<button id='addtoDef' style='margin-left: 7%;width: 40%;height: 26px !important; font-size: 12px !important;' class='regButton greenb'>Add to Defense Sender</button>";
+	//bosstab
         var bosstab="<li id='bosshuntab' class='ui-state-default ui-corner-top' role='tab' tabindex='-1' aria-controls='warBossmanager'";
         bosstab+="aria-labeledby='ui-id-20' aria-selected='false' aria-expanded='false'>";
         bosstab+="<a href='#warBossmanager' class='ui-tabs-anchor' role='presentation' tabindex='-1' id='ui-id-20'>Find Bosses</a></li>";
@@ -655,6 +661,13 @@
         deftabbbody+="<button id='Defend' style='width: 35%;height: 30px; font-size: 12px; margin:10px;' class='regButton greenb'>Send Defense</button>";
         //deftabbbody+="<table style='margin-left: 10%; margin-top:20px;'><tbody><tr><td style='width: 20%'><button id='Defend' style='width: 95%;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Send Defense</button></td>";
         //deftabbbody+="</tr></tbody></table>";
+	var ndeftab="<li id='neardeftab' class='ui-state-default ui-corner-top' role='tab'>";
+        ndeftab+="<a href='#warNdefmanager' class='ui-tabs-anchor' role='presentation'>Near Def</a></li>";
+        var ndeftabbody="<div id='warNdefmanager' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
+        ndeftabbody+=" role='tabpanel' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >Nearest defense:</div>";
+        ndeftabbody+="<table><td colspan='2'> Choose city:</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='ndefx' type='number'> : <input style='width: 30px;height: 22px;font-size: 10px;' id='ndefy' type='number'></td>";
+        ndeftabbody+="<td><button class='regButton greenb' id='ndefup' style='height:30px; width:70px;'>Update</button></td></table>";
+        ndeftabbody+="<div id='Ndefbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
         var expwin="<div id='ExpImp' style='width:250px;height:200px;' class='popUpBox ui-draggable'><div class=\"popUpBar\"><span class=\"ppspan\">Import/Export attack orders</span>";
         expwin+="<button id=\"cfunkyX\" onclick=\"$('#ExpImp').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='expbody' class=\"popUpWindow\">";
         expwin+="<textarea style='font-size:11px;width:97%;margin-left:1%;height:17%;' id='expstring' maxlength='200'></textarea><button id='applyExp' style='margin-left: 15px; width: 100px;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Apply</button></div></div>";
@@ -664,16 +677,22 @@
         $( bosstab ).appendTo( ul );
         $( attacktab ).appendTo( ul );
         $( deftab ).appendTo( ul );
+	$( ndeftab ).appendTo( ul );
         tabs.tabs( "refresh" );
         $('#warCidlemanager').after(bosstabbody);
         $('#warCidlemanager').after(attacktabbody);
         $('#warAttackmanager').after(deftabbbody);
+	$('#warDefmanager').after(ndeftabbody);
+	$("#senddefCityGo").after(quickdefbut);
         $("#deftime").hide();
         $("#dret").hide();
         
         $("#warCounc").append(returnAllbut);
         $("#warCounc").append(attackbut);
         $("#warCounc").append(defbut);
+        $("#warCounc").append(neardefbut);
+        $("#coordstochatGo1").after(addtoatt);
+        $("#addtoAtt").after(addtodef);
         $("#loccavwarconGo").css("right","65%");
         $("#idluniwarconGo").css("left","34%");
         $("#idluniwarconGo").after(raidbossbut);
@@ -777,6 +796,66 @@
             tabs.tabs( "option", "active", 4 );
             $("#deftab").click();
         });
+	$('#ndefGo').click(function() {
+            $("#warcouncbox").show();
+            tabs.tabs( "option", "active", 5 );
+            $("#neardeftab").trigger({type:"click",originalEvent:"1"});
+        });
+        $("#addtoAtt").click(function() {
+            for (var i=1;i<8;i++) {
+                if (!$("#t"+i+"x").val()) {
+                    var tid=Number($("#showReportsGo").attr("data"));
+                    var tempx;
+                    var tempy;
+                    tempx=Number(tid % 65536);
+                    tempy=Number((tid-tempx)/65536);
+                    $("#t"+i+"x").val(tempx);
+                    $("#t"+i+"y").val(tempy);
+                    break;
+                }
+            }
+        });
+        $("#addtoDef").click(function() {
+            for (var i=1;i<15;i++) {
+                if (!$("#d"+i+"x").val()) {
+                    var tid=Number($("#showReportsGo").attr("data"));
+                    var tempx;
+                    var tempy;
+                    tempx=Number(tid % 65536);
+                    tempy=Number((tid-tempx)/65536);
+                    $("#d"+i+"x").val(tempx);
+                    $("#d"+i+"y").val(tempy);
+                    break;
+                }
+            }
+        });
+		$("#quickdefCityGo").click(function() {
+            var tid=Number($("#showReportsGo").attr("data"));
+            var tempx;
+            var tempy;
+            tempx=Number(tid % 65536);
+            tempy=Number((tid-tempx)/65536);
+            var defobj={targets:{x:[tempx],y:[tempy],dist:[],numb:1},t:{home:[],type:[],use:[],speed:[],amount:[]},perc:100,dep:0,ret:0,rettime:0,hr:0,min:0,sec:0,dat:0};
+            defobj.targets.dist.push(Math.sqrt((tempx-city.x)*(tempx-city.x)+(tempy-city.y)*(tempy-city.y)));
+            for (var i in poll2.city.th) {
+                if (poll2.city.th[i]) {
+                    defobj.t.home.push(Math.ceil(poll2.city.th[i]*Number($("#defperc").val())/100));
+                    defobj.t.type.push(Number(i));
+                    defobj.t.speed.push(ttspeed[i]/ttspeedres[i]);
+                    defobj.t.use.push(1);
+                    defobj.t.amount.push(0);
+                }
+            }
+            SendDef(defobj);
+        });
+        $("#ndefup").click(function() {
+            jQuery.ajax({url: 'overview/trpover.php',type: 'POST',aysnc:false,
+                         success: function(data) {
+                             var t=JSON.parse(data);
+                             neardeftable(t);
+                         }
+                        });
+        });
         $("#Aexport").click(function() {
             var Aexp={x:[],y:[],type:[],time:[]};
             for (var i=1;i<16;i++) {
@@ -805,7 +884,7 @@
         });
     });
     //import attack orders
-    function Aimp(str) {
+  	function Aimp(str) {
         Aexp=JSON.parse(str);
         for (var i=1; i<=Aexp.x.length; i++) {
             $("#t"+i+"x").val(Aexp.x[i-1]);
@@ -816,6 +895,78 @@
         $("#attackMin").val(Aexp.time[1]);
         $("#attackSec").val(Aexp.time[2]);
         $("#attackDat").val(Aexp.time[3]);
+    	}	
+	function neardeftable(t) {
+        var cx=$("#ndefx").val();
+        var cy=$("#ndefy").val();
+        var cont=Number(Math.floor(cx/100)+10*Math.floor(cy/100));
+        var cit={x:[],y:[],dist:[],cn:[],thome:[],ts:[],id:[],time:[]};
+        //console.log(cx,cy,cont);
+        for (var i in t) {
+            var tid=t[i].id;
+            var tempx=Number(tid % 65536);
+            var tempy=Number((tid-tempx)/65536);
+            var tcont=Number(Math.floor(tempx/100)+10*Math.floor(tempy/100));
+            //console.log(cont,tcont);
+            if (cont==tcont) {
+                if (t[i].Ballista_total>0 || t[i].Ranger_total>0 || t[i].Triari_total>0 || t[i].Priestess_total || t[i].Arbalist_total>0 || t[i].Praetor_total>0) {
+                    cit.x.push(tempx);
+                    cit.y.push(tempy);
+                    var tdist=roundToTwo(Math.sqrt((tempx-cx)*(tempx-cx)+(tempy-cy)*(tempy-cy)));
+                    cit.dist.push(tdist);
+                    var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    tempt[1]=t[i].Ballista_total;
+                    tempt[2]=t[i].Ranger_total;
+                    tempt[3]=t[i].Triari_total;
+                    tempt[4]=t[i].Priestess_total;
+                    tempt[8]=t[i].Arbalist_total;
+                    tempt[9]=t[i].Praetor_total;
+                    var tempts=0;
+                    for (var j in tempt) {
+                        tempts+=tempt[j]*ttts[j];
+                    }
+                    cit.ts.push(tempts);
+                    cit.thome.push(tempt);
+                    cit.cn.push(t[i].c);
+                    cit.id.push(tid);
+                    var tspeed=0;
+                    for (var j in tempt) {
+                        if (tempt[j]>0) {
+                            if (ttspeed[j]>tspeed) {
+                                tspeed=ttspeed[j];
+                            }
+                        }
+                    }
+                    cit.time.push(tdist*tspeed);
+                }
+            }
+        }
+        var neardeftab="<table id='ndeftable'><thead><th></th><th>City</th><th>Coords</th><th>TS</th><th id='ndefdist'>Travel Time</th><th>type</th></thead><tbody>";
+        for (var i in cit.x) {
+            neardeftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit.id[i]+"'>Go To</button></td><td>"+cit.cn[i]+"</td><td class='coordblink shcitt' data='"+cit.id[i]+"'>"+cit.x[i]+":"+cit.y[i]+"</td>";
+            //style='font-size: 9px;border-radius: 6px;width: 80%;height: 22px;padding: 0;white-space: nowrap;'
+            neardeftab+="<td>"+cit.ts[i]+"</td><td>"+Math.floor(cit.time[i]/60)+"h "+Math.floor(cit.time[i]%60)+"m</td><td><table>";
+            for (var j in cit.thome[i]) {
+                if (cit.thome[i][j]>0) {
+                    neardeftab+="<td><div class='"+tpicdiv20[j]+"'></div></td>";
+                }
+            }
+            neardeftab+="</table></td></tr>";
+        }
+        neardeftab+="</tbody></table>";
+        $("#Ndefbox").html(neardeftab);
+        $("#ndeftable td").css("text-align","center");
+        $("#ndeftable td").css("height","26px");
+        var newTableObject = document.getElementById('ndeftable');
+        sorttable.makeSortable(newTableObject);
+        $("#ndefdist").trigger({type:"click",originalEvent:"1"});
+        $("#ndefdist").trigger({type:"click",originalEvent:"1"});
+    }
+
+
+    function clickevent(element) {
+        var event = jQuery.Event("click");
+            event.user = "foo";
     }
     function SendDef() {
         $("#commandsPopUpBox").show();
