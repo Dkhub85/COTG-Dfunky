@@ -849,9 +849,9 @@
             tempy=Number((tid-tempx)/65536);
             var defobj={targets:{x:[tempx],y:[tempy],dist:[],numb:1},t:{home:[],type:[],use:[],speed:[],amount:[]},perc:100,dep:0,ret:0,rettime:0,hr:0,min:0,sec:0,dat:0};
             defobj.targets.dist.push(Math.sqrt((tempx-city.x)*(tempx-city.x)+(tempy-city.y)*(tempy-city.y)));
-            for (var i in poll2.city.th) {
-                if (poll2.city.th[i]) {
-                    defobj.t.home.push(Math.ceil(poll2.city.th[i]*Number($("#defperc").val())/100));
+            for (var i in city.th) {
+                if (city.th[i]) {
+                    defobj.t.home.push(Math.ceil(city.th[i]*Number($("#defperc").val())/100));
                     defobj.t.type.push(Number(i));
                     defobj.t.speed.push(ttspeed[i]/ttspeedres[i]);
                     defobj.t.use.push(1);
