@@ -930,7 +930,7 @@
     });
     //import attack orders
   	function Aimp(str) {
-        Aexp=JSON.parse(str);
+        var Aexp=JSON.parse(str);
         for (var i=1; i<=Aexp.x.length; i++) {
             $("#t"+i+"x").val(Aexp.x[i-1]);
             $("#t"+i+"y").val(Aexp.y[i-1]);
