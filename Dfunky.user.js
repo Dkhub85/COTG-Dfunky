@@ -950,7 +950,7 @@
             dhruv+="<td><table>";
             for (var j in troopmail.thome[i]) {
                 if (troopmail.thome[i][j]>0) {
-                    dhruv+="<td>'"+ttname[j]+"'></div></td>";
+                    dhruv+="<td>"+ttname[j]+"</td>";
                 }
             }
             dhruv+="</table></td>";
