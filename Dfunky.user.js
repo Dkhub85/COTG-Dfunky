@@ -506,8 +506,9 @@
         nofftab+="<a href='#warNoffmanager' class='ui-tabs-anchor' role='presentation'>Offensive TS</a></li>";
         var nofftabbody="<div id='warNoffmanager' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
         nofftabbody+=" role='tabpanel' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >ALL Offensive TS:</div>";
-        nofftabbody+="<table><td colspan='2'> Choose continent:</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='noffx' type='number' value='0'>";
+        nofftabbody+="<table><td colspan='2'> Choose continent(99 for navy):</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='noffx' type='number' value='0'>";
         nofftabbody+="<td><button class='regButton greenb' id='noffup' style='height:30px; width:70px;'>Update list</button></td></table>";
+        nofftabbody+="<td id='asdfg'></td></table>"        
         nofftabbody+="<div id='Noffbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
         var expwin="<div id='ExpImp' style='width:250px;height:200px;' class='popUpBox ui-draggable'><div class=\"popUpBar\"><span class=\"ppspan\">Import/Export attack orders</span>";
         expwin+="<button id=\"cfunkyX\" onclick=\"$('#ExpImp').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='expbody' class=\"popUpWindow\">";
@@ -868,7 +869,7 @@
             if (contoff==tcont) {
                 cit.x.push(tempx);
                 cit.y.push(tempy);
-                if (t[i].Druid_total>0 || t[i].Horseman_total>0 || t[i].Sorcerer_total>0 || t[i].Vanquisher_total || t[i].Scorpion_total>0 || t[i].Ram_total>0) {
+                if (t[i].Druid_total>0 || t[i].Horseman_total>0 || t[i].Sorcerer_total>0 || t[i].Vanquisher_total>0 || t[i].Scorpion_total>0 || t[i].Ram_total>0) {
                     var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     tempt[5]=t[i].Vanquisher_total;
                     tempt[6]=t[i].Sorcerer_total;
@@ -910,6 +911,7 @@
                 }
             }
         }
+        $("#asdfg").text("Total:"+counteroff);
         var nearofftab="<table id='nofftable'><thead><th></th><th>City</th><th>Coords</th><th>TS</th><th>type</th></thead><tbody>";
         for (var i in cit.x) {
             nearofftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit.id[i]+"'>Go To</button></td><td>"+cit.cn[i]+"</td><td class='coordblink shcitt' data='"+cit.id[i]+"'>"+cit.x[i]+":"+cit.y[i]+"</td>";
