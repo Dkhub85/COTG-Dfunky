@@ -431,6 +431,7 @@
         var defbut="<button id='defGo' style='left: 63%;margin-left: 10px;margin-top: 55px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Defense Sender</button>";
         var quickdefbut="<button id='quickdefCityGo' style='width:96%; margin-top:2%; margin-left:2%;' class='regButton greenbuttonGo greenb'>@ Quick Reinforcements @</button>";
         var neardefbut="<button id='ndefGo' style='left: 4%;margin-left: 10px;margin-top: 95px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'> Nearest Defense</button>";
+        var nearoffbut="<button id='noffGo' style='left: 4%;margin-left: 10px;margin-top: 95px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'> Offensive list</button>";
         var addtoatt="<button id='addtoAtt' style='margin-left: 7%;margin-top: -5%;width: 40%;height: 26px !important; font-size: 9px !important;' class='regButton greenb'>Add to Attack Sender</button>";
         var addtodef="<button id='addtoDef' style='margin-left: 7%;width: 40%;height: 26px !important; font-size: 9px !important;' class='regButton greenb'>Add to Defense Sender</button>";
 	//bosstab
@@ -494,13 +495,20 @@
         deftabbbody+="<button id='Defend' style='width: 35%;height: 30px; font-size: 12px; margin:10px;' class='regButton greenb'>Send Defense</button>";
         //deftabbbody+="<table style='margin-left: 10%; margin-top:20px;'><tbody><tr><td style='width: 20%'><button id='Defend' style='width: 95%;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Send Defense</button></td>";
         //deftabbbody+="</tr></tbody></table>";
-	var ndeftab="<li id='neardeftab' class='ui-state-default ui-corner-top' role='tab'>";
+	    var ndeftab="<li id='neardeftab' class='ui-state-default ui-corner-top' role='tab'>";
         ndeftab+="<a href='#warNdefmanager' class='ui-tabs-anchor' role='presentation'>Near Def</a></li>";
         var ndeftabbody="<div id='warNdefmanager' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
         ndeftabbody+=" role='tabpanel' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >Nearest defense:</div>";
         ndeftabbody+="<table><td colspan='2'> Choose city:</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='ndefx' type='number'> : <input style='width: 30px;height: 22px;font-size: 10px;' id='ndefy' type='number'></td>";
         ndeftabbody+="<td><button class='regButton greenb' id='ndefup' style='height:30px; width:70px;'>Update</button></td></table>";
         ndeftabbody+="<div id='Ndefbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
+        var nofftab="<li id='nearofftab' class='ui-state-default ui-corner-top' role='tab'>";
+        nofftab+="<a href='#warNoffmanager' class='ui-tabs-anchor' role='presentation'>Offensive TS</a></li>";
+        var nofftabbody="<div id='warNoffmanager' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
+        nofftab+=" role='tabpanel' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >ALL Offensive TS:</div>";
+        nofftab+="<table><td colspan='2'> Choose continent:</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='noffx' type='number' value='0'>";
+        nofftab+="<td><button class='regButton greenb' id='noffup' style='height:30px; width:70px;'>Update list</button></td></table>";
+        nofftab+="<div id='Noffbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
         var expwin="<div id='ExpImp' style='width:250px;height:200px;' class='popUpBox ui-draggable'><div class=\"popUpBar\"><span class=\"ppspan\">Import/Export attack orders</span>";
         expwin+="<button id=\"cfunkyX\" onclick=\"$('#ExpImp').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='expbody' class=\"popUpWindow\">";
         expwin+="<textarea style='font-size:11px;width:97%;margin-left:1%;height:17%;' id='expstring' maxlength='200'></textarea><button id='applyExp' style='margin-left: 15px; width: 100px;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Apply</button></div></div>";
@@ -510,13 +518,15 @@
         $( bosstab ).appendTo( ul );
         $( attacktab ).appendTo( ul );
         $( deftab ).appendTo( ul );
-	$( ndeftab ).appendTo( ul );
+        $( ndeftab ).appendTo( ul );
+        $( nofftab ).appendTo( ul );
         tabs.tabs( "refresh" );
         $('#warCidlemanager').after(bosstabbody);
         $('#warCidlemanager').after(attacktabbody);
         $('#warAttackmanager').after(deftabbbody);
-	$('#warDefmanager').after(ndeftabbody);
-	$("#senddefCityGo").after(quickdefbut);
+        $('#warDefmanager').after(ndeftabbody);
+        $('#warDefmanager').after(nofftabbody);
+	    $("#senddefCityGo").after(quickdefbut);
         $("#deftime").hide();
         $("#dret").hide();
         
@@ -524,6 +534,7 @@
         $("#warCounc").append(attackbut);
         $("#warCounc").append(defbut);
         $("#warCounc").append(neardefbut);
+        $("#warCounc").append(nearoffbut);
         $("#coordstochatGo1").after(addtoatt);
         $("#addtoAtt").after(addtodef);
         $("#loccavwarconGo").css("right","65%");
@@ -666,6 +677,11 @@
             tabs.tabs( "option", "active", 5 );
             $("#neardeftab").trigger({type:"click",originalEvent:"1"});
         });
+        $('#noffGo').click(function() {
+            $("#warcouncbox").show();
+            tabs.tabs( "option", "active", 6 );
+            $("#nearofftab").trigger({type:"click",originalEvent:"1"});
+        });
         $("#addtoAtt").click(function() {
             for (var i=1;i<8;i++) {
                 if (!$("#t"+i+"x").val()) {
@@ -714,12 +730,23 @@
             SendDef(defobj);
         });
         $("#ndefup").click(function() {
+            If($('#noffx').val()==0)
+            { alert("Enter value")   }
             jQuery.ajax({url: 'overview/trpover.php',type: 'POST',aysnc:false,
                          success: function(data) {
                              var t=JSON.parse(data);
                              neardeftable(t);
                          }
                         });
+        });
+        $("#noffup").click(function() {
+            jQuery.ajax({url: 'overview/trpover.php',type: 'POST',aysnc:false,
+                         success: function(data) {
+                             var t=JSON.parse(data);
+                             nearofftable(t);
+                         }
+                        });
+                    
         });
         $("#Aexport").click(function() {
             var Aexp={x:[],y:[],type:[],time:[]};
@@ -760,7 +787,8 @@
         $("#attackMin").val(Aexp.time[1]);
         $("#attackSec").val(Aexp.time[2]);
         $("#attackDat").val(Aexp.time[3]);
-    	}	
+        }	
+    
 	function neardeftable(t) {
         var cx=$("#ndefx").val();
         var cy=$("#ndefy").val();
@@ -828,6 +856,79 @@
         $("#ndefdist").trigger({type:"click",originalEvent:"1"});
     }
 
+    function nearofftable(t) {
+        var contoff=Number($("#noffx").val());
+        var cit={x:[],y:[],dist:[],cn:[],thome:[],ts:[],id:[],time:[]};
+        for (var i in t) {
+            var tid=t[i].id;
+            var tempx=Number(tid % 65536);
+            var tempy=Number((tid-tempx)/65536);
+            var tcont=Number(Math.floor(tempx/100)+10*Math.floor(tempy/100));
+            //console.log(cont,tcont);
+            if (contoff==tcont) {
+                cit.x.push(tempx);
+                cit.y.push(tempy);
+                if (t[i].Druid_total>0 || t[i].Horseman_total>0 || t[i].Sorcerer_total>0 || t[i].Vanquisher_total || t[i].Scorpion_total>0 || t[i].Ram_total>0) {
+                    var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    tempt[5]=t[i].Vanquisher_total;
+                    tempt[6]=t[i].Sorcerer_total;
+                    tempt[10]=t[i].Horseman_total;
+                    tempt[11]=t[i].Druid_total;
+                    tempt[12]=t[i].Ram_total;
+                    tempt[13]=t[i].Scorpion_total;
+                    var tempts=0;
+                    for (var j in tempt) {
+                        tempts+=tempt[j]*ttts[j];
+                    }
+                    cit.ts.push(tempts);
+                    cit.thome.push(tempt);
+                    cit.cn.push(t[i].c);
+                    cit.id.push(tid);
+                }
+            }
+            if(contoff=="99"){
+                if (t[i].Warship_total>0  || t[i].Galley_total>0) {
+                    cit.x.push(tempx);
+                    cit.y.push(tempy);
+                    var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    tempt[5]=t[i].Vanquisher_total;
+                    tempt[6]=t[i].Sorcerer_total;
+                    tempt[10]=t[i].Horseman_total;
+                    tempt[11]=t[i].Druid_total;
+                    tempt[12]=t[i].Ram_total;
+                    tempt[13]=t[i].Scorpion_total;
+                    tempt[14]=t[i].Galley_total;
+                    tempt[16]=t[i].Warship_total;
+                    var tempts=0;
+                    for (var j in tempt) {
+                        tempts+=tempt[j]*ttts[j];
+                    }
+                    cit.ts.push(tempts);
+                    cit.thome.push(tempt);
+                    cit.cn.push(t[i].c);
+                    cit.id.push(tid);
+                }
+            }
+        }
+        var nearofftab="<table id='nofftable'><thead><th></th><th>City</th><th>Coords</th><th>TS</th><th>type</th></thead><tbody>";
+        for (var i in cit.x) {
+            nearofftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit.id[i]+"'>Go To</button></td><td>"+cit.cn[i]+"</td><td class='coordblink shcitt' data='"+cit.id[i]+"'>"+cit.x[i]+":"+cit.y[i]+"</td>";
+            //style='font-size: 9px;border-radius: 6px;width: 80%;height: 22px;padding: 0;white-space: nowrap;'
+            nearofftab+="<td>"+cit.ts[i]+"</td><td><table>";
+            for (var j in cit.thome[i]) {
+                if (cit.thome[i][j]>0) {
+                    nearofftab+="<td><div class='"+tpicdiv20[j]+"'></div></td>";
+                }
+            }
+            nearofftab+="</table></td></tr>";
+        }
+        nearofftab+="</tbody></table>";
+        $("#Ndefbox").html(nearofftab);
+        $("#nofftable td").css("text-align","center");
+        $("#nofftable td").css("height","26px");
+        var newTableObject = document.getElementById('nofftable');
+        sorttable.makeSortable(newTableObject);
+    }
 
     function clickevent(element) {
         var event = jQuery.Event("click");
