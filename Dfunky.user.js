@@ -374,236 +374,56 @@
             ibriafaith=Math.min(ibriafaith,100);
             evarafaith=Math.min(evarafaith,100);
             meriusfaith=Math.min(meriusfaith,100);
-            //attack power faith bonuses
-            ttres[0]+=Math.floor(0.5*ylannafaith)/100;
-            ttres[1]+=Math.floor(0.5*ylannafaith)/100;
-            ttres[2]+=Math.floor(0.5*naerafaith)/100;
-            ttres[3]+=Math.floor(0.5*naerafaith)/100;
-            ttres[4]+=Math.floor(0.5*naerafaith)/100;
-            ttres[5]+=Math.floor(0.5*vexifaith)/100;
-            ttres[6]+=Math.floor(0.5*vexifaith)/100;
-            ttres[7]+=Math.floor(0.5*vexifaith)/100;
-            ttres[8]+=Math.floor(0.5*naerafaith)/100;
-            ttres[9]+=Math.floor(0.5*naerafaith)/100;
-            ttres[10]+=Math.floor(0.5*vexifaith)/100;
-            ttres[11]+=Math.floor(0.5*vexifaith)/100;
-            ttres[12]+=Math.floor(0.5*cyndrosfaith)/100;
-            ttres[13]+=Math.floor(0.5*cyndrosfaith)/100;
-            ttres[14]+=Math.floor(0.5*ylannafaith)/100;
-            ttres[15]+=Math.floor(0.5*ylannafaith)/100;
-            ttres[16]+=Math.floor(0.5*cyndrosfaith)/100;
-            
-            //faith travel speed bonuses
-            ttspeedres[1]+=0.5*domdisfaith/100;
-            ttspeedres[2]+=0.5*ibriafaith/100;
-            ttspeedres[3]+=0.5*ibriafaith/100;
-            ttspeedres[4]+=0.5*ibriafaith/100;
-            ttspeedres[5]+=0.5*ibriafaith/100;
-            ttspeedres[6]+=0.5*ibriafaith/100;
-            ttspeedres[7]+=0.5*ibriafaith/100;
-            ttspeedres[8]+=0.5*ibriafaith/100;
-            ttspeedres[9]+=0.5*ibriafaith/100;
-            ttspeedres[10]+=0.5*ibriafaith/100;
-            ttspeedres[11]+=0.5*ibriafaith/100;
-            ttspeedres[12]+=0.5*domdisfaith/100;
-            ttspeedres[13]+=0.5*domdisfaith/100;
-            ttspeedres[14]+=0.5*domdisfaith/100;
-            ttspeedres[15]+=0.5*domdisfaith/100;
-            ttspeedres[16]+=0.5*domdisfaith/100;
-            ttspeedres[17]+=0.5*evarafaith/100;
-            }
-        setTimeout(function(){
-        $(".resPop").each(function() {
-            if($(this).attr('data')==8) { //inf speed
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else var reslvl=Number(ranktext.match(/\d+/gi));
-                for (var i in ttspeedres) {
-                    if (isinf[i]) {
-                ttspeedres[i]+=resbonus[reslvl];
-                    }
-                }
-                ttspeedres[6]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==9) { //cav speed
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else var reslvl=Number(ranktext.match(/\d+/gi));
-                for (var i in ttspeedres) {
-                    if (iscav[i]) {
-                ttspeedres[i]+=resbonus[reslvl];
-                    }
-                }
-                ttspeedres[11]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==13) { //navy speed
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else var reslvl=Number(ranktext.match(/\d+/gi));
-                ttspeedres[14]+=resbonus[reslvl];
-                ttspeedres[15]+=resbonus[reslvl];
-                ttspeedres[16]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==14) { //senator speed
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else var reslvl=Number(ranktext.match(/\d+/gi));
-                ttspeedres[17]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==30) { //rangers
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[2]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==31) { //triari
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[3]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==32) { //priestess
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[4]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==33) { //vanqs
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[5]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==34) { //sorcs
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[6]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==35) { //arbs
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[8]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==36) { //praetors
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[9]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==37) { //horseman
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[10]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==38) { //druid
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[11]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==43) { //stinger
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[15]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==44) { //galley
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[14]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==45) { //warships
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[16]+=resbonus[reslvl];
-            }
-            if($(this).attr('data')==46) { //scouts
-                var ranktext=$(this).text();
-                var cmp=new RegExp("complete");
-                if (cmp.test(ranktext)) {
-                    reslvl=12;
-                }
-                else
-                    var reslvl=Number(ranktext.match(/\d+/gi));
-                ttres[7]+=resbonus[reslvl];
-            }
-        });
-        },5000);
-        /*
+             var research= cotg.player.research();
+           //attack power faith bonuses      
+             setTimeout(function() {
+             ttres[0]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[29]])/100);//guards
+             ttres[1]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[42]])/100);//ballista
+             ttres[2]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[30]])/100);//ranger
+             ttres[3]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[31]])/100);//triari
+             ttres[4]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[32]])/100);//priestess
+             ttres[5]+=((Number(vexifaith)*0.5)/100)+(Number(Res[research[33]])/100);//vanq
+             ttres[6]+=((Number(vexifaith)*0.5)/100)+(Number(Res[research[34]])/100);//sorc
+             ttres[7]+=((Number(vexifaith)*0.5)/100)+(Number(Res[research[46]])/100);//scout
+             ttres[8]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[35]])/100);//arb
+             ttres[9]+=((Number(naerafaith)*0.5)/100)+(Number(Res[research[36]])/100);//pra
+             ttres[10]+=((Number(vexifaith)*0.5)/100)+(Number(Res[research[37]])/100);//horse
+             ttres[11]+=((Number(vexifaith)*0.5)/100)+(Number(Res[research[38]])/100);//druid
+             ttres[12]+=((Number(cyndrosfaith)*0.5)/100)+(Number(Res[research[39]])/100);//ram
+             ttres[13]+=((Number(cyndrosfaith)*0.5)/100)+(Number(Res[research[41]])/100);//scorp
+             ttres[14]+=((Number(ylannafaith)*0.5)/100)+(Number(Res[research[44]])/100);//galley
+             ttres[15]+=((Number(ylannafaith)*0.5)/100)+(Number(Res[research[43]])/100);//stinger
+             ttres[16]+=((Number(cyndrosfaith)*0.5)/100)+(Number(Res[research[45]])/100);//warship
+             //faith travel speed bonuses
+             ttspeedres[1]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[12]])/100);
+             ttspeedres[2]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[8]])/100);
+             ttspeedres[3]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[8]])/100);
+             ttspeedres[4]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[8]])/100);
+             ttspeedres[5]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[8]])/100);
+             ttspeedres[6]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[8]])/100);
+             ttspeedres[7]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[11]])/100);
+             ttspeedres[8]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[9]])/100);
+             ttspeedres[9]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[9]])/100);
+             ttspeedres[10]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[9]])/100);
+             ttspeedres[11]+=((Number(ibriafaith)*0.5)/100)+(Number(Res[research[9]])/100);
+             ttspeedres[12]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[12]])/100);
+             ttspeedres[13]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[12]])/100);
+             ttspeedres[14]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[13]])/100);
+             ttspeedres[15]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[13]])/100);
+             ttspeedres[16]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[13]])/100);
+             ttspeedres[17]+=((Number(domdisfaith)*0.5)/100)+(Number(Res[research[14]])/100);
+             },2000);
+         }
         jQuery.ajax({url: 'includes/pD.php',type: 'POST',aysnc:false,
-                     success: function(data) {
-                         pdata=JSON.parse(data);
-                     }
-                    });
-        setTimeout(function(){
-            var cid=$("#cityDropdownMenu").val();
-            var dat={a:cid};
-            jQuery.ajax({url: 'includes/gC.php',type: 'POST',aysnc:false, data: dat});
-        },5000);*/
+                      success: function(data) {
+                          pdata=JSON.parse(data);
+                      }
+                     });
+         setTimeout(function(){
+             var cid=$("#cityDropdownMenu").val();
+             var dat={a:cid};
+             jQuery.ajax({url: 'includes/gC.php',type: 'POST',aysnc:false, data: dat});
+         },5000);
         //buttons
         var returnAllbut="<button id='returnAllb' style='right: 37%; margin-top: 55px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Return All</button>";
         var raidbossbut="<button id='raidbossGo' style='left: 63%;margin-left: 10px;margin-top: 15px;width: 150px;height: 30px !important; font-size: 12px !important; position: absolute;' class='regButton greenb'>Locate Bosses</button>";
@@ -977,8 +797,8 @@
                     var tspeed=0;
                     for (var j in tempt) {
                         if (tempt[j]>0) {
-                            if (ttspeed[j]>tspeed) {
-                                tspeed=ttspeed[j];
+                            if (Number((ttspeed[j]/ttspeedres[j]).toFixed(2))>tspeed) {
+                                tspeed=Number((ttspeed[j]/ttspeedres[j]).toFixed(2));
                             }
                         }
                     }
