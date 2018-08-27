@@ -731,8 +731,6 @@
             SendDef(defobj);
         });
         $("#ndefup").click(function() {
-            If($('#noffx').val()==0)
-            { alert("Enter value")   }
             jQuery.ajax({url: 'overview/trpover.php',type: 'POST',aysnc:false,
                          success: function(data) {
                              var t=JSON.parse(data);
@@ -867,9 +865,9 @@
             var tcont=Number(Math.floor(tempx/100)+10*Math.floor(tempy/100));
             //console.log(cont,tcont);
             if (contoff==tcont) {
-                cit.x.push(tempx);
-                cit.y.push(tempy);
                 if (t[i].Druid_total>0 || t[i].Horseman_total>0 || t[i].Sorcerer_total>0 || t[i].Vanquisher_total>0 || t[i].Scorpion_total>0 || t[i].Ram_total>0) {
+                    cit.x.push(tempx);
+                    cit.y.push(tempy);
                     var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     tempt[5]=t[i].Vanquisher_total;
                     tempt[6]=t[i].Sorcerer_total;
