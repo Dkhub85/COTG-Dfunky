@@ -508,7 +508,7 @@
         nofftabbody+=" role='tabpanel' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >ALL Offensive TS:</div>";
         nofftabbody+="<table><td colspan='2'> Continent(99 for navy):</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='noffx' type='number' value='0'>";
         nofftabbody+="<td><button class='regButton greenb' id='noffup' style='height:30px; width:70px;'>Update</button></td>";
-        nofftabbody+="<td id='asdfg' style='width:10% !important;'></td><td><button class='regButton greenb' id='mailoff' style='height:30px; width:50px;'>Mail</button></td><td><input style='width: 100px;height: 22px;font-size: 10px;' id='mailname' type='text' value='Name here;'></table>"
+        nofftabbody+="<td id='asdfg' style='width:10% !important;'></td><td><button class='regButton greenb' id='mailoff' style='height:30px; width:50px;'>Mail</button></td><td><input style='width: 100px;height: 22px;font-size: 10px;' id='mailname' type='text' value='Name_here;'></table>"
         nofftabbody+="<div id='Noffbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
         var expwin="<div id='ExpImp' style='width:250px;height:200px;' class='popUpBox ui-draggable'><div class=\"popUpBar\"><span class=\"ppspan\">Import/Export attack orders</span>";
         expwin+="<button id=\"cfunkyX\" onclick=\"$('#ExpImp').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='expbody' class=\"popUpWindow\">";
@@ -943,18 +943,17 @@
             //$("#mailComposeBox").show();
             var conttemp=$("#noffx").val();
             var dhruv="<p>Number of offensive castles is '"+counteroff+"'</p>";
-            dhruv+='</p><table class="mce-item-table" style="width: 266.273px;" data-mce-style="width: 266.273px;" data-mce-selected="1"><thead><th>Number</th><th>Troop</th><th>TS Amount</th></thead><tbody>';
+            dhruv+='</p><table class="mce-item-table" style="width: 266.273px; "data-mce-style="width: 266.273px; "border="1" data-mce-selected="1"><thead><th>Number</th><th>Troop</th><th>TS Amount</th></thead><tbody>';
             for (var i in troopmail.no) {
-            dhruv+="<tr><td>"+troopmail.no[i]+"</td>";
-            //style='font-size: 9px;border-radius: 6px;width: 80%;height: 22px;padding: 0;white-space: nowrap;'
-            dhruv+="<td><table>";
-            for (var j in troopmail.thome[i]) {
+                dhruv+='<tr><td style="text-align: center;" data-mce-style="text-align: center;">'+troopmail.no[i]+'</td>';
+                dhruv+='<td style="text-align: center;" data-mce-style="text-align: center;"><table>';
+                for (var j in troopmail.thome[i]) {
                 if (troopmail.thome[i][j]>0) {
-                    dhruv+="<td>"+ttname[j]+"</td>";
+                    dhruv+='<td>'+ttname[j]+'</td>';
                 }
             }
-            dhruv+="</table></td>";
-            dhruv+="<td>"+troopmail.amount[i]+"</td></tr>";
+            dhruv+='</table></td>';
+            dhruv+='<td style="text-align: center;" data-mce-style="text-align: center;">'+troopmail.amount[i]+'</td></tr>';
             }
             dhruv+="</tbody></table>";
             if(conttemp==99){conttemp="Navy";}
