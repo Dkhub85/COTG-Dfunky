@@ -1976,6 +1976,110 @@
             }
             $("#foodsendamt").val(res);
         });
+        //shrine planer part
+        var shrinebut="<button class='regButton greenb' id='shrineP' style='width: 98%;margins: 1%;'>Shrine Planner</button>";
+        $("#inactiveshrineInfo").before(shrinebut);
+        $("#shrineP").click(function() {
+            if (beentoworld) {
+                var shrinec=[[]];
+                var splayers={name:[],ally:[],cities:[]};
+                var players=[];
+                var coords=$("#coordstochatGo3").attr("data");
+                var shrinex=parseInt(coords);
+                var shriney=Number(coords.match(/\d+$/)[0]);
+                var shrinecont=Number(Math.floor(shrinex/100)+10*Math.floor(shriney/100));
+                for (var i in wdata.cities) {
+                    var tempx=Number(wdata.cities[i].substr(8,3))-100;
+                    var tempy=Number(wdata.cities[i].substr(5,3))-100;
+                    var cont=Number(Math.floor(tempx/100)+10*Math.floor(tempy/100));
+                    if (cont==shrinecont) {
+                        var dist=Math.sqrt((tempx-shrinex)*(tempx-shrinex)+(tempy-shriney)*(tempy-shriney));
+                        //console.log("dist");
+                        if (dist<10) {
+                            var l=Number(wdata.cities[i].substr(11,1));
+                            var pid=Number(wdata.cities[i].substr(12,l));
+                            var pname=pldata[pid];
+                            //console.log(pname);
+                            //console.log(splayers.name.indexOf(pname),pname,splayers.name);
+                            var csn=[3,4,7,8];
+                            if (csn.indexOf(Number(wdata.cities[i].charAt(4)))>-1) {
+                                shrinec.push(["castle",pname,0,tempx,tempy,dist,"0",0,0,0]);
+                            } else {
+                                shrinec.push(["city",pname,0,tempx,tempy,dist,"0",0,0,0]);
+                            }
+                        }
+                    }
+                }
+                shrinec.sort(function(a,b) {return a[5]-b[5];});
+                var planwin="<div id='shrinePopup' style='width:40%;height:50%;left: 360px; z-index: 3000;' class='popUpBox'><div class='popUpBar'><span class=\"ppspan\">Shrine Planner</span><button id='hidec' class='greenb' style='margin-left:10px;border-radius: 7px;margin-top: 2px;height: 28px;'>Hide Cities</button>";
+                planwin+="<button id='addcity' class='greenb' style='margin-left:10px;border-radius: 7px;margin-top: 2px;height: 28px;'>Add City</button><button id=\"sumX\" onclick=\"$('#shrinePopup').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div class=\"popUpWindow\" style='height:100%'>";
+                planwin+="<div id='shrinediv' class='beigemenutable scroll-pane' style='background:none;border: none;padding: 0px;height:90%;'></div></div>";
+                for (var i in shrinec) {
+                    if (i<101) {
+                        var pname=shrinec[i][1];
+                        if (players.indexOf(pname)==-1) {
+                            players.push(pname);
+                            jQuery.ajax({url: 'includes/gPi.php',type: 'POST',aysnc:false,data: {a: pname},
+                                         success: function(data) {
+                                             var pinfo=JSON.parse(data);
+                                             splayers.name.push(pinfo.player);
+                                             splayers.ally.push(pinfo.a);
+                                             splayers.cities.push(pinfo.h);
+                                             //console.log(pinfo.a,pinfo.h,pinfo.player);
+                                        }  
+                                         });
+                        }
+                    }
+                }      
+                setTimeout(function() {
+                $("#reportsViewBox").after(planwin);
+                $( "#shrinePopup" ).draggable({ handle: ".popUpBar" , containment: "window", scroll: false});
+                $( "#shrinePopup" ).resizable();
+                if (localStorage.getItem("hidecities")) {
+                    1==1;
+                } else {
+                    //console.log("hideciies nonexists");
+                    localStorage.setItem("hidecities","0");
+                }
+                if (localStorage.getItem("hidecities")=="1") {
+                    $("#hidec").html("Show Cities");
+                }
+                $("#hidec").click(function() {
+                    if (localStorage.getItem("hidecities")=="0") {
+                        hidecities();
+                        localStorage.setItem("hidecities","1");
+                        $("#hidec").html("Show Cities");
+                    } else if (localStorage.getItem("hidecities")=="1") {
+                        showcities();
+                        localStorage.setItem("hidecities","0");
+                        $("#hidec").html("Hide Cities");
+                    }
+                });
+                updateshrine();
+                var addcitypop="<div id='addcityPopup' style='width:500px;height:100px;left: 360px; z-index: 3000;' class='popUpBox'><div class='popUpBar'><span class=\"ppspan\">Add City</span>";
+                addcitypop+="<button id=\"sumX\" onclick=\"$('#addcityPopup').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div class=\"popUpWindow\" style='height:100%'>";
+                addcitypop+="<div><table><td>X: <input id='addx' type='number' style='width: 35px;height: 22px;font-size: 10px;'></td><td>y: <input id='addy' type='number' style='width: 35px;height: 22px;font-size: 10px;'></td>";
+                addcitypop+="<td>score: <input id='addscore' type='number' style='width: 45px;height: 22px;font-size: 10px;'></td><td>Type: <select id='addtype' class='greensel' style='font-size: 15px !important;width:55%;height:30px;'>";
+                addcitypop+="<option value='city'>City</option><option value='castle'>Castle</option></select></td><td><button id='addadd' class='greenb'>Add</button></td></table></div></div>";
+                $("#addcity").click(function() {
+                    $("body").append(addcitypop);
+                    $( "#addcityPopup" ).draggable({ handle: ".popUpBar" , containment: "window", scroll: false});
+                    $("#addadd").click(function() {
+                        tempx=$("#addx").val();
+                        tempy=$("#addy").val();
+                        dist=Math.sqrt((tempx-shrinex)*(tempx-shrinex)+(tempy-shriney)*(tempy-shriney));
+                        var temp=[$("#addtype").val(),"Poseidon","Atlantis",tempx,tempy,dist,"1",$("#addscore").val(),"Hellas","1"];
+                        shrinec.push(temp);
+                        shrinec.sort(function(a,b) {return a[5]-b[5];});
+                        updateshrine();
+                        $("#addcityPopup").remove();
+                    });
+                });
+                },2000);
+            } else {
+                alert("Press World Button");
+            }
+        });
     });
     //Building count
     function makebuildcount() {
@@ -4732,5 +4836,182 @@
                 $("#cityDropdownMenu").val(aa).change();
             });
         });
+    }
+    //hiding cities in shrine planner
+    function hidecities() {
+        $("#shrineTab tr").each(function () {
+            if($(this).attr("data")=="city") {
+                $(this).hide();
+            }
+        });
+    }
+    //showing cities in shrine planner
+    function showcities() {
+        $("#shrineTab tr").each(function () {
+            if($(this).attr("data")=="city") {
+                $(this).show();
+            }
+        });
+    }
+    //updating shrine enlightment list
+    function updateshrine() {
+        var shrinetab="<table id='shrineTab'><thead><th style='width:115px'>Change</th><th style='width:50px'>Chances</th><th>Distance</th><th>Player</th><th>City</th><th>Coords</th><th style='width:100px'>Alliance</th><th>score</th><th>Type</th></thead><tbody>";
+        var ccounter=0;
+        var w=[];
+        var wtot=0;
+        for (var i in shrinec) {
+            if (i>0) {
+                var k=splayers.name.indexOf(shrinec[i][1]);
+                //console.log(k,splayers);
+                for (var j in splayers.cities[k]) {
+                    if (shrinec[i][3]==splayers.cities[k][j].b && shrinec[i][4]==splayers.cities[k][j].c) {
+                        shrinec[i][2]=splayers.cities[k][j].h;
+                        if (shrinec[i][9]==0) {
+                            shrinec[i][7]=splayers.cities[k][j].a;
+                        }
+                        shrinec[i][8]=splayers.ally[k];
+                    }
+                }
+                if (shrinec[i][0]=="castle") {
+                    ccounter++;
+                    if (ccounter<17) {
+                        w[ccounter]=shrinec[i][7]/shrinec[i][5];
+                        wtot+=shrinec[i][7]/(shrinec[i][5]);
+                    }
+                }
+            }
+        }
+        for (var i in w) {
+            w[i]=Math.round(w[i]/wtot*100);
+        }
+        //console.log(shrinec);
+        var ccounter=0;
+        for (var i in shrinec) {
+            if (i>0) {
+                var cid=shrinec[i][4]*65536+Number(shrinec[i][3]);
+                if (shrinec[i][0]=="castle") {
+                    ccounter++;
+                    if (ccounter<17) {
+                        if (shrinec[i][6]=="0") {
+                            shrinetab+="<tr style='color:purple;'><td><button data='"+i+"' class='greenb shrineremove' style='font-size: 10px;height: 20px;padding: 3px;width: 15px;border-radius: 4px;'>x</button>";
+                            shrinetab+="<button id='"+i+"' data='castle' class='greenb shrinechange' style='font-size: 10px;height: 20px;padding-top: 3px;border-radius: 4px;'>City</button>";
+                            shrinetab+="<button data='"+i+"' class='greenb shrine10k' style='font-size: 10px;height: 20px;padding: 3px;width: 25px;border-radius: 4px;'>10k</button>";
+                            shrinetab+="<button data='"+i+"' class='greenb shrine7pt' style='font-size: 10px;height: 20px;padding: 3px;width: 25px;border-radius: 4px;'>7pt</button></td><td>"+ccounter+" - "+w[ccounter]+"% "+"</td>";
+                        } else {
+                            shrinetab+="<tr style='color:green;'><td><button data='"+i+"' class='greenb shrineremove' style='font-size: 10px;height: 20px;padding: 3px;width: 15px;border-radius: 4px;'>x</button>";
+                            shrinetab+="<button id='"+i+"' data='castle' class='greenb shrinechange' style='font-size: 10px;height: 20px;padding-top: 3px;border-radius: 4px;'>City</button>";
+                            shrinetab+="<button data='"+i+"' class='greenb shrine10k' style='font-size: 10px;height: 20px;padding: 3px;width: 25px;border-radius: 4px;'>10k</button>";
+                            shrinetab+="<button data='"+i+"' class='greenb shrine7pt' style='font-size: 10px;height: 20px;padding: 3px;width: 25px;border-radius: 4px;'>7pt</button></td><td>"+ccounter+" - "+w[ccounter]+"% "+"</td>";
+                        }
+                    } else if (ccounter>=17 && ccounter<21) {
+                        shrinetab+="<tr><td><button data='"+i+"' class='greenb shrineremove' style='font-size: 10px;height: 20px;padding: 3px;width: 15px;border-radius: 4px;'>x</button>";
+                        shrinetab+="<button id='"+i+"' data='castle' class='greenb shrinechange' style='font-size: 10px;height: 20px;padding-top: 3px;border-radius: 4px;'>City</button>";
+                        shrinetab+="<button data='"+i+"' class='greenb shrine10k' style='font-size: 10px;height: 20px;padding: 3px;width: 25px;border-radius: 4px;'>10k</button>";
+                        shrinetab+="<button data='"+i+"' class='greenb shrine7pt' style='font-size: 10px;height: 20px;padding: 3px;width: 25px;border-radius: 4px;'>7pt</button></td><td>"+ccounter+"</td>";
+                    }
+                } else {
+                    if (shrinec[i][6]=="0") {
+                        shrinetab+="<tr style='color:grey;' data='city'><td><button data='"+i+"' class='greenb shrineremove' style='font-size: 10px;height: 20px;padding: 3px;width: 15px;border-radius: 4px;'>x</button>";
+                        shrinetab+="<button id='"+i+"' data='city' class='greenb shrinechange' style='font-size: 10px;height: 20px;padding: 3px;border-radius: 4px;width:37px;'>Castle</button>";
+                        shrinetab+="<button data='"+i+"' class='greenb shrine10k' style='font-size: 10px;height: 20px;padding: 3px;width: 25px;border-radius: 4px;'>10k</button>";                            shrinetab+="<button data='"+i+"' class='greenb shrine7pt' style='font-size: 10px;height: 20px;padding: 3px;width: 25px;border-radius: 4px;'>7pt</button></td><td></td>";
+                    } else {
+                        shrinetab+="<tr style='color:#74A274;'><td><button data='"+i+"' class='greenb shrineremove' style='font-size: 10px;height: 20px;padding: 3px;width: 15px;border-radius: 4px;'>x</button>";
+                        shrinetab+="<button id='"+i+"' data='city' class='greenb shrinechange' style='font-size: 10px;height: 20px;padding: 3px;border-radius: 4px;width:37px;'>Castle</button>";
+                        shrinetab+="<button data='"+i+"' class='greenb shrine10k' style='font-size: 10px;height: 20px;padding: 3px;width: 25px;border-radius: 4px;'>10k</button>";
+                        shrinetab+="<button data='"+i+"' class='greenb shrine7pt' style='font-size: 10px;height: 20px;padding: 3px;width: 25px;border-radius: 4px;'>7pt</button></td><td></td>";
+                    }
+                }
+                shrinetab+="<td>"+roundToTwo(shrinec[i][5])+"</td><td class='playerblink'>"+shrinec[i][1]+"</td><td>"+shrinec[i][2]+"</td><td class='coordblink shcitt' data='"+cid+"'>"+shrinec[i][3]+":"+shrinec[i][4]+"</td><td class='allyblink'>"+shrinec[i][8]+"</td><td>"+shrinec[i][7]+"</td><td>"+shrinec[i][0]+"</td></tr>";
+                if (ccounter==20) {
+                    break;
+                }
+            }
+        }
+        shrinetab+="</tbody></table>";
+        $("#shrinediv").html(shrinetab);
+        $("#shrineTab td").css("text-align","center");
+        if (localStorage.getItem("hidecities")=="1") {
+            hidecities();
+            //console.log("hiding");
+        }
+        $(".shrinechange").click(function() {
+            if ($(this).attr("data")=="castle") {
+                shrinec[$(this).attr("id")][0]="city";
+            } else {
+                shrinec[$(this).attr("id")][0]="castle";
+            }
+            if (shrinec[$(this).attr("id")][6]=="0") {
+                shrinec[$(this).attr("id")][6]=1;
+            } else {
+                shrinec[$(this).attr("id")][6]=0;
+            }
+            updateshrine();
+        });
+        $(".shrineremove").click(function() {
+            shrinec.splice($(this).attr("data"),1);
+            updateshrine();
+        });
+        $(".shrine7pt").click(function() {
+            if (shrinec[$(this).attr("data")][7]!=7) {
+                shrinec[$(this).attr("data")][7]=7;
+                shrinec[$(this).attr("data")][9]=1;
+                shrinec[$(this).attr("data")][6]=1;
+            } else {
+                shrinec[$(this).attr("data")][9]=0;
+                shrinec[$(this).attr("data")][6]=0;
+            }
+            updateshrine();
+        });
+        $(".shrine10k").click(function() {
+            if (shrinec[$(this).attr("data")][7]!=10000) {
+                shrinec[$(this).attr("data")][7]=10000;
+                shrinec[$(this).attr("data")][9]=1;
+                shrinec[$(this).attr("data")][6]=1;
+            } else {
+                shrinec[$(this).attr("data")][9]=0;
+                shrinec[$(this).attr("data")][6]=0;
+            }
+            updateshrine();
+        });
+    }
+    // exporting table to csv file taken from https://gist.github.com/adilapapaya/9787842
+    function exportTableToCSV($table, filename) {
+        var $headers = $table.find('tr:has(th)')
+        ,$rows = $table.find('tr:has(td)')
+        // Temporary delimiter characters unlikely to be typed by keyboard
+        // This is to avoid accidentally splitting the actual contents
+        ,tmpColDelim = String.fromCharCode(11) // vertical tab character
+        ,tmpRowDelim = String.fromCharCode(0) // null character
+        // actual delimiter characters for CSV format
+        ,colDelim = '","'
+        ,rowDelim = '"\r\n"';
+        // Grab text from table into CSV formatted string
+        var csv = '"';
+        csv += formatRows($headers.map(grabRow));
+        csv += rowDelim;
+        csv += formatRows($rows.map(grabRow)) + '"';
+        // Data URI
+        var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
+        $(this).attr({'download': filename,'href': csvData}); //,'target' : '_blank' //if you want it to open in a new window          
+        //------------------------------------------------------------
+        // Helper Functions
+        //------------------------------------------------------------
+        // Format the output so it has the appropriate delimiters
+        function formatRows(rows){return rows.get().join(tmpRowDelim).split(tmpRowDelim).join(rowDelim).split(tmpColDelim).join(colDelim);}
+        // Grab and format a row from the table
+        function grabRow(i,row){
+            var $row = $(row);
+            //for some reason $cols = $row.find('td') || $row.find('th') won't work...
+            var $cols = $row.find('td');
+            if(!$cols.length) $cols = $row.find('th');
+                return $cols.map(grabCol)
+                    .get().join(tmpColDelim);
+        }
+        // Grab and format a column from the table
+        function grabCol(j,col){
+                var $col = $(col),
+                $text = $col.text();
+                return $text.replace('"', '""'); // escape double quotes
+        }
     }
 })();
