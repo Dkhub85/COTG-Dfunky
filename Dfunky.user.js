@@ -3500,6 +3500,7 @@
                     carry_percentage(total_loot);
                 });
                 $("#WCcomcount").on('change', function() {
+                    if($("#rval14").val()){$("#rval14").val("0");}
                     carry_percentage(total_loot);
                     $(".tninput").change(function() {
                         carry_percentage(total_loot);
