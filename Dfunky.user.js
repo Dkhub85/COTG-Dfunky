@@ -858,7 +858,7 @@
     function nearofftable(t) {
         var contoff=Number($("#noffx").val());
         var cit={x:[],y:[],dist:[],cn:[],thome:[],ts:[],id:[],time:[]};
-        var troopmail={no:[],thome:[],amount:[]};
+        var troopmail=[[]];
         var counteroff=0;
         for (var i in t) {
             var tid=t[i].id;
@@ -882,9 +882,7 @@
                     for (var j in tempt) {
                         tempts+=tempt[j]*ttts[j];
                     }
-                    troopmail.no.push(counteroff);
-                    troopmail.thome.push(tempt);
-                    troopmail.amount.push(tempts);
+                    troopmail.push([tempt,tempts]);
                     cit.ts.push(tempts);
                     cit.thome.push(tempt);
                     cit.cn.push(t[i].c);
@@ -909,9 +907,7 @@
                     for (var j in tempt) {
                         tempts+=tempt[j]*ttts[j];
                     }
-                    troopmail.no.push(counteroff);
-                    troopmail.thome.push(tempt);
-                    troopmail.amount.push(tempts);
+                    troopmail.push([tempt,tempts]);
                     cit.ts.push(tempts);
                     cit.thome.push(tempt);
                     cit.cn.push(t[i].c);
@@ -938,22 +934,25 @@
         $("#nofftable td").css("height","26px");
         var newTableObject = document.getElementById('nofftable');
         sorttable.makeSortable(newTableObject);
+        troopmail.sort(function(a,b) {return b[1]-a[1];});
         $("#mailoff").click(function() {
             console.log(troopmail);
             //$("#mailComposeBox").show();
             var conttemp=$("#noffx").val();
             var dhruv="<p>Number of offensive castles is '"+counteroff+"'</p>";
             dhruv+='</p><table class="mce-item-table" style="width: 266.273px; "data-mce-style="width: 266.273px; "border="1" data-mce-selected="1"><thead><th>Number</th><th>Troop</th><th>TS Amount</th></thead><tbody>';
-            for (var i in troopmail.no) {
-                dhruv+='<tr><td style="text-align: center;" data-mce-style="text-align: center;">'+troopmail.no[i]+'</td>';
-                dhruv+='<td style="text-align: center;" data-mce-style="text-align: center;"><table>';
-                for (var j in troopmail.thome[i]) {
-                if (troopmail.thome[i][j]>0) {
-                    dhruv+='<td>'+ttname[j]+'</td>';
+            for (var i in troopmail) {
+                if(i>0){
+                    dhruv+='<tr><td style="text-align: center;" data-mce-style="text-align: center;">'+i+'</td>';
+                    dhruv+='<td style="text-align: center;" data-mce-style="text-align: center;"><table>';
+                    for (var j in troopmail) {
+                        if (troopmail[i][0][j]>0) {
+                            dhruv+='<td>'+ttname[j]+'</td>';
+                        }
+                    }
+                    dhruv+='</table></td>';
+                    dhruv+='<td style="text-align: center;" data-mce-style="text-align: center;">'+troopmail[i][1]+'</td></tr>';
                 }
-            }
-            dhruv+='</table></td>';
-            dhruv+='<td style="text-align: center;" data-mce-style="text-align: center;">'+troopmail.amount[i]+'</td></tr>';
             }
             dhruv+="</tbody></table>";
             if(conttemp==99){conttemp="Navy";}
