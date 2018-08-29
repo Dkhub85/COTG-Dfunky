@@ -792,16 +792,62 @@
         var cx=$("#ndefx").val();
         var cy=$("#ndefy").val();
         var cont=Number(Math.floor(cx/100)+10*Math.floor(cy/100));
-        var cit={x:[],y:[],dist:[],cn:[],thome:[],ttotal:[],ts:[],id:[],time:[]};
+        var cit={x:[],y:[],dist:[],cn:[],thome:[],ts:[],tsh:[],id:[],time:[]};
         //console.log(cx,cy,cont);
         for (var i in t) {
             var tid=t[i].id;
             var tempx=Number(tid % 65536);
             var tempy=Number((tid-tempx)/65536);
             var tcont=Number(Math.floor(tempx/100)+10*Math.floor(tempy/100));
-            //console.log(cont,tcont);
+            var ttspd=0;
+            console.log(cont,tcont);
             if (cont==tcont) {
-                if (t[i].Ballista_total>0 || t[i].Ranger_total>0 || t[i].Triari_total>0 || t[i].Priestess_total || t[i].Arbalist_total>0 || t[i].Praetor_total>0) {
+                if (t[i].Ballista_total>0 || t[i].Ranger_total>0 || t[i].Triari_total>0 || t[i].Priestess_total || t[i].Arbalist_total>0 || t[i].Praetor_total>0 ) {
+                    cit.x.push(tempx);
+                    cit.y.push(tempy);
+                    var tdist=(Math.sqrt((tempx-cx)*(tempx-cx)+(tempy-cy)*(tempy-cy)));
+                    cit.dist.push(tdist);
+                    console.log(tempx,tempy,tdist);
+                    var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    tempt[1]=t[i].Ballista_total;
+                    tempt[2]=t[i].Ranger_total;
+                    tempt[3]=t[i].Triari_total;
+                    tempt[4]=t[i].Priestess_total;
+                    tempt[8]=t[i].Arbalist_total;
+                    tempt[9]=t[i].Praetor_total;
+                    var temph=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    temph[1]=t[i].Ballista_home;
+                    temph[2]=t[i].Ranger_home;
+                    temph[3]=t[i].Triari_home;
+                    temph[4]=t[i].Priestess_home;
+                    temph[8]=t[i].Arbalist_home;
+                    temph[9]=t[i].Praetor_home;
+                    var tempts=0; //TS total
+                    for (var j in tempt) {
+                        tempts+=tempt[j]*ttts[j];
+                    }
+                    var tempth=0; //TS Home
+                    for (var h in temph) {
+                        tempth+=temph[h]*ttts[h];
+                    }
+                    cit.ts.push(tempts);
+                    cit.tsh.push(tempth);
+                    cit.thome.push(tempt);
+                    cit.cn.push(t[i].c);
+                    cit.id.push(tid);
+                    var tspeed=0;
+                    for (var j in tempt) {
+                        if (tempt[j]>0) {
+                            if (Number((ttspeed[j]/ttspeedres[j]).toFixed(2))>tspeed) {
+                                tspeed=Number((ttspeed[j]/ttspeedres[j]).toFixed(2));
+                            }
+                        }
+                    }
+                    cit.time.push(tdist*tspeed);
+                }
+            }
+            if (cont!=tcont || t[i].Galley_total>0 || t[i].Stinger_total>0) {
+                if (t[i].Stinger_total>0 || t[i].Galley_total>0) {
                     cit.x.push(tempx);
                     cit.y.push(tempy);
                     var tdist=roundToTwo(Math.sqrt((tempx-cx)*(tempx-cx)+(tempy-cy)*(tempy-cy)));
@@ -813,23 +859,27 @@
                     tempt[4]=t[i].Priestess_total;
                     tempt[8]=t[i].Arbalist_total;
                     tempt[9]=t[i].Praetor_total;
-                    var tempth=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-                    tempth[1]=t[i].Ballista_home;
-                    tempth[2]=t[i].Ranger_home;
-                    tempth[3]=t[i].Triari_home;
-                    tempth[4]=t[i].Priestess_home;
-                    tempth[8]=t[i].Arbalist_home;
-                    tempth[9]=t[i].Praetor_home;
+                    tempt[14]=t[i].Galley_total;
+                    tempt[15]=t[i].Stinger_total;
+                    var temph=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    temph[1]=t[i].Ballista_home;
+                    temph[2]=t[i].Ranger_home;
+                    temph[3]=t[i].Triari_home;
+                    temph[4]=t[i].Priestess_home;
+                    temph[8]=t[i].Arbalist_home;
+                    temph[9]=t[i].Praetor_home;
+                    temph[14]=t[i].Galley_home;
+                    temph[15]=t[i].Stinger_home;
                     var tempts=0;
                     for (var j in tempt) {
                         tempts+=tempt[j]*ttts[j];
                     }
-                    var tempths=0;
-                    for (var j in tempth) {
-                        tempths+=tempth[j]*ttts[j];
+                    var tempth=0; //TS Home
+                    for (var h in temph) {
+                        tempth+=temph[h]*ttts[h];
                     }
-                    cit.ttotal.push(tempths);
                     cit.ts.push(tempts);
+                    cit.tsh.push(tempth);
                     cit.thome.push(tempt);
                     cit.cn.push(t[i].c);
                     cit.id.push(tid);
@@ -845,11 +895,11 @@
                 }
             }
         }
-        var neardeftab="<table id='ndeftable'><thead><th></th><th>City</th><th>Coords</th><th>TS(home)</th><th>TS(total)</th><th id='ndefdist'>Travel Time</th><th>type</th></thead><tbody>";
+        var neardeftab="<table id='ndeftable'><thead><th></th><th>City</th><th>Coords</th><th>TS Total</th><th>TS Home</th><th id='ndefdist'>Travel Time</th><th>type</th></thead><tbody>";
         for (var i in cit.x) {
             neardeftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit.id[i]+"'>Go To</button></td><td>"+cit.cn[i]+"</td><td class='coordblink shcitt' data='"+cit.id[i]+"'>"+cit.x[i]+":"+cit.y[i]+"</td>";
-            //style='font-size: 9px;border-radius: 6px;width: 80%;height: 22px;padding: 0;white-space: nowrap;'
-            neardeftab+="<td>"+cit.ttotal[i]+"</td><td>"+cit.ts[i]+"</td><td>"+Math.floor(cit.time[i]/60)+"h "+Math.floor(cit.time[i]%60)+"m</td><td><table>";
+            //style='font-size: 9px;border-radius: 10px;width: 85%;height: 22px;padding: 1;white-space: nowrap;'
+            neardeftab+="<td>"+cit.ts[i]+"</td><td>"+cit.tsh[i]+"</td><td>"+Math.floor(cit.time[i]/60)+"h "+Math.floor(cit.time[i]%60)+"m</td><td><table>";
             for (var j in cit.thome[i]) {
                 if (cit.thome[i][j]>0) {
                     neardeftab+="<td><div class='"+tpicdiv20[j]+"'></div></td>";
@@ -860,7 +910,7 @@
         neardeftab+="</tbody></table>";
         $("#Ndefbox").html(neardeftab);
         $("#ndeftable td").css("text-align","center");
-        $("#ndeftable td").css("height","26px");
+        $("#ndeftable td").css("height","25px");
         var newTableObject = document.getElementById('ndeftable');
         sorttable.makeSortable(newTableObject);
         $("#ndefdist").trigger({type:"click",originalEvent:"1"});
