@@ -792,7 +792,7 @@
         var cx=$("#ndefx").val();
         var cy=$("#ndefy").val();
         var cont=Number(Math.floor(cx/100)+10*Math.floor(cy/100));
-        var cit={x:[],y:[],dist:[],cn:[],thome:[],ts:[],id:[],time:[]};
+        var cit={x:[],y:[],dist:[],cn:[],thome:[],ttotal:[],ts:[],id:[],time:[]};
         //console.log(cx,cy,cont);
         for (var i in t) {
             var tid=t[i].id;
@@ -813,10 +813,22 @@
                     tempt[4]=t[i].Priestess_total;
                     tempt[8]=t[i].Arbalist_total;
                     tempt[9]=t[i].Praetor_total;
+                    var tempth=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    tempth[1]=t[i].Ballista_home;
+                    tempth[2]=t[i].Ranger_home;
+                    tempth[3]=t[i].Triari_home;
+                    tempth[4]=t[i].Priestess_home;
+                    tempth[8]=t[i].Arbalist_home;
+                    tempth[9]=t[i].Praetor_home;
                     var tempts=0;
                     for (var j in tempt) {
                         tempts+=tempt[j]*ttts[j];
                     }
+                    var tempths=0;
+                    for (var j in tempth) {
+                        tempths+=tempth[j]*ttts[j];
+                    }
+                    cit.ttotal.push(tempths);
                     cit.ts.push(tempts);
                     cit.thome.push(tempt);
                     cit.cn.push(t[i].c);
@@ -833,11 +845,11 @@
                 }
             }
         }
-        var neardeftab="<table id='ndeftable'><thead><th></th><th>City</th><th>Coords</th><th>TS</th><th id='ndefdist'>Travel Time</th><th>type</th></thead><tbody>";
+        var neardeftab="<table id='ndeftable'><thead><th></th><th>City</th><th>Coords</th><th>TS(home)</th><th>TS(total)</th><th id='ndefdist'>Travel Time</th><th>type</th></thead><tbody>";
         for (var i in cit.x) {
             neardeftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit.id[i]+"'>Go To</button></td><td>"+cit.cn[i]+"</td><td class='coordblink shcitt' data='"+cit.id[i]+"'>"+cit.x[i]+":"+cit.y[i]+"</td>";
             //style='font-size: 9px;border-radius: 6px;width: 80%;height: 22px;padding: 0;white-space: nowrap;'
-            neardeftab+="<td>"+cit.ts[i]+"</td><td>"+Math.floor(cit.time[i]/60)+"h "+Math.floor(cit.time[i]%60)+"m</td><td><table>";
+            neardeftab+="<td>"+cit.ttotal[i]+"</td><td>"+cit.ts[i]+"</td><td>"+Math.floor(cit.time[i]/60)+"h "+Math.floor(cit.time[i]%60)+"m</td><td><table>";
             for (var j in cit.thome[i]) {
                 if (cit.thome[i][j]>0) {
                     neardeftab+="<td><div class='"+tpicdiv20[j]+"'></div></td>";
