@@ -834,14 +834,14 @@
             var tempy=Number((tid-tempx)/65536);
             var tcont=Number(Math.floor(tempx/100)+10*Math.floor(tempy/100));
             var ttspd=0;
-            console.log(cont,tcont);
+ //           console.log(cont,tcont);
             if (cont==tcont) {
                 if (t[i].Ballista_total>0 || t[i].Ranger_total>0 || t[i].Triari_total>0 || t[i].Priestess_total || t[i].Arbalist_total>0 || t[i].Praetor_total>0 ) {
                     cit.x.push(tempx);
                     cit.y.push(tempy);
                     var tdist=(Math.sqrt((tempx-cx)*(tempx-cx)+(tempy-cy)*(tempy-cy)));
                     cit.dist.push(tdist);
-                    console.log(tempx,tempy,tdist);
+  //                  console.log(tempx,tempy,tdist);
                     var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     tempt[1]=t[i].Ballista_total;
                     tempt[2]=t[i].Ranger_total;
