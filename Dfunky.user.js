@@ -499,7 +499,8 @@
         ndeftab+="<a href='#warNdefmanager' class='ui-tabs-anchor' role='presentation'>Near Def</a></li>";
         var ndeftabbody="<div id='warNdefmanager' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
         ndeftabbody+=" role='tabpanel' style='display: none;'><div id='fpdcdiv3' class='redheading' style='margin-left: 2%;' >Nearest defense:</div>";
-        ndeftabbody+="<table><td colspan='2'> Choose city:</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='ndefx' type='number'> : <input style='width: 30px;height: 22px;font-size: 10px;' id='ndefy' type='number'></td>";
+        ndeftabbody+="<table><td>Choose city:</td><td><input style='width: 30px;height: 22px;font-size: 10px;' id='ndefx' type='number'> : <input style='width: 30px;height: 22px;font-size: 10px;' id='ndefy' type='number'></td>";
+        ndeftabbody+="<td>Showing For:</td><td id='asdfgh' class='coordblink shcitt'></td>";        
         ndeftabbody+="<td><button class='regButton greenb' id='ndefup' style='height:30px; width:70px;'>Update</button></td></table>";
         ndeftabbody+="<div id='Ndefbox' class='beigemenutable scroll-pane' style='width: 96%; height: 85%; margin-left: 2%;'></div>";
         var nofftab="<li id='nearofftab' class='ui-state-default ui-corner-top' role='tab'>";
@@ -673,10 +674,38 @@
             tabs.tabs( "option", "active", 4 );
             $("#deftab").click();
         });
-	$('#ndefGo').click(function() {
+	    $('#ndefGo').click(function() {
+            cotgsubscribe.subscribe( "regional", function( data ) {
+                //do something with chat
+                var x=data.x;
+                var y=data.y;
+                var info=data.info;
+                $("#ndefx").val(x);
+                $("#ndefy").val(y);
+            });
             $("#warcouncbox").show();
             tabs.tabs( "option", "active", 5 );
             $("#neardeftab").trigger({type:"click",originalEvent:"1"});
+        });
+        $('#neardeftab').click(function() {
+            cotgsubscribe.subscribe( "regional", function( data ) {
+                //do something with chat
+                var x=data.x;
+                var y=data.y;
+                var info=data.info;
+                $("#ndefx").val(x);
+                $("#ndefy").val(y);
+            });
+        });
+        $('#ui-id-115').click(function() {
+            cotgsubscribe.subscribe( "regional", function( data ) {
+                //do something with chat
+                var x=data.x;
+                var y=data.y;
+                var info=data.info;
+                $("#ndefx").val(x);
+                $("#ndefy").val(y);
+            });
         });
         $('#noffGo').click(function() {
             $("#warcouncbox").show();
@@ -731,6 +760,11 @@
             SendDef(defobj);
         });
         $("#ndefup").click(function() {
+            var tempxs=Number($("#ndefx").val());
+            var tempys=Number($("#ndefy").val());
+            var tids = tempxs + (tempys*65536);
+            $("#asdfgh").data(tids);
+            $("#asdfgh").text(tempxs+":"+tempys);
             jQuery.ajax({url: 'overview/trpover.php',type: 'POST',aysnc:false,
                          success: function(data) {
                              var t=JSON.parse(data);
@@ -891,7 +925,7 @@
                             }
                         }
                     }
-                    cit.time.push(tdist*tspeed);
+                    cit.time.push((tdist*tspeed)+60);
                 }
             }
         }
