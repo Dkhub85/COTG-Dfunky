@@ -826,22 +826,16 @@
         var cx=$("#ndefx").val();
         var cy=$("#ndefy").val();
         var cont=Number(Math.floor(cx/100)+10*Math.floor(cy/100));
-        var cit={x:[],y:[],dist:[],cn:[],thome:[],ts:[],tsh:[],id:[],time:[]};
-        //console.log(cx,cy,cont);
+        var cit=[[]];
         for (var i in t) {
             var tid=t[i].id;
             var tempx=Number(tid % 65536);
             var tempy=Number((tid-tempx)/65536);
             var tcont=Number(Math.floor(tempx/100)+10*Math.floor(tempy/100));
             var ttspd=0;
- //           console.log(cont,tcont);
             if (cont==tcont) {
                 if (t[i].Ballista_total>0 || t[i].Ranger_total>0 || t[i].Triari_total>0 || t[i].Priestess_total || t[i].Arbalist_total>0 || t[i].Praetor_total>0 ) {
-                    cit.x.push(tempx);
-                    cit.y.push(tempy);
                     var tdist=(Math.sqrt((tempx-cx)*(tempx-cx)+(tempy-cy)*(tempy-cy)));
-                    cit.dist.push(tdist);
-  //                  console.log(tempx,tempy,tdist);
                     var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     tempt[1]=t[i].Ballista_total;
                     tempt[2]=t[i].Ranger_total;
@@ -864,11 +858,6 @@
                     for (var h in temph) {
                         tempth+=temph[h]*ttts[h];
                     }
-                    cit.ts.push(tempts);
-                    cit.tsh.push(tempth);
-                    cit.thome.push(tempt);
-                    cit.cn.push(t[i].c);
-                    cit.id.push(tid);
                     var tspeed=0;
                     for (var j in tempt) {
                         if (tempt[j]>0) {
@@ -877,15 +866,12 @@
                             }
                         }
                     }
-                    cit.time.push(tdist*tspeed);
+                    cit.push([tempx,tempy,tdist,t[i].c,tempt,tempts,tempth,tid,tdist*tspeed]);
                 }
             }
             if (cont!=tcont || t[i].Galley_total>0 || t[i].Stinger_total>0) {
                 if (t[i].Stinger_total>0 || t[i].Galley_total>0) {
-                    cit.x.push(tempx);
-                    cit.y.push(tempy);
                     var tdist=roundToTwo(Math.sqrt((tempx-cx)*(tempx-cx)+(tempy-cy)*(tempy-cy)));
-                    cit.dist.push(tdist);
                     var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     tempt[1]=t[i].Ballista_total;
                     tempt[2]=t[i].Ranger_total;
@@ -912,11 +898,6 @@
                     for (var h in temph) {
                         tempth+=temph[h]*ttts[h];
                     }
-                    cit.ts.push(tempts);
-                    cit.tsh.push(tempth);
-                    cit.thome.push(tempt);
-                    cit.cn.push(t[i].c);
-                    cit.id.push(tid);
                     var tspeed=0;
                     for (var j in tempt) {
                         if (tempt[j]>0) {
@@ -925,21 +906,24 @@
                             }
                         }
                     }
-                    cit.time.push((tdist*tspeed)+60);
+                    cit.push([tempx,tempy,tdist,t[i].c,tempt,tempts,tempth,tid,tdist*tspeed]);
                 }
             }
         }
+        cit.sort(function(a,b) {return a[8]-b[8];});
         var neardeftab="<table id='ndeftable'><thead><th></th><th>City</th><th>Coords</th><th>TS Total</th><th>TS Home</th><th id='ndefdist'>Travel Time</th><th>type</th></thead><tbody>";
-        for (var i in cit.x) {
-            neardeftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit.id[i]+"'>Go To</button></td><td>"+cit.cn[i]+"</td><td class='coordblink shcitt' data='"+cit.id[i]+"'>"+cit.x[i]+":"+cit.y[i]+"</td>";
+        for (var i in cit) {
+            if(i>0){
+            neardeftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit[i][7]+"'>Go To</button></td><td>"+cit[i][3]+"</td><td class='coordblink shcitt' data='"+cit[i][7]+"'>"+cit[i][0]+":"+cit[i][1]+"</td>";
             //style='font-size: 9px;border-radius: 10px;width: 85%;height: 22px;padding: 1;white-space: nowrap;'
-            neardeftab+="<td>"+cit.ts[i]+"</td><td>"+cit.tsh[i]+"</td><td>"+Math.floor(cit.time[i]/60)+"h "+Math.floor(cit.time[i]%60)+"m</td><td><table>";
-            for (var j in cit.thome[i]) {
-                if (cit.thome[i][j]>0) {
+            neardeftab+="<td>"+cit[i][5]+"</td><td>"+cit[i][6]+"</td><td>"+Math.floor(cit[i][8]/60)+"h "+Math.floor(cit[i][8]%60)+"m</td><td><table>";
+            for (var j in cit[i][4]) {
+                if (cit[i][4][j]>0) {
                     neardeftab+="<td><div class='"+tpicdiv20[j]+"'></div></td>";
                 }
             }
             neardeftab+="</table></td></tr>";
+            }
         }
         neardeftab+="</tbody></table>";
         $("#Ndefbox").html(neardeftab);
@@ -953,7 +937,8 @@
 
     function nearofftable(t) {
         var contoff=Number($("#noffx").val());
-        var cit={x:[],y:[],dist:[],cn:[],thome:[],ts:[],id:[],time:[]};
+ //       var cit={x:[],y:[],dist:[],cn:[],thome:[],ts:[],id:[],time:[]};
+        var cit=[[]];
         var troopmail=[[]];
         var counteroff=0;
         for (var i in t) {
@@ -964,8 +949,8 @@
             //console.log(cont,tcont);
             if (contoff==tcont) {
                 if (t[i].Druid_total>0 || t[i].Horseman_total>0 || t[i].Sorcerer_total>0 || t[i].Vanquisher_total>0 || t[i].Scorpion_total>0 || t[i].Ram_total>0) {
-                    cit.x.push(tempx);
-                    cit.y.push(tempy);
+  //                  cit.x.push(tempx);
+  //                  cit.y.push(tempy);
                     counteroff+=1;
                     var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     tempt[5]=t[i].Vanquisher_total;
@@ -979,16 +964,13 @@
                         tempts+=tempt[j]*ttts[j];
                     }
                     troopmail.push([tempt,tempts]);
-                    cit.ts.push(tempts);
-                    cit.thome.push(tempt);
-                    cit.cn.push(t[i].c);
-                    cit.id.push(tid);
+                    cit.push([tempx,tempy,tempts,tempt,t[i].c,tid]);
                 }
             }
             if(contoff=="99"){
                 if (t[i].Warship_total>0  || t[i].Galley_total>0) {
-                    cit.x.push(tempx);
-                    cit.y.push(tempy);
+  //                  cit.x.push(tempx);
+  //                  cit.y.push(tempy);
                     counteroff+=1;
                     var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     tempt[5]=t[i].Vanquisher_total;
@@ -1004,21 +986,23 @@
                         tempts+=tempt[j]*ttts[j];
                     }
                     troopmail.push([tempt,tempts]);
-                    cit.ts.push(tempts);
-                    cit.thome.push(tempt);
-                    cit.cn.push(t[i].c);
-                    cit.id.push(tid);
+  //                  cit.ts.push(tempts);
+  //                  cit.thome.push(tempt);
+  //                  cit.cn.push(t[i].c);
+  //                  cit.id.push(tid);
+                    cit.push([tempx,tempy,tempts,tempt,t[i].c,tid]);
                 }
             }
         }
+        cit.sort(function(a,b) {return b[2]-a[2];});
         $("#asdfg").text("Total:"+counteroff);
         var nearofftab="<table id='nofftable'><thead><th></th><th>City</th><th>Coords</th><th>TS</th><th>type</th></thead><tbody>";
         for (var i in cit.x) {
-            nearofftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit.id[i]+"'>Go To</button></td><td>"+cit.cn[i]+"</td><td class='coordblink shcitt' data='"+cit.id[i]+"'>"+cit.x[i]+":"+cit.y[i]+"</td>";
+            nearofftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit[i][5]+"'>Go To</button></td><td>"+cit[i][4]+"</td><td class='coordblink shcitt' data='"+cit[i][5]+"'>"+cit[i][0]+":"+cit[i][1]+"</td>";
             //style='font-size: 9px;border-radius: 6px;width: 80%;height: 22px;padding: 0;white-space: nowrap;'
-            nearofftab+="<td>"+cit.ts[i]+"</td><td><table>";
-            for (var j in cit.thome[i]) {
-                if (cit.thome[i][j]>0) {
+            nearofftab+="<td>"+cit[i][2]+"</td><td><table>";
+            for (var j in cit[i][3]) {
+                if (cit[i][3][j]>0) {
                     nearofftab+="<td><div class='"+tpicdiv20[j]+"'></div></td>";
                 }
             }
