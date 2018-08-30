@@ -15,7 +15,7 @@
 (function() {
 	// popup message for players when they open the game.
     $(document).ready(function() {
-    var popwin="<div id='HelloWorld' style='width:400px;height:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">Welcome!</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> DFunky(Cfunky + Dhruv's Raiding helper)</h4></span><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'>Updated 29th August 2018</h4></span><br><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Added Offensive Troop mailing functionality, Added Shrine zone calculator(was in cfunky) (29 -8-2018)</li></ul></span></div></div>";
+    var popwin="<div id='HelloWorld' style='width:400px;height:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">Welcome!</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> DFunky(Cfunky + Dhruv's Raiding helper)</h4></span><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'>Updated 31st August 2018</h4></span><br><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Added Offensive Troop mailing functionality, Added Shrine zone calculator(was in cfunky) (31 -8-2018)</li></ul></span></div></div>";
         $("body").append(popwin);
 
         setTimeout(function() {
@@ -997,16 +997,18 @@
         cit.sort(function(a,b) {return b[2]-a[2];});
         $("#asdfg").text("Total:"+counteroff);
         var nearofftab="<table id='nofftable'><thead><th></th><th>City</th><th>Coords</th><th>TS</th><th>type</th></thead><tbody>";
-        for (var i in cit.x) {
-            nearofftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit[i][5]+"'>Go To</button></td><td>"+cit[i][4]+"</td><td class='coordblink shcitt' data='"+cit[i][5]+"'>"+cit[i][0]+":"+cit[i][1]+"</td>";
-            //style='font-size: 9px;border-radius: 6px;width: 80%;height: 22px;padding: 0;white-space: nowrap;'
-            nearofftab+="<td>"+cit[i][2]+"</td><td><table>";
-            for (var j in cit[i][3]) {
-                if (cit[i][3][j]>0) {
-                    nearofftab+="<td><div class='"+tpicdiv20[j]+"'></div></td>";
-                }
+        for (var i in cit) {
+            if(i>0){
+                nearofftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit[i][5]+"'>Go To</button></td><td>"+cit[i][4]+"</td><td class='coordblink shcitt' data='"+cit[i][5]+"'>"+cit[i][0]+":"+cit[i][1]+"</td>";
+                //style='font-size: 9px;border-radius: 6px;width: 80%;height: 22px;padding: 0;white-space: nowrap;'
+                nearofftab+="<td>"+cit[i][2]+"</td><td><table>";
+                for (var j in cit[i][3]) {
+                    if (cit[i][3][j]>0) {
+                        nearofftab+="<td><div class='"+tpicdiv20[j]+"'></div></td>";
+                    }
+                }   
+                nearofftab+="</table></td></tr>";
             }
-            nearofftab+="</table></td></tr>";
         }
         nearofftab+="</tbody></table>";
         $("#Noffbox").html(nearofftab);
