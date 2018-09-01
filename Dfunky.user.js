@@ -4318,7 +4318,7 @@
     });
     //setting nearest hub to a city
     function setnearhub() {
-        var res=[0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,200000,220000,200000,400000];
+        var res=[0,0,0,0,1,130000,130000,0,0,0,0,0,0,1,0,0,0,0,0,300000,300000,300000,400000];
         var aa=city.mo;
         var hubs={cid:[],distance:[]};
         $.each(clc, function(key, value) {
@@ -4363,7 +4363,7 @@
     }
     //infantry setup
     function setinfantry() {
-        var res=[0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,200000,220000,200000,400000];
+        var res=[0,0,0,0,1,200000,220000,200000,350000,0,0,0,0,1,0,0,0,0,0,300000,300000,300000,400000];
         var aa=city.mo;
         var hubs={cid:[],distance:[]};
         $.each(clc, function(key, value) {
