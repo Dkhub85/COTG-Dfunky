@@ -4,6 +4,7 @@
 // @version 1.0.0
 // @description Cotg Dfunky
 // @author Dhruv
+// @match https://w13.crownofthegods.com
 // @match https://w12.crownofthegods.com
 // @match https://w11.crownofthegods.com
 // @include https://w/*.crownofthegods.com/World*
