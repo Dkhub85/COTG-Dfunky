@@ -919,9 +919,13 @@
         var neardeftab="<table id='ndeftable'><thead><th></th><th>City</th><th>Coords</th><th>TS Total</th><th>TS Home</th><th id='ndefdist'>Travel Time</th><th>type</th></thead><tbody>";
         for (var i in cit) {
             if(i>0){
+            var h1=Math.floor(cit[i][8]/60);
+            var m1=Math.floor(cit[i][8]%60);
+            h1 = h1 < 10 ? '0' + h1 : h1;
+            m1 = m1 < 10 ? '0' + m1 : m1; 
             neardeftab+="<tr><td><button class='greenb chcity' id='cityGoTowm' a='"+cit[i][7]+"'>Go To</button></td><td>"+cit[i][3]+"</td><td class='coordblink shcitt' data='"+cit[i][7]+"'>"+cit[i][0]+":"+cit[i][1]+"</td>";
             //style='font-size: 9px;border-radius: 10px;width: 85%;height: 22px;padding: 1;white-space: nowrap;'
-            neardeftab+="<td>"+cit[i][5]+"</td><td>"+cit[i][6]+"</td><td>"+Math.floor(cit[i][8]/60)+"h "+Math.floor(cit[i][8]%60)+"m</td><td><table>";
+            neardeftab+="<td>"+cit[i][5]+"</td><td>"+cit[i][6]+"</td><td>"+h1+":"+m1+"</td><td><table>";
             for (var j in cit[i][4]) {
                 if (cit[i][4][j]>0) {
                     neardeftab+="<td><div class='"+tpicdiv20[j]+"'></div></td>";
