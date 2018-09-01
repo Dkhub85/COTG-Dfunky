@@ -940,8 +940,8 @@
         $("#ndeftable td").css("height","25px");
         var newTableObject = document.getElementById('ndeftable');
         sorttable.makeSortable(newTableObject);
-        $("#ndefdist").trigger({type:"click",originalEvent:"1"});
-        $("#ndefdist").trigger({type:"click",originalEvent:"1"});
+  //      $("#ndefdist").trigger({type:"click",originalEvent:"1"});
+  //      $("#ndefdist").trigger({type:"click",originalEvent:"1"});
     }
 
     function nearofftable(t) {
