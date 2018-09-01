@@ -908,7 +908,7 @@
                         }
                     }
                     var timetssp=(tdist*tspeed)+60;
-                    cit.push([tempx,tempy,tdist,t[i].c,tempt,tempts,tempth,tid,timetss]);
+                    cit.push([tempx,tempy,tdist,t[i].c,tempt,tempts,tempth,tid,timetssp]);
                 }
             }
         }
