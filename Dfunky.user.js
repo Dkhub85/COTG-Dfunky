@@ -154,6 +154,7 @@
                         if(poll2) {
                         var saveclc=poll2.player.clc;
                         var saveoga=poll2.OGA;
+                        clc=poll2.player.clc;
                         }
                         poll2=JSON.parse(this.response);
                         city.x=Number(poll2.city.cid % 65536);
@@ -4295,10 +4296,6 @@
                                 resd[j][6]=$("#stonein").val();
                                 resd[j][7]=$("#ironin").val();
                                 resd[j][8]=$("#foodin").val();
-                                resd[j][19]=$("#woodin").val();
-                                resd[j][20]=$("#stonein").val();
-                                resd[j][21]=$("#ironin").val();
-                                resd[j][22]=$("#foodin").val();
                                 for (var k in resd[j]) {
                                     aa[28+Number(k)]=resd[j][k];
                                 }
@@ -4318,7 +4315,7 @@
     });
     //setting nearest hub to a city
     function setnearhub() {
-        var res=[0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000];
+        var res=[0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,200000,220000,200000,400000];
         var aa=city.mo;
         var hubs={cid:[],distance:[]};
         $.each(clc, function(key, value) {
@@ -4335,16 +4332,22 @@
         var nearesthub=hubs.cid[hubs.distance.indexOf(mindist)];
         //aa[42]=nearesthub;
         //aa[43]=nearesthub;
+        if ($("#addwalls").prop("checked")==true) {
+            aa[26]=1;
+        }
+        if ($("#addtowers").prop("checked")==true) {
+            aa[27]=1;
+        }
+        if ($("#addbuildings").prop("checked")==true) {
+            aa[51]=[1,$("#cablev").val()];
+            aa[1]=1;
+        }
         res[14]=nearesthub;
         res[15]=nearesthub;
         res[5]=$("#woodin").val();
         res[6]=$("#stonein").val();
         res[7]=$("#ironin").val();
         res[8]=$("#foodin").val();
-        res[19]=$("#woodin").val();
-        res[20]=$("#stonein").val();
-        res[21]=$("#ironin").val();
-        res[22]=$("#foodin").val();
         for (var k in res) {
             aa[28+Number(k)]=res[k];
         }
