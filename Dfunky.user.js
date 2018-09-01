@@ -80,8 +80,10 @@
     var remarksw=[""];
     var remarkdf=[""];
     var troopcounw=[[]];
+    var troopcound=[[]];
     var troopcounl=[[]];
     var resw=[[]];
+    var resd=[[]];
     var resl=[[]];
     var notesl=[""];
     var notesw=[""];
@@ -3876,38 +3878,38 @@
                 selectbuttsdf+='<option value="'+ww+'">2 sec vanq</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BGBGB##-----##----##BBGBGBB##----##----#BGBGBGBGB#----##----#BGBGBGBGB#----#######BGBGTGBGB#######S-PP#BGBGBGBGB#----##S--P#BGBGBGBGB#----##----##BBGBGBB##----##-----##BGBGB##-----##-BBBBB#######------##-BBBBBXJZ#---------##-BBBBB---#---------###BBBBB---#--------#####BBBB---#-------########################");
                 remarkdf.push("vanq"); notedf.push("256k @6 days");
-                troopcounw.push([0,0,0,0,0,300000,0,0,0,0,0,0,0,0,0,0,0]);
-                resw.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
+                troopcound.push([0,0,0,0,0,300000,0,0,0,0,0,0,0,0,0,0,0]);
+                resd.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
                 ww++;
                 selectbuttsdf+='<option value="'+ww+'">3 sec R/T</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BGBGB##-----##----##BBGBGBB##----##----#BGBGBGBGB#----##----#BGBGBGBGB#----#######BGBGTGBGB#######S-PP#BGBGBGBGB#----##S--P#BGBGBGBGB#----##----##GBGBGBG##----##-----##BGBGB##-----##-BBBBB#######------##-BBBBBXJZ#---------##-BBBBB---#---------###BBBBB---#--------#####BBBB---#-------########################");
                 remarkdf.push("R/T"); notedf.push("240k R/T");
-                troopcounw.push([0,0,0,0,0,0,0,0,88300,0,0,0,0,0,354,0,0]);
-                resw.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
+                troopcound.push([0,0,0,0,0,0,0,0,88300,0,0,0,0,0,354,0,0]);
+                resd.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
                 ww++;
                 selectbuttsdf+='<option value="'+ww+'">4 sec horse</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BEBEB##-----##----##EBEBEBE##----##----#BEBEBEBEB#----##----#BEBEBEBEB#----#######BEBETEBEB#######----#BEBEBEBEB#----##----#BEBEBEBEB#----##----##EBEBEBE##----##-----##BEBEB##-----##BBBBB-#######------##BEEEEB--J#---------##BBBBBB--X#---------###BEEEB-PP#--------#####BBBB-SS#-------########################");
                 remarkdf.push("R/T"); notedf.push("112k horses @ 5 days");
-                troopcounw.push([0,0,0,0,0,0,0,0,88300,0,0,0,0,0,354,0,0]);
-                resw.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
+                troopcound.push([0,0,0,0,0,0,0,0,88300,0,0,0,0,0,354,0,0]);
+                resd.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
                 ww++;
                 selectbuttsdf+='<option value="'+ww+'">5 sec sorc</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##JBJBJ##-----##----##BJBJBJB##----##----#JBJBJBJBJ#----##----#JBJBJBJBJ#SS-X#######JBJBTBJBJ#######----#JBJBJBJBJ#----##----#JBJBJBJBJ#----##----##BJBJBJB##----##-----##JBJBJ##BB---##------#######BBB---##---------#JBBBBB---##---------#JBJBBB---###--------#JBJBBB--#####-------#JBZBBB-########################");
                 remarkdf.push("R/T"); notedf.push("216k sorc");
-                troopcounw.push([0,0,0,0,0,0,0,0,88300,0,0,0,0,0,354,0,0]);
-                resw.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
+                troopcound.push([0,0,0,0,0,0,0,0,88300,0,0,0,0,0,354,0,0]);
+                resd.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
                 ww++;
                 selectbuttsdf+='<option value="'+ww+'">7 sec pra</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BZBZB##-----##----##ZBZBZBZ##----##----#BZBZBZBZB#----##----#BZBZBZBZB#SS-X#######BZBZTZBZB#######----#BZBZBZBZB#J---##----#BZBZBZBZB#----##----##ZBZBZBZ##----##-----##BZBZB##-----##BBBBBB#######------##BBZBBB---#PP-------##BBBBBB---#P--------###BBBB----#--------#####BBB----#-------########################");
                 remarkdf.push("R/T"); notedf.push("120k pra @ 10 days");
-                troopcounw.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
-                resw.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
+                troopcound.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+                resd.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);
                 ww++;
                 selectbuttsdf+='<option value="'+ww+'">6 sec arb</option>';
                 layoutdf.push("[ShareString.1.3]:########################-------#-------#####--------#--------###---------#---------##---------#---------##------#######------##-----##BEBEB##-----##----##EBEBEBE##----##----#BEBEBEBEB#----##----#BEBEBEBEB#----#######BEBETEBEB#######----#BEBEBEBEB#----##----#BEBEBEBEB#----##----##EBEBEBE##----##-----##BEBEB##-----##BBBBB-#######------##BBEBBB--J#---------##BBBBBB-PX#---------###BBBBB-PP#--------#####BBB--SS#-------########################");
                 remarkdf.push("R/T"); notedf.push("120k arb @ 8days");
-                troopcounw.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
-                resw.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);                
+                troopcound.push([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+                resd.push([0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,150000,220000,150000,350000]);                
                 selectbuttsdf+='</select>';
                 
                 var selectbuttsw='<select id="funkylayoutw" style="font-size: 10px !important;margin-top:1%;margin-left:2%;width:45%;" class="regButton greenb"><option value="0">Select water layout</option>';               
@@ -4258,8 +4260,8 @@
                             }
                             var aa=city.mo;
                             if ($("#addtroops").prop("checked")==true) {
-                                for (var k in troopcounw[j]) {
-                                    aa[9+Number(k)]=troopcounw[j][k];
+                                for (var k in troopcound[j]) {
+                                    aa[9+Number(k)]=troopcound[j][k];
                                 }
                             }
                             if ($("#addwalls").prop("checked")==true) {
@@ -4282,23 +4284,23 @@
                                 }
                                 var mindist = Math.min.apply(Math, hubs.distance);
                                 var nearesthub=hubs.cid[hubs.distance.indexOf(mindist)];
-                                resw[j][14]=nearesthub;
-                                resw[j][15]=nearesthub;
+                                resd[j][14]=nearesthub;
+                                resd[j][15]=nearesthub;
                             } else {
-                                resw[j][14]=0;
-                                resw[j][15]=0;
+                                resd[j][14]=0;
+                                resd[j][15]=0;
                             }
                             if ($("#addres").prop("checked")==true) {
-                                resw[j][5]=$("#woodin").val();
-                                resw[j][6]=$("#stonein").val();
-                                resw[j][7]=$("#ironin").val();
-                                resw[j][8]=$("#foodin").val();
-                                resw[j][19]=$("#woodin").val();
-                                resw[j][20]=$("#stonein").val();
-                                resw[j][21]=$("#ironin").val();
-                                resw[j][22]=$("#foodin").val();
-                                for (var k in resw[j]) {
-                                    aa[28+Number(k)]=resw[j][k];
+                                resd[j][5]=$("#woodin").val();
+                                resd[j][6]=$("#stonein").val();
+                                resd[j][7]=$("#ironin").val();
+                                resd[j][8]=$("#foodin").val();
+                                resd[j][19]=$("#woodin").val();
+                                resd[j][20]=$("#stonein").val();
+                                resd[j][21]=$("#ironin").val();
+                                resd[j][22]=$("#foodin").val();
+                                for (var k in resd[j]) {
+                                    aa[28+Number(k)]=resd[j][k];
                                 }
                             }
                             if ($("#addbuildings").prop("checked")==true) {
