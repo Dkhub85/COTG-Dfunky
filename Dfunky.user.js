@@ -3746,7 +3746,7 @@
         layoutoptbody+="<td><input id='addtroops' class='clsubopti' type='checkbox'> Add Troops</td></tr><tr><td><input id='addtowers' class='clsubopti' type='checkbox'> Add Towers</td><td><input id='addbuildings' class='clsubopti' type='checkbox'> Upgrade Cabins</td>";
         layoutoptbody+="<td> Cabin Lvl: <input id='cablev' type='number' style='width:22px;' value='7'></td></tr><tr><td><input id='addwalls' class='clsubopti' type='checkbox'> Add Walls</td>";
         layoutoptbody+="<td><input id='addhub' class='clsubopti' type='checkbox'> Set Nearest Hub With layout</td></tr><tr><td>Select Hubs list: </td><td id='selhublist'></td><td>";
-        layoutoptbody+="<button id='nearhubAp' class='regButton greenb' style='width:130px; margin-left: 10%'>Set Nearest Hub</button></td></tr></tbody></table>";
+        layoutoptbody+="<button id='nearhubAp' class='regButton greenb' style='width:130px; margin-left: 10%'>Set Nearest Hub</button><button id='infantryAp' class='regButton greenb' style='width:130px; margin-left: 10%'>Infantry setup</button></td></tr></tbody></table>";
         layoutoptbody+="<table><tbody><tr><td colspan='2'><input id='addres' class='clsubopti' type='checkbox'> Add Resources:</td><td id='buttd' colspan='2'></td></tr><tr><td>wood<input id='woodin' type='number' style='width:100px;' value='200000'></td><td>stones<input id='stonein' type='number' style='width:100px;' value='220000'></td>";
         layoutoptbody+="<td>iron<input id='ironin' type='number' style='width:100px;' value='200000'></td><td>food<input id='foodin' type='number' style='width:100px;' value='350000'></td></tr>";
         layoutoptbody+="</tbody></table></div>";
@@ -3758,7 +3758,10 @@
         $("#CNtabs").append(layoutoptbody);
         $("#buttd").append(layoptbut);
         $("#nearhubAp").click(function() {
-            setnearhub();
+            setnearhub();           
+        });
+        $("#infantryAp").click(function() {
+            setinfantry();
         });
         $("#layoptBut").click(function() {
             localStorage.setItem('woodin',$("#woodin").val());
@@ -4340,6 +4343,56 @@
         }
         if ($("#addbuildings").prop("checked")==true) {
             aa[51]=[1,$("#cablev").val()];
+            aa[68]=[1,10];
+            aa[69]=[1,10];
+            aa[1]=1;
+        }
+        res[14]=nearesthub;
+        res[15]=nearesthub;
+        res[5]=$("#woodin").val();
+        res[6]=$("#stonein").val();
+        res[7]=$("#ironin").val();
+        res[8]=$("#foodin").val();
+        for (var k in res) {
+            aa[28+Number(k)]=res[k];
+        }
+        var dat={a:JSON.stringify(aa),b:cdata.cid};
+        jQuery.ajax({url: 'includes/mnio.php',type: 'POST',aysnc:false,data: dat});
+    }
+    //infantry setup
+    function setinfantry() {
+        var res=[0,0,0,0,1,150000,220000,150000,350000,0,0,0,0,1,0,0,0,0,0,200000,220000,200000,400000];
+        var aa=city.mo;
+        var hubs={cid:[],distance:[]};
+        $.each(clc, function(key, value) {
+            if (key==$("#selHub").val()) {
+                hubs.cid=value;
+            }
+        });
+        for (var i in hubs.cid) {
+            var tempx=Number(hubs.cid[i] % 65536);
+            var tempy=Number((hubs.cid[i]-tempx)/65536);
+            hubs.distance.push(Math.sqrt((tempx-city.x)*(tempx-city.x)+(tempy-city.y)*(tempy-city.y)));
+        }
+        var mindist = Math.min.apply(Math, hubs.distance);
+        var nearesthub=hubs.cid[hubs.distance.indexOf(mindist)];
+        //aa[42]=nearesthub;
+        //aa[43]=nearesthub;
+        if ($("#addwalls").prop("checked")==true) {
+            aa[26]=1;
+        }
+        if ($("#addtowers").prop("checked")==true) {
+            aa[27]=1;
+        }
+        if ($("#addbuildings").prop("checked")==true) {
+            aa[51]=[1,$("#cablev").val()];
+            aa[60]=[1,10];
+            aa[62]=[1,10];
+            aa[68]=[1,10];
+            aa[69]=[1,10];
+            aa[70]=[1,10];
+            aa[71]=[1,10];
+            aa[73]=[1,10];
             aa[1]=1;
         }
         res[14]=nearesthub;
