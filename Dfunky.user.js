@@ -500,8 +500,6 @@
         deftabbbody+="<tr><td>Set Time: </td><td><input id='defHr' type='number' style='width: 35px;height: 22px;font-size: 10px;' value='10'></td><td><input id='defMin' style='width: 35px;height: 22px;font-size: 10px;' type='number' value='00'></td>";
         deftabbbody+="<td><input style='width: 35px;height: 22px;font-size: 10px;' id='defSec' type='number' value='00'></td><td colspan='2'><input style='width:90px;' id='defDat' type='text' value='00/00/0000'></td></tr></tbody></table>";
         deftabbbody+="<button id='Defend' style='width: 35%;height: 30px; font-size: 12px; margin:10px;' class='regButton greenb'>Send Defense</button>";
-        //deftabbbody+="<table style='margin-left: 10%; margin-top:20px;'><tbody><tr><td style='width: 20%'><button id='Defend' style='width: 95%;height: 30px !important; font-size: 12px !important;' class='regButton greenb'>Send Defense</button></td>";
-        //deftabbbody+="</tr></tbody></table>";
 	    var ndeftab="<li id='neardeftab' class='ui-state-default ui-corner-top' role='tab'>";
         ndeftab+="<a href='#warNdefmanager' class='ui-tabs-anchor' role='presentation'>Near Def</a></li>";
         var ndeftabbody="<div id='warNdefmanager' class='ui-tabs-panel ui-widget-content ui-corner-bottom' ";
@@ -646,7 +644,6 @@
                 if ($("#d"+i+"x").val()) {
                     tempx=$("#d"+i+"x").val();
                     tempy=$("#d"+i+"y").val();
-                    //console.log(tempx,tempy);
                     defobj.targets.x.push(tempx);
                     defobj.targets.y.push(tempy);
                     defobj.targets.cstr.push(tempx+":"+tempy);
@@ -945,7 +942,6 @@
 
     function nearofftable(t) {
         var contoff=Number($("#noffx").val());
- //       var cit={x:[],y:[],dist:[],cn:[],thome:[],ts:[],id:[],time:[]};
         var cit=[[]];
         var troopmail=[[]];
         var counteroff=0;
@@ -954,11 +950,8 @@
             var tempx=Number(tid % 65536);
             var tempy=Number((tid-tempx)/65536);
             var tcont=Number(Math.floor(tempx/100)+10*Math.floor(tempy/100));
-            //console.log(cont,tcont);
             if (contoff==tcont) {
                 if (t[i].Druid_total>0 || t[i].Horseman_total>0 || t[i].Sorcerer_total>0 || t[i].Vanquisher_total>0 || t[i].Scorpion_total>0 || t[i].Ram_total>0) {
-  //                  cit.x.push(tempx);
-  //                  cit.y.push(tempy);
                     counteroff+=1;
                     var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     tempt[5]=t[i].Vanquisher_total;
@@ -977,8 +970,6 @@
             }
             if(contoff=="99"){
                 if (t[i].Warship_total>0  || t[i].Galley_total>0) {
-  //                  cit.x.push(tempx);
-  //                  cit.y.push(tempy);
                     counteroff+=1;
                     var tempt=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     tempt[5]=t[i].Vanquisher_total;
@@ -994,10 +985,6 @@
                         tempts+=tempt[j]*ttts[j];
                     }
                     troopmail.push([tempt,tempts]);
-  //                  cit.ts.push(tempts);
-  //                  cit.thome.push(tempt);
-  //                  cit.cn.push(t[i].c);
-  //                  cit.id.push(tid);
                     cit.push([tempx,tempy,tempts,tempt,t[i].c,tid]);
                 }
             }
@@ -1056,9 +1043,6 @@
             $iframe.ready(function() {
                 $iframe.contents().find("body").append(dhruv);
             });
-     /*       setTimeout(function() {
-                jQuery("#mailSButton")[0].click();
-            },1000);*/
         });
     }
 
@@ -1068,9 +1052,6 @@
     }
     function SendDef(defobj) {
         $("#commandsPopUpBox").show();
-        //setTimeout(function() {
-        //    $("#commandsPopUpBox").hide();
-        //},300);
         var commandtabs=$("#commandsdiv").tabs();
         commandtabs.tabs( "option", "active", 2 );
         $("#reintabb").trigger({type:"click",originalEvent:"1"});
@@ -1079,7 +1060,6 @@
         var t=defobj.t;
         var maxdist=Math.max.apply(Math, targets.dist);
         var time;
-        //console.log(targets,tarnumb);
         //galley defend
         if (t.type.indexOf(14)>-1) {
             if (t.use[t.type.indexOf(14)]==1) {
@@ -1275,50 +1255,6 @@
                 alert("Defense set");
             }
         }
- /*       if ($("#dretcheck").prop( "checked")==true) {
-            jQuery(".toptdinncommtbl1:first")[0].click();
-            setTimeout(function() {
-                $("#outgoingPopUpBox").hide();
-            },500);
-            if ($("#defdeparture").val()==2) {
-                var rh=Number($("#dretHr").val());
-                var hr=Number($("#defHr").val())-(Math.floor(time/60)+rh);
-                var returndate=$('#defDat').datepicker('getDate');
-                var min=$("#defMin").val()-Math.floor(time%60);
-                if (min<0) {
-                    min+=60;
-                    hr-=1;
-                }
-                if (hr<0 && hr>=-24) {
-                    hr+=24;
-                    returndate.setDate(returndate.getDate() - 1);
-                }
-                if (hr<-24 && hr>= -48) {
-                    hr+=48;
-                    returndate.setDate(returndate.getDate() - 2);
-                }
-                if (hr<-48) {
-                    hr+=72;
-                    returndate.setDate(returndate.getDate() - 3);
-                }
-                if (hr<10) {hr="0"+hr;}
-                var retdate=getFormattedDate(returndate)+" "+hr+":"+min+":"+$("#defSec").val();
-                $("#raidrettimesela").val(3).change();
-            }
-            if ($("#defdeparture").val()==1) {
-                var rh=Number($("#dretHr").val());
-                var hr=Number($("#defHr").val())-rh;
-                var returndate=$('#defDat').datepicker('getDate');
-                if (hr<0) {
-                    hr+=24;
-                    returndate.setDate(returndate.getDate() - 1);
-                }
-                var retdate=getFormattedDate(returndate)+" "+hr+":"+$("#defMin").val()+":"+$("#defSec").val();
-                $("#raidrettimesela").val(2).change();
-            }
-            $("#raidrettimeselinp").val(retdate);
-            jQuery("#doneOGAll")[0].click();
-        }*/
     }
     function updateattack() {
         var t={home:[],type:[]};
@@ -1852,37 +1788,6 @@
                 alert("Attack set");
             }
         }
-   /*     if ($("#retcheck").prop( "checked")==true) {
-            jQuery(".toptdinncommtbl1:first")[0].click();
-            setTimeout(function() {
-                $("#outgoingPopUpBox").hide();
-            },500);
-            var rh=Number($("#retHr").val());
-            var hr=Number($("#attackHr").val())-(Math.floor(time/60)+rh);
-            var returndate=$('#attackDat').datepicker('getDate');
-            var min=$("#attackMin").val()-Math.floor(time%60);
-            if (min<0) {
-                min+=60;
-                hr-=1;
-            }
-            if (hr<0 && hr>=-24) {
-                hr+=24;
-                returndate.setDate(returndate.getDate() - 1);
-            }
-            if (hr<-24 && hr>= -48) {
-                hr+=48;
-                returndate.setDate(returndate.getDate() - 2);
-            }
-            if (hr<-48) {
-                hr+=72;
-                returndate.setDate(returndate.getDate() - 3);
-            }
-            if (hr<10) {hr="0"+hr;}
-            var retdate=getFormattedDate(returndate)+" "+hr+":"+min+":"+$("#attackSec").val();
-            $("#raidrettimesela").val(3).change();
-            $("#raidrettimeselinp").val(retdate);
-            jQuery("#doneOGAll")[0].click();
-        } */
     }
 	//for on/off councilor
 	function coonvalue() {
@@ -2586,7 +2491,6 @@
                 if (city.th[14] || city.th[15] || city.th[16]) {
                     var minutes=distance*ttspeed[14]/ttspeedres[14];
                     var time=Math.floor(minutes/60)+"h "+Math.floor(minutes % 60)+"m";
-                    //bosslist.name.push(bossinfo.name[i]);
                     bosslist.x.push(bossinfo.x[i]);
                     bosslist.y.push(bossinfo.y[i]);
                     bosslist.cid.push(Number(bossinfo.y[i]*65536+bossinfo.x[i]));
@@ -2597,14 +2501,10 @@
                 }
             }
         }
-        //var bosswin="<table id='bosstable' class='beigetablescrollp sortable'><thead><tr><th></th><th>Type</th><th>Level</th><th>Coordinates</th><th>Travel Time</th><th id='hdistance'>Distance</th></tr></thead>";
         var bosswin="<table id='bosstable' class='beigetablescrollp sortable'><thead><tr><th>Coordinates</th><th>Level</th><th>Continent</th><th>Travel Time</th><th id='hdistance'>Distance</th></tr></thead>";
         bosswin+="<tbody>";
         for (var i in bosslist.x) {
             var j=bosses.name.indexOf(bosslist.name[i]);
-            /*bosswin+="<tr id='bossline"+bosslist.cid[i]+"' class='dunginf'><td><button id='"+bosslist.cid[i]+"' class='greenb'>Hit Boss</button></td>";
-            bosswin+="<td style='text-align: center;'><div class='"+bosses.pic[j]+"'></div></td><td style='text-align: center;'>"+bosslist.lvl[i]+"</td>";
-            bosswin+="<td id='cl"+bosslist.cid[i]+"' class='coordblink shcitt' data='"+bosslist.cid[i]+"' style='text-align: center;'>"+bosslist.x[i]+":"+bosslist.y[i]+"</td><td style='text-align: center;'>"+bosslist.time[i]+"</td><td style='text-align: center;'>"+bosslist.distance[i]+"</td></tr>";*/
             bosswin+="<tr id='bossline"+bosslist.cid[i]+"' class='dunginf'><td id='cl"+bosslist.cid[i]+"' class='coordblink shcitt' data='"+bosslist.cid[i]+"' style='text-align: center;'>"+bosslist.x[i]+":"+bosslist.y[i]+"</td>";
             bosswin+="<td style='text-align: center;font-weight: bold;'>"+bosslist.lvl[i]+"</td><td style='text-align: center;'>"+bosslist.cont[i]+"</td>";
             bosswin+="<td style='text-align: center;'>"+bosslist.time[i]+"</td><td style='text-align: center;'>"+bosslist.distance[i]+"</td></tr>";
@@ -3068,253 +2968,6 @@
             $("#cityplayerInfo div table tbody tr:gt(6)").remove();
         }
         });
- /*   document.getElementById('raidDungGo').onclick = function() {
-        //createTable();
-        setTimeout(function(){setbossloot();}, 1000);
-        };*/
-  /*  function createTable() {
-        $('#cfunkydiv').remove();
-        var ptworow=$("#Progress").html();
-        if (ptworow==0)
-        {ptworow=100;}
-	var plevorow=$("#dunglevelregion").html();
-	var ptropneed = Math.ceil(loot[plevorow]*((100-ptworow)*0.008+1)/10);
-        var outtable="<div id='cfunkydiv' style='width:500px;height:330px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:10px;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">Suggested Raiding Numbers - Caver progress "+ptworow+"%</span> <button id=\"cfunkyX\" onclick=\"$('#cfunkydiv').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div class=\"popUpWindow\">";
-        outtable+="<table><thead><th>Lvl</th><th>Estimated Loot</th><th>Vanqs/Rangers<br>druids</th><th>Sorcs</th><th>Praetors</th><th>Arbs/Horses</th></thead>";
-        outtable+="<tbody><tr><td>1</td><td>400</td><td>"+Math.ceil(loot[1]*((100-ptworow)*0.008+1)/10)+"</td><td>"+Math.ceil(loot[1]*((100-ptworow)*0.008+1)/5)+"</td><td>"+Math.ceil(loot[1]*((100-ptworow)*0.008+1)/20)+"</td><td>"+Math.ceil(loot[1]*((100-ptworow)*0.008+1)/15)+"</td></tr>";
-        outtable+="<tr><td>2</td><td>1000</td><td>"+Math.ceil(loot[2]*((100-ptworow)*0.008+1)/10)+"</td><td>"+Math.ceil(loot[2]*((100-ptworow)*0.008+1)/5)+"</td><td>"+Math.ceil(loot[2]*((100-ptworow)*0.008+1)/20)+"</td><td>"+Math.ceil(loot[2]*((100-ptworow)*0.008+1)/15)+"</td></tr>";
-        outtable+="<tr><td>3</td><td>4500</td><td>"+Math.ceil(loot[3]*((100-ptworow)*0.008+1)/10)+"</td><td>"+Math.ceil(loot[3]*((100-ptworow)*0.008+1)/5)+"</td><td>"+Math.ceil(loot[3]*((100-ptworow)*0.008+1)/20)+"</td><td>"+Math.ceil(loot[3]*((100-ptworow)*0.008+1)/15)+"</td></tr>";
-        outtable+="<tr><td>4</td><td>15000</td><td>"+Math.ceil(loot[4]*((100-ptworow)*0.008+1)/10)+"</td><td>"+Math.ceil(loot[4]*((100-ptworow)*0.008+1)/5)+"</td><td>"+Math.ceil(loot[4]*((100-ptworow)*0.008+1)/20)+"</td><td>"+Math.ceil(loot[4]*((100-ptworow)*0.008+1)/15)+"</td></tr>";
-        outtable+="<tr><td>5</td><td>33000</td><td>"+Math.ceil(loot[5]*((100-ptworow)*0.008+1)/10)+"</td><td>"+Math.ceil(loot[5]*((100-ptworow)*0.008+1)/5)+"</td><td>"+Math.ceil(loot[5]*((100-ptworow)*0.008+1)/20)+"</td><td>"+Math.ceil(loot[5]*((100-ptworow)*0.008+1)/15)+"</td></tr>";
-        outtable+="<tr><td>6</td><td>60000</td><td>"+Math.ceil(loot[6]*((100-ptworow)*0.008+1)/10)+"</td><td>"+Math.ceil(loot[6]*((100-ptworow)*0.008+1)/5)+"</td><td>"+Math.ceil(loot[6]*((100-ptworow)*0.008+1)/20)+"</td><td>"+Math.ceil(loot[6]*((100-ptworow)*0.008+1)/15)+"</td></tr>";
-        outtable+="<tr><td>7</td><td>120000</td><td>"+Math.ceil(loot[7]*((100-ptworow)*0.008+1)/10)+"</td><td>"+Math.ceil(loot[7]*((100-ptworow)*0.008+1)/5)+"</td><td>"+Math.ceil(loot[7]*((100-ptworow)*0.008+1)/20)+"</td><td>"+Math.ceil(loot[7]*((100-ptworow)*0.008+1)/15)+"</td></tr>";
-        outtable+="<tr><td>8</td><td>201000</td><td>"+Math.ceil(loot[8]*((100-ptworow)*0.008+1)/10)+"</td><td>"+Math.ceil(loot[8]*((100-ptworow)*0.008+1)/5)+"</td><td>"+Math.ceil(loot[8]*((100-ptworow)*0.008+1)/20)+"</td><td>"+Math.ceil(loot[8]*((100-ptworow)*0.008+1)/15)+"</td></tr>";
-        outtable+="<tr><td>9</td><td>300000</td><td>"+Math.ceil(loot[9]*((100-ptworow)*0.008+1)/10)+"</td><td>"+Math.ceil(loot[9]*((100-ptworow)*0.008+1)/5)+"</td><td>"+Math.ceil(loot[9]*((100-ptworow)*0.008+1)/20)+"</td><td>"+Math.ceil(loot[9]*((100-ptworow)*0.008+1)/15)+"</td></tr>";
-        outtable+="<tr><td>10</td><td>446000</td><td>"+Math.ceil(loot[10]*((100-ptworow)*0.008+1)/10)+"</td><td>"+Math.ceil(loot[10]*((100-ptworow)*0.008+1)/5)+"</td><td>"+Math.ceil(loot[10]*((100-ptworow)*0.008+1)/20)+"</td><td>"+Math.ceil(loot[10]*((100-ptworow)*0.008+1)/15)+"</td></tr>";
-        outtable+="</tbody></table><div><button id='raidboxopt' class='regButton greenb' style='width:160px; margin: 1%;' >Dont show this again </button></div>";
-        outtable+="</div></div>";
-        $( "body" ).append(outtable);
-        $( "#cfunkydiv" ).draggable({ handle: ".popUpBar" , containment: "window", scroll: false});
-        $("#raidboxopt").click(function() {
-            localStorage.setItem("raidbox","1");
-            var raidboxback="<button class='regButton greenb' id='raidboxb' style='width:120px; margin-left: 2%;'>Return Raiding Box</button>";
-            $("#squaredung td").find(".squarePlayerInfo").before(raidboxback);
-            $("#raidboxb").click(function() {
-                localStorage.setItem("raidbox","0");
-                $("#raidboxb").remove();
-            });
-        });
-        if (localStorage.getItem("raidbox")==1) {
-            $('#cfunkydiv').remove();
-        }
-    }
-    function setbossloot() {
-        var ttm=[0];
-        var ttc=0;
-        var bosslvl=$("#dunglevelregion").html();
-        var bosstype=$("#dungtypespot").html();
-        var tnumb=[0];
-        $("#raidingTable tr").each(function() {
-            var temp=$(this).find("td:nth-child(3)").text();
-            var n = temp.search("/");
-            temp=temp.substring(0,n);
-            temp=temp.replace(",","");
-            var troops=Number(temp);
-            var temp1=$(this).attr('id');
-            var tt=Number(temp1.match(/\d+/gi));
-            if (tt!==7) {
-                if (troops>0) {
-                    ttc+=1;
-                    ttm[ttc-1]=tt;
-                    tnumb[ttc-1]=troops;
-                }
-            }
-        });
-        
-            if (bosstype=="Triton") {
-                for (i=0; i<ttc+1; i++) {
-                    $('#cfunkydiv').remove();
-                    if (ttm[i]>13) {
-                        if (isart[ttm[i]]) {
-                            var amount=Math.ceil(bossdefw[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                            amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                            if (amount<=tnumb[i]) {
-                                $('#raidIP'+ttm[i]).val(amount);
-                            } else {
-                                message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                errorgo(message);
-                            }
-                        } else {
-                            var amount=Math.ceil(bossdef[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                            amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                            if (amount<=tnumb[i]) {
-                                $('#raidIP'+ttm[i]).val(amount);
-                            } else {
-                                message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                errorgo(message);
-                            }
-                        }
-                    }
-                }
-            }
-                    else if (bosstype=="Cyclops") {
-                        for (i=0; i<ttc+1; i++) {
-                            $('#cfunkydiv').remove();
-                            if (ttm[i]<13) {
-                                if (iscav[ttm[i]]) {
-                                    var amount=Math.ceil(bossdefw[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                } else {
-                                    var amount=Math.ceil(bossdef[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (bosstype=="Andar's Colosseum Challenge") {
-                        for (i=0; i<ttc+1; i++) {
-                            $('#cfunkydiv').remove();
-                            if (ttm[i]<13) {
-                                if (iscav[ttm[i]]) {
-                                    var amount=Math.ceil(bossdefw[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                } else {
-                                    var amount=Math.ceil(bossdef[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (bosstype=="Dragon") {
-                        for (i=0; i<ttc+1; i++) {
-                            $('#cfunkydiv').remove();
-                            if (ttm[i]<13) {
-                                if (isinf[ttm[i]]) {
-                                    var amount=Math.ceil(bossdefw[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                } else {
-                                    var amount=Math.ceil(bossdef[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (bosstype=="Romulus and Remus") {
-                        for (i=0; i<ttc+1; i++) {
-                            $('#cfunkydiv').remove();
-                            if (ttm[i]<13) {
-                                if (isinf[ttm[i]]) {
-                                    var amount=Math.ceil(bossdefw[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                } else {
-                                    var amount=Math.ceil(bossdef[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (bosstype=="Gorgon") {
-                        for (i=0; i<ttc+1; i++) {
-                            $('#cfunkydiv').remove();
-                            if (ttm[i]<13) {
-                                if (ismgc[ttm[i]]) {
-                                    var amount=Math.ceil(bossdefw[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                } else {
-                                    var amount=Math.ceil(bossdef[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else if (bosstype=="GM Gordy") {
-                        for (i=0; i<ttc+1; i++) {
-                            $('#cfunkydiv').remove();
-                            if (ttm[i]<13) {
-                                if (ismgc[ttm[i]]) {
-                                    var amount=Math.ceil(bossdefw[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                } else {
-                                    var amount=Math.ceil(bossdef[bosslvl-1]*4/(ttres[ttm[i]]*ttattack[ttm[i]]));
-                                    amount=Math.max(amount,bossmts[bosslvl-1]/ttts[ttm[i]]);
-                                    if (amount<=tnumb[i]) {
-                                        $('#raidIP'+ttm[i]).val(amount);
-                                    } else {
-                                        message="Error, you need at least " + amount + " " + ttname[ttm[i]]+"!";
-                                        errorgo(message);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else { createTable();}
-    } */
     // recall button in command window
     function recallraidl100(){
 //        var troops = cotg.city.troops();
@@ -4333,8 +3986,6 @@
         }
         var mindist = Math.min.apply(Math, hubs.distance);
         var nearesthub=hubs.cid[hubs.distance.indexOf(mindist)];
-        //aa[42]=nearesthub;
-        //aa[43]=nearesthub;
         if ($("#addwalls").prop("checked")==true) {
             aa[26]=1;
         }
@@ -4378,8 +4029,6 @@
         }
         var mindist = Math.min.apply(Math, hubs.distance);
         var nearesthub=hubs.cid[hubs.distance.indexOf(mindist)];
-        //aa[42]=nearesthub;
-        //aa[43]=nearesthub;
         if ($("#addwalls").prop("checked")==true) {
             aa[26]=1;
         }
