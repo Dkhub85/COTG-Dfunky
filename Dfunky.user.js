@@ -1017,7 +1017,6 @@
         sorttable.makeSortable(newTableObject);
         troopmail.sort(function(a,b) {return b[1]-a[1];});
         $("#mailoff").click(function() {
-            console.log(troopmail);
             //$("#mailComposeBox").show();
             var conttemp=$("#noffx").val();
             var dhruv="<p>Number of offensive castles is '"+counteroff+"'</p>";
@@ -1026,7 +1025,7 @@
                 if(i>0){
                     dhruv+='<tr><td style="text-align: center;" data-mce-style="text-align: center;">'+i+'</td>';
                     dhruv+='<td style="text-align: center;" data-mce-style="text-align: center;"><table>';
-                    for (var j in troopmail) {
+                    for (var j in troopmail[i][0]) {
                         if (troopmail[i][0][j]>0) {
                             dhruv+='<td>'+ttname[j]+'</td>';
                         }
@@ -1040,7 +1039,6 @@
             jQuery("#mnlsp")[0].click();
             jQuery("#composeButton")[0].click();
             var temppo=$("#mailname").val();
-            console.log(temppo);
             $("#mailToto").val(temppo);
             $("#mailToSub").val(conttemp+" Offensive TS");
             var $iframe = $('#mailBody_ifr');
