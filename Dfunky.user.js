@@ -1409,6 +1409,53 @@
             var galcap=500*galnumb;
             var nongalts=0;
             for (var i in t.home) {
+                if (t.type[i]==14 && t.type[i]==17 && t.type[i]==16) {
+                    if (t.type[i]==14 ) {
+                        if ($("#usereal"+t.type[i]).prop( "checked")===true) {
+                            if ($("#usefake"+t.type[i]).prop( "checked")===true) {
+                                t.real[i]==1;
+                                t.fake[i]==1;
+                            } else {
+                                t.real[i]==1;
+                                t.fake[i]==0;
+                            }
+                        }
+                    }
+                    if (t.type[i]==17) {
+                        if ($("#usereal"+t.type[i]).prop( "checked")===true) {
+                            if ($("#usefake"+t.type[i]).prop( "checked")===true) {
+                                if (t.home[i]>=fakenumb+realnumb) {
+                                    t.fake[i]=1;
+                                    t.real[i]=1;
+                                } else {
+                                    t.fake[i]=0;
+                                    t.real[i]=1;
+                                }
+                            } else {
+                                t.fake[i]=0;
+                                t.real[i]=1;
+                            }
+                        } else if ($("#usefake"+t.type[i]).prop( "checked")===true) {
+                            t.real[i]=0;
+                            t.fake[i]=1;
+                        } else {
+                            t.real[i]=0;
+                            t.fake[i]=0;
+                        }
+                    }
+                    if (t.type[i]==16 ) {
+                        if ($("#usereal"+t.type[i]).prop( "checked")===true) {
+                            if ($("#usefake"+t.type[i]).prop( "checked")===true) {
+                                t.fake[i]=Math.ceil(faketss*t.home[i]);
+                                t.real[i]=Math.floor((t.home[i]-t.fake[i]*fakenumb)/realnumb);                               
+                            } else {
+                                t.real[i]=Math.floor((t.home[i])/realnumb);
+                            }
+                        }
+                    }
+                }
+            }
+            for (var i in t.home) {
                 if (i!=gali && t.type[i]!=17) {
                     if ($("#usereal"+t.type[i]).prop( "checked")===true) {
                         if ($("#usefake"+t.type[i]).prop( "checked")===true) {
