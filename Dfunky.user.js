@@ -3272,14 +3272,18 @@
                 $("#raidboxb").remove();
             });
         }
-        var cancelallya="<input id='cancelAllya' type='checkbox' checked='checked'> Cancel attack if same alliance";
-        var cancelallys="<input id='cancelAllys' type='checkbox' checked='checked'> Cancel attack if same alliance";
-        var cancelallyp="<input id='cancelAllyp' type='checkbox' checked='checked'> Cancel attack if same alliance";
-        var cancelallyc="<input id='cancelAllyc' type='checkbox' checked='checked'> Cancel attack if same alliance";
-        $("#assaulttraveltime").parent().next().html(cancelallya);
-        $("#siegetraveltime").parent().next().html(cancelallys);
-        $("#plundtraveltime").parent().next().html(cancelallyp);
-        $("#scouttraveltime").parent().next().html(cancelallyc);
+
+        // This is causing the 'cancel if same alliance' check box to always be unchecked - even if not using the attack sender.
+        // Does not seem to be doing much anyways, since it will always be 'checked' and not be used.
+        // Needs more testing, but seems to be working for me. -Jackson
+        // var cancelallya="<input id='cancelAllya' type='checkbox' checked='checked'> Cancel attack if same alliance";
+        // var cancelallys="<input id='cancelAllys' type='checkbox' checked='checked'> Cancel attack if same alliance";
+        // var cancelallyp="<input id='cancelAllyp' type='checkbox' checked='checked'> Cancel attack if same alliance";
+        // var cancelallyc="<input id='cancelAllyc' type='checkbox' checked='checked'> Cancel attack if same alliance";
+        // $("#assaulttraveltime").parent().next().html(cancelallya);
+        // $("#siegetraveltime").parent().next().html(cancelallys);
+        // $("#plundtraveltime").parent().next().html(cancelallyp);
+        // $("#scouttraveltime").parent().next().html(cancelallyc);
         $("#assaultGo").click(function() {
             if ($("#cancelAllya").prop("checked")==false) {
                 setTimeout(function() {
