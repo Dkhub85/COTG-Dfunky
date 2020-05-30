@@ -2214,6 +2214,8 @@
             temp=40/(1+speeeed[i]*1.0/100);
             senspeed[i]= roundingto2(temp);
         }
+        var canvas = document.getElementById('worldcanv');//for attack drawings
+        var context = canvas.getContext('2d');//for attack drawings
         $("#iaBody tr").each(function() {
             var tid=$(':nth-child(5)',this).children().children().attr("data");
             var sid=$(':nth-child(10)',this).children().attr("data");
@@ -2221,6 +2223,25 @@
             var sx=sid%65536;
             var ty=(tid-tx)/65536;
             var sy=(sid-sx)/65536;
+// attack drawings on world map
+             var txx = Number((tx * 4.2216666666666)+2);
+             var tyy = Number((ty * 4.2216666666666)+2);
+             var sxx = Number((sx * 4.2216666666666)+2);
+             var syy = Number((sy * 4.2216666666666)+2);
+             context.beginPath();
+             context.moveTo(txx,tyy);
+             context.lineTo(sxx,syy);
+             var siege=$(':nth-child(2)',this).text();
+             if(siege=="Sieging")
+             {
+                 context.strokeStyle = '#FF0000';
+                 context.stroke();
+             }
+             else{
+                 context.strokeStyle = '#000000';
+                 context.stroke();
+             }
+  //end of attack drawings on world map
             var tcont=Math.floor(tx/100)+Math.floor(ty/100)*10;
             var scont=Math.floor(sx/100)+Math.floor(sy/100)*10;
             var dist=Math.sqrt((ty-sy)*(ty-sy)+(tx-sx)*(tx-sx));
