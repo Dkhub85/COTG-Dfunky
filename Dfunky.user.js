@@ -1,14 +1,10 @@
 // ==UserScript==
 // @name Cotg Dfunky
 // @namespace https://github.com/Dkhub85/COTG-Dfunky
-// @version 1.0.0
+// @version 2.0.0
 // @description Cotg Dfunky
-// @author Dhruv
-// @match https://w20.crownofthegods.com
-// @match https://w19.crownofthegods.com
-// @match https://w18.crownofthegods.com
-// @match https://w17.crownofthegods.com
-// @include https://w/*.crownofthegods.com/World*
+// @author Dhruv, cfunky
+// @match https://*.crownofthegods.com
 // @grant none
 // @updateURL https://raw.githubusercontent.com/DKhub85/COTG-Dfunky/master/Dfunky.user.js
 // @downloadURL https://raw.githubusercontent.com/DKhub85/COTG-Dfunky/master/Dfunky.user.js
@@ -17,13 +13,13 @@
 (function() {
 	// popup message for players when they open the game.
     $(document).ready(function() {
-    var popwin="<div id='HelloWorld' style='width:400px;height:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">Welcome!</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> DFunky(Cfunky + Dhruv's Raiding helper)</h4></span><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'>Updated 1st sept 2018</h4></span><br><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Added Offensive Troop mailing functionality, Added Shrine zone calculator(was in cfunky) (9-1-2018)</li></ul></span></div></div>";
+    var popwin="<div id='HelloWorld' style='width:400px;height:400px;background-color: #E2CBAC;-moz-border-radius: 10px;-webkit-border-radius: 10px;border-radius: 10px;border: 4px ridge #DAA520;position:absolute;right:40%;top:100px; z-index:1000000;'><div class=\"popUpBar\"> <span class=\"ppspan\">Welcome!</span><button id=\"cfunkyX\" onclick=\"$('#HelloWorld').remove();\" class=\"xbutton greenb\"><div id=\"xbuttondiv\"><div><div id=\"centxbuttondiv\"></div></div></div></button></div><div id='hellobody' class=\"popUpWindow\"><span style='margin-left: 5%;'> <h3 style='text-align:center;'>Welcome to Crown Of The Gods!</h3></span><br><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'> DFunky(Cfunky + Dhruv's Raiding helper)</h4></span><br><span style='margin-left: 5%;'> <h4 style='text-align:center;'>Updated 1st sept 2018</h4></span><br><br><span style='margin-left: 5%;'><h4>changes:</h4> <ul style='margin-left: 6%;'><li>Added Attack incoming drawings on world map</li></ul></span></div></div>";
         $("body").append(popwin);
 
         setTimeout(function() {
                             var options = {};
-                            $('#HelloWorld').hide( 'drop', options, 2000);
-                        }, 5000);
+                            $('#HelloWorld').hide( 'drop', options, 10000);
+                        }, 15000);
 
 
     });
