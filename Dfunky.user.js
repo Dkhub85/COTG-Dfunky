@@ -23,6 +23,7 @@
 
 
     });
+    var today= new Date();
     var ttts=[1,10,1,1,1,1,1,2,2,2,2,2,10,10,100,100,400,1]; //ts per unit
     var citytc;
     var message="Not enough TS to kill this boss!";
@@ -4826,6 +4827,118 @@
             }
             updateshrine();
         });
+    }
+     //incoming and outoging summary window
+     $(document).ready(function() {
+        var outsumbut="<button style='margin-left:10%;font-size: 12px;width: 150px;' class='greenb regButton' id='outsumGo'>Outgoing Summary</button>";
+        var incsumbut="<button style='margin-left:10%;font-size: 12px;width: 150px;' class='greenb regButton' id='incsumGo'>Incomings Summary</button>";
+        $("#contselectorAIPog").after(outsumbut);
+        $("#contselectorAIPic").after(incsumbut);
+        $("#outsumGo").click(function() {
+            makeoutsum();
+        });
+        $("#incsumGo").click(function() {
+            makeincsum();
+        });
+    });
+    function makeoutsum() {
+        var tg={id:[],se:[],oth:[],ts:[],x:[],y:[],cn:[],pn:[],an:[]}
+        var i=0;
+        $("#outgoingAttacksTable tr").each(function() {
+            if ($($(this).children()[0]).is( "td" )) {
+                var tid=$($($($(this).children()[6]).children()).children()).attr("data");
+                if (tg.id.indexOf(tid)<0) {
+                    tg.id.push(tid);
+                    tg.se.push(0);
+                    tg.oth.push(0);
+                    tg.ts.push(0);
+                    tg.cn.push($($($(this).children()[5]).children()).html());
+                    tg.an.push($($(this).children()[4]).html());
+                    tg.pn.push($($(this).children()[3]).html());
+                    var tempx=Number(tid % 65536);
+                    var tempy=Number((tid-tempx)/65536);
+                    tg.x.push(tempx);
+                    tg.y.push(tempy);
+                }
+                var ti=tg.id.indexOf(tid);
+                if ($($(this).children()[2]).html()=="Siege" || $($(this).children()[2]).html()=="Sieging") {
+                    tg.se[ti]++;
+                } else {
+                    tg.oth[ti]++;
+                }
+                tg.ts[ti]+=Number($($(this).children()[10]).html());
+                //console.log(++i);
+            }
+        });
+        var outsumwin="<div id='outsumWin' style='width:50%;height:40%;left:30%;z-index:4000;' class='popUpBox'><div class='popUpBar'><span class='ppspan'>Outgoing Attacks Summary</span><button class='greenb regButton' style='font-size: 14px;margin-left: 10px;margin-top: 1px;height: 90%;width: 60px;'><div class='button'><a href='#' id ='outsumexp' role='button' style='color:white;'>Export</a></div></button><button id='sumX' onclick=\"$('#outsumWin').remove();\" class='xbutton greenb'><div id='xbuttondiv'><div><div id='centxbuttondiv'></div></div></div></button></div><div id=outsumbody' class='popUpWindow'><div class='beigemenutable scroll-pane' style='height:53%;width: 98%;margin-left: 1%;'><table id='outsumTab'><thead><tr><th>Player</th><th>Alliance</th><th>Target</th><th>Coords</th><th>Number of sieges</th><th>Number of non siege</th><th>Total TS</th></tr></thead><tbody>";
+        for (var i in tg.id) {
+            outsumwin+="<tr><td class='playerblink'>"+tg.pn[i]+"</td><td class='allyblink'>"+tg.an[i]+"</td><td class='cityblink'>"+tg.cn[i]+"</td><td class='coordblink shcitt' data='"+tg.id[i]+"'>"+tg.x[i]+":"+tg.y[i]+"</td><td>"+tg.se[i]+"</td><td>"+tg.oth[i]+"</td><td>"+tg.ts[i].toLocaleString()+"</td></tr>";
+        }
+        outsumwin+="</tbody></table></div></div></div>";
+        $("body").append(outsumwin);
+        $("#outsumWin").draggable({ handle: ".popUpBar" , containment: "window", scroll: false});
+        $("#outsumWin").resizable();
+        var newTableObject = document.getElementById('outsumTab');
+        sorttable.makeSortable(newTableObject);
+        $("#outsumTab td").css("text-align","center");
+        $("#outsumexp").click(function(event) {
+            //var outputFile = window.prompt("What do you want to name your output file (Note: This won't have any effect on Safari)") || 'export';
+            var outputFile = 'OutgoingSum'+today.getDate()+Number(today.getMonth()+1)+today.getFullYear()+'.csv';
+
+            // CSV
+            exportTableToCSV.apply(this, [$('#outsumTab'), outputFile]);
+        });
+        setTimeout(function() {
+            $("#outsumWin").css("z-index","4000");
+        },300);
+    }
+    function makeincsum() {
+        var tg={id:[],hos:[],fr:[],x:[],y:[],cn:[],pn:[]}
+        var i=0;
+        $("#incomingsAttacksTable tr").each(function() {
+            if ($($(this).children()[0]).is( "td" )) {
+                var tid=$($($($(this).children()[4]).children()).children()).attr("data");
+                if (tg.id.indexOf(tid)<0) {
+                    tg.id.push(tid);
+                    tg.hos.push(0);
+                    tg.fr.push(0);
+                    tg.cn.push($($($(this).children()[3]).children()).html());
+                    tg.pn.push($($(this).children()[2]).html());
+                    var tempx=Number(tid % 65536);
+                    var tempy=Number((tid-tempx)/65536);
+                    tg.x.push(tempx);
+                    tg.y.push(tempy);
+                }
+                var ti=tg.id.indexOf(tid);
+                if (cotg.player.name()==$($(this).children()[7]).html()) {
+                    tg.fr[ti]++;
+                } else {
+                    tg.hos[ti]++;
+                }
+                //console.log(++i);
+            }
+        });
+        var outsumwin="<div id='outsumWin' style='width:50%;height:40%;left:30%;z-index:4000;' class='popUpBox'><div class='popUpBar'><span class='ppspan'>Incoming Attacks Summary</span><button class='greenb regButton' style='font-size: 14px;margin-left: 10px;margin-top: 1px;height: 90%;width: 60px;'><div class='button'><a href='#' id ='outsumexp' role='button' style='color:white;'>Export</a></div></button><button id='sumX' onclick=\"$('#outsumWin').remove();\" class='xbutton greenb'><div id='xbuttondiv'><div><div id='centxbuttondiv'></div></div></div></button></div><div id=outsumbody' class='popUpWindow'><div class='beigemenutable scroll-pane' style='height:53%;width: 98%;margin-left: 1%;'><table id='outsumTab'><thead><tr><th>Player</th><th>Target</th><th>Coords</th><th>Internal Attacks</th><th>Hostile Attacks</th></tr></thead><tbody>";
+        for (var i in tg.id) {
+            outsumwin+="<tr><td class='playerblink'>"+tg.pn[i]+"</td><td class='cityblink'>"+tg.cn[i]+"</td><td class='coordblink shcitt' data='"+tg.id[i]+"'>"+tg.x[i]+":"+tg.y[i]+"</td><td>"+tg.fr[i]+"</td><td>"+tg.hos[i]+"</td></tr>";
+        }
+        outsumwin+="</tbody></table></div></div></div>";
+        $("body").append(outsumwin);
+        $("#outsumWin").draggable({ handle: ".popUpBar" , containment: "window", scroll: false});
+        $("#outsumWin").resizable();
+        var newTableObject = document.getElementById('outsumTab');
+        sorttable.makeSortable(newTableObject);
+        $("#outsumTab td").css("text-align","center");
+        $("#outsumexp").click(function(event) {
+            //var outputFile = window.prompt("What do you want to name your output file (Note: This won't have any effect on Safari)") || 'export';
+            var outputFile = 'IncomingSum'+today.getDate()+Number(today.getMonth()+1)+today.getFullYear()+'.csv';
+
+            // CSV
+            exportTableToCSV.apply(this, [$('#outsumTab'), outputFile]);
+        });
+        setTimeout(function() {
+            $("#outsumWin").css("z-index","4000");
+        },300);
     }
     // exporting table to csv file taken from https://gist.github.com/adilapapaya/9787842
     function exportTableToCSV($table, filename) {
