@@ -3085,9 +3085,9 @@
             if (i === 17) { break; }
         }
         var lootpertroop=total_lootx/total_number;
-        for (var i = 1; i < $("#commandtable tbody").length; i++) {
+        for (var i = 1; i < $("#commandtable tbody tr").length; i++) {
             var trlist = $("#commandtable tbody tr:nth-child("+i+")");
-            var lvlprog=$(trlist).find(".commandinntabl tbody tr:nth-child(3) td:nth-child(1) span:nth-child(1)").text();//td:nth-child(1) span:nth-child(1)
+            var lvlprog=$(trlist).find(".commandinntabl tbody tr:nth-child(2) td:nth-child(1) span:nth-child(1)").text();//td:nth-child(1) span:nth-child(1)
             var splitlp=lvlprog.split("(");
             if (splitlp.length === 1) { continue; }
             var Dungeon_lvl=Number(splitlp[0].match(/\d+/gi));
@@ -3101,11 +3101,8 @@
             var Units_raiding=Number(temp7[0].replace(',', ''));
             var lootperraid=lootpertroop*Units_raiding;
             var percentage_ofloot=Math.ceil((lootperraid/total_loot_c)*100);
-            $(trlist).find(".commandinntabl tbody tr:nth-child(3) td:nth-child(2)").attr('rowspan',1);
-            $(trlist).find(".commandinntabl tbody tr:nth-child(4) td:nth-child(1)").attr('colspan',1);
-            $(trlist).find(".commandinntabl tbody tr:nth-child(4)").append('<td colspan="1" class="bottdinncommtb3" style="text-align:right"></td>');
-            $(trlist).find(".commandinntabl tbody tr:nth-child(4) td:nth-child(2)").text("Carry:"+percentage_ofloot+"%");//td:nth-child(1) span:nth-child(1)
-        }
+            $(trlist).find(".toptdinncommtbl1.outgblink.shRAin").text("Carry:" + percentage_ofloot + "%");
+            }
     }
     //Raiding script // carry percentage part in war councilor raider
      function carry_percentage(total_loot){
