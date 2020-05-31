@@ -4940,6 +4940,364 @@
             $("#outsumWin").css("z-index","4000");
         },300);
     }
+    function comsumtab(arg) {
+        var ata={sent:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],lost:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],survive:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]};// non siege
+        var ats={sent:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],lost:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],survive:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]};// siege
+        var dt={sent:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],lost:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],survive:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]};// defence
+        var aally=[];
+        var dally=[];
+        var apl=[];
+        var aplcount=[];
+        var dpl=[];
+        var spl=[];
+        var ajc=0;
+        var siege={src:[],troops:[],ts:[]};
+        var assc={real:0,fake:0};
+        var siec={real:0,fake:0};
+        var pluc={real:0,fake:0};
+        var scoc=0;
+        var day=$("#comsumDat").val().substring(3,5);
+        var month=$("#comsumDat").val().substring(0,2);
+        var rlines
+        if (arg=="city") {
+           // console.log(arg);
+            rlines=$("#bottomspotinfo table tbody tr");
+        }
+        if (arg=="player") {
+            rlines=$("#reportstBody tr");
+        }
+        if( rlines.length > 0 ){
+            var r=0;
+            var loop=function() {
+                var rday,rmonth,thiss,rid;
+                if (arg=="city") {
+                    thiss=rlines[r];
+                    rday=$(thiss).children().first().next().html().substring(9,11);
+                    rmonth=$(thiss).children().first().next().html().substring(12,14);
+                }
+                if (arg=="player") {
+                    thiss=rlines[r];
+                    rday=$(thiss).children().first().next().next().html().substring(9,11);
+                    rmonth=$(thiss).children().first().next().next().html().substring(12,14);
+                }
+                if (day==rday && month==rmonth) {
+                    if (arg=="city") {
+                        rid=$(thiss).children().first().attr("data");
+                    }
+                    if (arg=="player") {
+                        rid=$(thiss).children().first().next().attr("data");
+                    }
+                    var dat={r:rid};
+                    jQuery.ajax({url: 'includes/gFrep.php',type: 'POST',aysnc:false,data: dat,
+                                 success: function(data) {
+                                     var rcounter="<span>Scanning Reports - "+r+"/"+rlines.length+"</span>";
+                                     $("#comsumTabbody").html(rcounter);
+                                     ajc++;
+                                     var rdata=JSON.parse(data);
+                                     if (aally.indexOf(rdata.apan)<0) {
+                                         aally.push(rdata.apan);
+                                     }//pushing enemy alliance name in aally
+                                     if (dally.indexOf(rdata.tpan)<0) {
+                                         dally.push(rdata.tpan);
+                                     }//pushing our alliance name in dally
+                                     if (dpl.indexOf(rdata.tpn)<0) {
+                                         dpl.push(rdata.tpn);
+                                     }//pushing our name in dpl
+                                     if (rdata.type==3) {
+                                         scoc++;
+                                     }// incrementing scoc by 1 if rdata.type is 3 / scout is type 3
+
+                                     if (rdata.siege) {//rdata.type==1
+                                         var tempv=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];// attacking troops TS
+                                         var tempts=0;
+                                         var rdatareport= rdata.siege.reports;
+                                         $.each(rdatareport, function() {
+                                             $.each(this.ats, function(key, value) { // pushing attack troops
+                                                 tempv[key]=value;
+                                                 tempts+=value*ttts[key]; //ttts is TS of the troop type which we multiply with troop numbers to get TS amount to known if its fake or not
+                                             });
+                                             var tempcoord=this.acn;//acn is enemy castle cords
+                                             if (siege.src.indexOf(tempcoord)<0) {//if its not in siege.src then
+                                                 if (tempts<5000) {
+                                                     siec.fake++;
+                                                 } else {
+                                                     siec.real++;
+                                                 }
+                                                 if (apl.indexOf(this.apn)<0) {// checking enemy name in apl
+                                                     apl.push(this.apn);
+                                                     aplcount[apl.indexOf(this.apn)]=1;
+                                                 } else {
+                                                     aplcount[apl.indexOf(this.apn)]+=1;
+                                                 }
+                                                 siege.src.push(tempcoord);
+                                                 siege.troops.push(tempv);
+                                                 siege.ts.push(tempts);
+                                             }
+                                             else {// if cords are in siege.src, meaning siege arrived before
+                                                 if (siege.ts[siege.src.indexOf(tempcoord)]<tempts) {// if previous TS is less than new one
+                                                     if (tempts>=5000 && siege.ts[siege.src.indexOf(tempcoord)]<5000) {
+                                                         siec.fake--;
+                                                         siec.real++;
+                                                     }
+                                                     siege.troops[siege.src.indexOf(tempcoord)]=tempv;
+                                                     siege.ts[siege.src.indexOf(tempcoord)]=tempts;
+                                                 }
+                                             }
+                                             $.each(this.atlo, function(key, value) {
+                                                 ats.lost[key]+=value;
+                                             });
+                                             $.each(this.atle, function(key, value) {
+                                                 ats.survive[key]+=value;
+                                             });
+                                             // pushing defence in
+                                             for (var i in this.ttle) {
+                                                 dt.survive[i]+=this.ttle[i];
+                                                 dt.sent[i]+=this.tts[i];
+                                                 dt.lost[i]+=this.ttlo[i];
+                                             }
+                                             // pushing defence if reinforcers in
+                                             if ('reinforcers' in this) { // pushing defender ts in
+                                                 $.each(this.reinforcers, function() {
+                                                     if (spl.indexOf(this.pn)<0) {//pushing defender name into spl
+                                                         spl.push(this.pn);
+                                                     }
+                                                     $.each(this.ttle, function (key, value) {
+                                                         dt.survive[key]+=value;
+                                                     });
+                                                     $.each(this.ttlo, function (key, value) {
+                                                         dt.lost[key]+=value;
+                                                     });
+                                                     $.each(this.tts, function (key, value) {
+                                                         dt.sent[key]+=value;
+                                                     });
+                                                 });
+                                             }
+                                         });
+                                     }
+                                     if (rdata.assault || rdata.plunder) {//else
+                                         if (rdata.assault){
+                                             var rdatareports= rdata.assault.reports;
+                                         }
+                                         if (rdata.plunder){
+                                             var rdatareports= rdata.plunder.reports;
+                                         }
+                                         $.each(rdatareports, function() {
+                                             if (apl.indexOf(this.apn)<0) {// checking enemy name in apl, if not then
+                                                 apl.push(this.apn);
+                                                 aplcount[apl.indexOf(this.apn)]=1;
+                                             } else {// if enemy name already there then
+                                                 aplcount[apl.indexOf(this.apn)]+=1;
+                                             }
+                                             var tempts=0;
+                                             $.each(this.ats, function(key, value) {
+                                                 ata.sent[key]+=value;
+                                                 tempts+=value*ttts[key]; //ttts is TS of the type which we multiply with troop numbers to get fake or not
+                                             });
+                                             //console.log(tempts);
+                                             if (rdata.assault) {
+                                                 if (tempts<5000) {
+                                                     assc.fake++;
+                                                 } else {
+                                                     assc.real++;
+                                                 }
+                                             }
+                                             if (rdata.plunder) {
+                                                 if (tempts<5000) {
+                                                     pluc.fake++;
+                                                 } else {
+                                                     pluc.real++;
+                                                 }
+                                             }
+                                             $.each(this.atlo, function(key, value) {
+                                                 ata.lost[key]+=value;
+                                             });
+                                             $.each(this.atle, function(key, value) {
+                                                 ata.survive[key]+=value;
+                                             });
+                                             // pushing defence in
+                                             for (var i in this.ttle) {
+                                                 dt.survive[i]+=this.ttle[i];
+                                                 dt.sent[i]+=this.tts[i];
+                                                 dt.lost[i]+=this.ttlo[i];
+                                             }
+                                             // pushing defence if reinforcers in
+                                             if ('reinforcers' in this) { // pushing defender ts in
+                                                 $.each(this.reinforcers, function() {
+                                                     if (spl.indexOf(this.pn)<0) {//pushing defender name into spl
+                                                         spl.push(this.pn);
+                                                     }
+                                                     $.each(this.ttle, function (key, value) {
+                                                         dt.survive[key]+=value;
+                                                     });
+                                                     $.each(this.ttlo, function (key, value) {
+                                                         dt.lost[key]+=value;
+                                                     });
+                                                     $.each(this.tts, function (key, value) {
+                                                         dt.sent[key]+=value;
+                                                     });
+                                                 });
+                                             }
+                                         });
+                                     }
+                                     /*if (rdata.tts=="none") { //estimating killed troops by the puries from scoutsif all scouts killed
+                                         var tskilled=rdata.puri.w*4000/170;
+                                         dt.lost[18]+=Math.floor(tskilled);
+                                     } // in sieges/assults/plunder rdata.tts is none, in scouts tts positive so pushing scouts TS in
+                                  else {
+                                         for (var i in this.ttle) {
+                                             dt.survive[i]+=rdata.ttle[i];
+                                             dt.sent[i]+=rdata.tts[i];
+                                             dt.lost[i]+=rdata.ttlo[i];
+                                         }
+                                         if ('reinforce' in rdata) { // pushing defender ts in
+                                             $.each(rdata.reinforce, function() {
+                                                 if (spl.indexOf(this.pn)<0) {//pushing defender name into spl
+                                                     spl.push(this.pn);
+                                                 }
+                                                 $.each(this.ttle, function (key, value) {
+                                                     dt.survive[key]+=value;
+                                                 });
+                                                 $.each(this.ttlo, function (key, value) {
+                                                     dt.lost[key]+=value;
+                                                 });
+                                                 $.each(this.tts, function (key, value) {
+                                                     dt.sent[key]+=value;
+                                                 });
+                                             });
+                                         }
+                                     }// pushing sieges defence in */
+                                 }
+                                });
+
+                    if( ++r < rlines.length ){
+                        setTimeout(loop, 500);
+                    }
+                    else {
+                        setTimeout(function() {
+                            for (var i in siege.troops) {
+                                for (var j in siege.troops[i]) {
+                                    ats.sent[j]+=siege.troops[i][j];
+                                }
+                            }
+                            drawcomsumtable();
+                        }, 100*ajc);
+                    }
+                }
+                else {
+                    if( ++r < rlines.length ){
+                        setTimeout(loop, 0);
+                    } else {
+                        setTimeout(function() {
+                            for (var i in siege.troops) {
+                                for (var j in siege.troops[i]) {
+                                    ats.sent[j]+=siege.troops[i][j];
+                                }
+                            }
+                            drawcomsumtable();
+                        }, 100*ajc);
+                    }
+                }
+            };
+            loop();
+        }
+        function drawcomsumtable() {
+            //console.log(at,dt);
+            //console.log(aally,dally);
+            //console.log(assc.real,assc.fake,siec.real,siec.fake,pluc.real,pluc.fake);
+            var atps=[];
+            var dtps=[];
+            var tassent=0;
+            var taasent=0;
+            var taadied=0;
+            var tasdied=0;
+            var tddied=0;
+            var comsumbody="<p><span style='font-weight:bold;color:#980d0d;'>Combat Summary for "+$("#CNjsspan").text()+"("+$("#coordspan").text()+")"+" on "+$("#comsumDat").val()+"</span><br><span>Reports: "+ajc+"</span>";
+            if (assc.real>0) {
+                comsumbody+=" | Real assaults: "+assc.real+"</span>";
+            }
+            if (assc.fake>0) {
+                comsumbody+=" | Fake assaults: "+assc.fake+"</span>";
+            }
+            if (siec.real>0) {
+                comsumbody+=" | Real sieges: "+siec.real+"</span>";
+            }
+            if (siec.fake>0) {
+                comsumbody+=" | Fake sieges: "+siec.fake+"</span>";
+            }
+            if (pluc.real>0) {
+                comsumbody+=" | Real plunders: "+pluc.real+"</span>";
+            }
+            if (pluc.fake>0) {
+                comsumbody+=" | Fake plundes: "+pluc.fake+"</span>";
+            }
+            if (scoc>0) {
+                comsumbody+=" | Scouts: "+scoc+"</span>";
+            }
+            comsumbody+="<br><span>Attacking alliance: "+aally+"</span><br>";
+            comsumbody+="<span> Attackers: ";
+            for (var i in apl) {
+            comsumbody+=apl[i]+"("+aplcount[i]+") ";
+            }
+            comsumbody+="</span><div id='comsumatab' class='beigemenutable'>";
+            comsumbody+="<table><thead><tr><th style='width:100px;height:45px;'></th>";
+            for (var i in ata.sent) {
+                if (ata.sent[i]>0 || ats.sent[i]>0) {
+                    atps.push(i);
+                    comsumbody+="<th><div class='"+tpicdiv[i]+"'></div></th>";
+                }
+            }
+            comsumbody+="<th>Total</th></tr></thead><tbody><tr><td>Non-siege Sent</td>";
+            for (var i in atps) {
+                comsumbody+="<td>"+ata.sent[atps[i]].toLocaleString()+"</td>";
+                taasent+=ata.sent[atps[i]]*ttts[atps[i]];
+            }
+            comsumbody+="<td>"+taasent.toLocaleString()+"</td></tr><tr><td>Non-siege Lost</td>";
+            for (var i in atps) {
+                comsumbody+="<td>"+ata.lost[atps[i]].toLocaleString()+"</td>";
+                taadied+=ata.lost[atps[i]]*ttts[atps[i]];
+            }
+            comsumbody+="<td>"+taadied.toLocaleString()+"</td>";
+            comsumbody+="<tr><td>Siege Sent</td>";
+            for (var i in atps) {
+                comsumbody+="<td>"+ats.sent[atps[i]].toLocaleString()+"</td>";
+                tassent+=ats.sent[atps[i]]*ttts[atps[i]];
+            }
+            comsumbody+="<td>"+tassent.toLocaleString()+"</td></tr><tr><td>Siege Lost</td>";
+            for (var i in atps) {
+                comsumbody+="<td>"+ats.lost[atps[i]].toLocaleString()+"</td>";
+                tasdied+=ats.lost[atps[i]]*ttts[atps[i]];
+            }
+            comsumbody+="<td>"+tasdied.toLocaleString()+"</td></tr></tbody></table>";
+            comsumbody+="<span>Total Sent: "+(taasent+tassent).toLocaleString()+"</span><br><span>Total Lost: "+(taadied+tasdied).toLocaleString()+"</span></div></p><p><span>Defending alliance: "+dally+"</span><br>";
+            comsumbody+="<span>Defender: "+dpl+"</span>";
+            if (spl.length>0) {
+                comsumbody+="<br><span>Supporters: ";
+                for (var i in spl) {
+                    comsumbody+=spl[i] +" ";
+                }
+                comsumbody+=" </span>";
+            }
+            comsumbody+="<div id='comsumdtab' class='beigemenutable'>";
+            comsumbody+="<table><thead><tr><th style='width:100px;height:45px;'></th>";
+            for (var i in dt.sent) {
+                if (dt.sent[i]>0) {
+                    dtps.push(i);
+                    comsumbody+="<th><div class='"+tpicdiv[i]+"'></div></th>";
+                }
+            }
+            comsumbody+="<th>Total(seen)</th><th>Total(Estimated)</th></tr></thead><tbody><tr><td>Lost</td>";
+            for (var i in dtps) {
+                comsumbody+="<td>"+dt.lost[dtps[i]].toLocaleString()+"</td>";
+                tddied+=dt.lost[dtps[i]]*ttts[dtps[i]];
+            }
+            comsumbody+="<td>"+tddied.toLocaleString()+"</td><td>"+dt.lost[18].toLocaleString()+"</td></tr></tbody></table><span>Total lost: "+(tddied+dt.lost[18]).toLocaleString()+"</span></div></p>";
+            $("#comsumTabbody").html(comsumbody);
+            $("#comsumatab td").css({"text-align":"center","font-size":"15px"});
+            $("#comsumatab th").css({"text-align":"center","font-size":"15px"});
+            $("#comsumdtab td").css({"text-align":"center","font-size":"15px"});
+            $("#comsumdtab th").css({"text-align":"center","font-size":"15px"});
+        }
+    }
     // exporting table to csv file taken from https://gist.github.com/adilapapaya/9787842
     function exportTableToCSV($table, filename) {
         var $headers = $table.find('tr:has(th)')
