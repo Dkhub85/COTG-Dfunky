@@ -4135,10 +4135,10 @@
          sumwin+="<li role='tab'><a href='#troopsTab' role='presentation'>Troops</a></li><li role='tab'><a href='#raidTab' role='presentation'>Raids</a></li><li role='tab'><a href='#raidoverTab' role='presentation'>Raids Overview</a></li>";
          sumwin+="<li role='tab'><a href='#supportTab' role='presentation'>Support</a></li></ul>";
          sumwin+="<div id='resTab'><button id='resup' class='greenb' style='font-size:14px;border-radius:6px; margin:4px;'>Update</button><span style='margin-left:50px;'>Show cities from: </span>";
-         sumwin+="<div class='beigemenutable scroll-pane' style='width:99%;height:100%;margin-left:4px;' ><table id='restable'>";
+         sumwin+="<div class='beigemenutable scroll-pane' style='width:99%;height:75%;margin-left:4px;' ><table id='restable'>";
          sumwin+="<thead><th>Name</th><th colspan='2'>Notes</th><th>Coords</th><th>Wood</th><th>(Storage)</th><th>Stones</th><th>(Storage)</th><th>Iron</th><th>(Storage)</th><th>Food</th><th>(Storage)</th><th>Carts</th><th>(Total)</th><th>Ships</th><th>(Total)</th><th>Score</th></thead></table></div></div>";
          sumwin+="<div id='troopsTab'><button id='troopsup' class='greenb' style='font-size:14px;border-radius:6px;margin:4px;'>Update</button><span style='margin-left:50px;'>Show cities from: </span>";
-         sumwin+="<div  class='beigemenutable scroll-pane' style='width:99%;height:95%;margin-left:4px;'><table id='troopstable' style='width:250%'>";
+         sumwin+="<div  class='beigemenutable scroll-pane' style='width:99%;height:75%;margin-left:4px;'><table id='troopstable' style='width:250%'>";
          sumwin+="<thead><tr data='0'><th>Name</th><th style='width:150px;'>Notes</th><th>Coords</th><th><div class='"+tpicdiv[8]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[1]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[11]+"'></div>(home)</th><th>(Total)</th></th>";
          sumwin+="<th><div class='"+tpicdiv[14]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[0]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[10]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[9]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[4]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[12]+"'></div>(home)</th><th>(Total)</th>";
          sumwin+="<th><div class='"+tpicdiv[2]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[13]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[7]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[17]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[6]+"'></div>(home)</th><th>(Total)</th><th><div class='"+tpicdiv[15]+"'></div>(home)</th><th>(Total)</th>";
@@ -4476,7 +4476,7 @@
         $("#restable td").css("text-align","center");
         var newTableObject = document.getElementById('restable');
         sorttable.makeSortable(newTableObject);
-        var tottab="<div id='rsum' class='beigemenutable scroll-pane' style='width: 99%;margin-left: 4px;'><table><td>Total wood: </td><td>"+woodtot.toLocaleString()+"</td><td>Total stones: </td><td>"+stonetot.toLocaleString()+"</td><td>Total iron: </td><td>"+irontot.toLocaleString()+"</td><td>Total food: </td><td>"+foodtot.toLocaleString()+"</td>";
+        var tottab="<div id='rsum' class='beigemenutable scroll-pane' style='width: 99%;height:7% !important;margin-left: 4px;'><table><td>Total wood: </td><td>"+woodtot.toLocaleString()+"</td><td>Total stones: </td><td>"+stonetot.toLocaleString()+"</td><td>Total iron: </td><td>"+irontot.toLocaleString()+"</td><td>Total food: </td><td>"+foodtot.toLocaleString()+"</td>";
         tottab+="<td>Total carts: </td><td>"+cartstot.toLocaleString()+"</td><td>Total ships: </td><td>"+shipstot.toLocaleString()+"</td></table></div>";
         $("#rsum").remove();
         $("#resTab").append(tottab);
@@ -4660,7 +4660,7 @@
         $("#troopstable td").css("padding-left","0%");
         var newTableObject = document.getElementById('troopstable');
         sorttable.makeSortable(newTableObject);
-        var tottab="<div id='tsum' class='beigemenutable scroll-pane' style='width: 99%;margin-left: 4px;'><table style='font-size: 14px;width: 120%;'><tr><td>Total arbs: </td><td>Total balli: </td><td>Total druids: </td><td>Total galley: </td><td>Total guards: </td><td>Total horses: </td><td>Total praetor: </td><td>Total priest: </td><td>Total rams: </td><td>Total rangers: </td>";
+        var tottab="<div id='tsum' class='beigemenutable scroll-pane' style='width: 99%;height:16.6% !important;margin-left: 4px;'><table style='font-size: 14px;width: 120%;'><tr><td>Total arbs: </td><td>Total balli: </td><td>Total druids: </td><td>Total galley: </td><td>Total guards: </td><td>Total horses: </td><td>Total praetor: </td><td>Total priest: </td><td>Total rams: </td><td>Total rangers: </td>";
         tottab+="<td>Total scorp: </td><td>Total scouts: </td><td>Total senator: </td><td>Total sorc: </td><td>Total stingers: </td><td>Total triari: </td><td>Total vanqs: </td><td>Total warship: </td></tr>";
         tottab+="<tr><td>"+arbstot.toLocaleString()+"</td><td>"+balltot.toLocaleString()+"</td>";
         tottab+="<td>"+druidstot.toLocaleString()+"</td>";
