@@ -4940,6 +4940,32 @@
             $("#outsumWin").css("z-index","4000");
         },300);
     }
+       // combat reports summary
+        $(document).ready(function() {
+            var comsum="<button id='comsumGo' class='regButton greenb' style='margin-top: 40%;width: 95%;height: 25%;font-size: .8vw;'>Combat Summary</button>";
+            var comsump="<button id='comsumpGo' class='regButton greenb' style='margin-left:3%;width: 45%;height: 26px;font-size: 12px;'>Combat Summary</button>";
+            $("#announcementsGo").css("width","45%");
+            $("#locatecityGo").after(comsum);
+            $("#announcementsGo").after(comsump);
+            $("#comsumGo").click(function() {
+                comsumwin("city");
+            });
+            $("#comsumpGo").click(function() {
+                comsumwin("player");
+            });
+            //$("head").append("<script type='text/javascript' src='https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js'></script>");
+        });
+        //combat sum window
+        function comsumwin(arg) {
+            var comswin="<div id='comsumWin' style='width:60%;height:65%;left:30%' class='popUpBox'><div class='popUpBar'><span class='ppspan'>Combat Reports Summary</span><button id='sumX' onclick=\"$('#comsumWin').remove();\" class='xbutton greenb'><div id='xbuttondiv'><div><div id='centxbuttondiv'></div></div></div></button></div><div id=comsumbody' class='popUpWindow'><span style='margin-left:5%;'>Pick a Date to retrieve combat summary:    </span><input style='width:90px;' id='comsumDat' type='text' value='00/00/0000'><button class='regButton greenbuttonGo greenb' id='getcomSum' style='width:10%;margin-left:5%'> Go </Button><div id='comsumTabbody' style='margin:1%;'></div></div></div>";
+            $("body").append(comswin);
+            $("#comsumWin").draggable({ handle: ".popUpBar" , containment: "window", scroll: false});
+            $("#comsumWin").resizable();
+            $("#comsumDat").datepicker();
+            $("#getcomSum").click(function() {
+                comsumtab(arg);
+            });
+        }
     function comsumtab(arg) {
         var ata={sent:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],lost:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],survive:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]};// non siege
         var ats={sent:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],lost:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],survive:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]};// siege
