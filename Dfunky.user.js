@@ -5012,6 +5012,13 @@
                                          var tempts=0;
                                          var rdatareport= rdata.siege.reports;
                                          $.each(rdatareport, function() {
+                                         var ztts = this.tts. reduce(function(a, b){
+                                            return a + b;
+                                        }, 0);
+                                        if (ztts===0){
+                                            console.log("duplicate report");
+                                        }
+                                        else{
                                              $.each(this.ats, function(key, value) { // pushing attack troops
                                                  tempv[key]=value;
                                                  tempts+=value*ttts[key]; //ttts is TS of the troop type which we multiply with troop numbers to get TS amount to known if its fake or not
@@ -5071,7 +5078,8 @@
                                                          dt.sent[key]+=value;
                                                      });
                                                  });
-                                             }
+                                                } 
+                                           }   
                                          });
                                      }
                                      if (rdata.assault || rdata.plunder) {//else
@@ -5082,6 +5090,13 @@
                                              var rdatareports= rdata.plunder.reports;
                                          }
                                          $.each(rdatareports, function() {
+                                            var ztts = this.tts. reduce(function(a, b){
+                                                return a + b;
+                                            }, 0);
+                                            if (ztts===0){
+                                                console.log("duplicate report");
+                                            }
+                                            else{
                                              if (apl.indexOf(this.apn)<0) {// checking enemy name in apl, if not then
                                                  apl.push(this.apn);
                                                  aplcount[apl.indexOf(this.apn)]=1;
@@ -5137,6 +5152,7 @@
                                                      });
                                                  });
                                              }
+                                            }
                                          });
                                      }
                                      /*if (rdata.tts=="none") { //estimating killed troops by the puries from scoutsif all scouts killed
