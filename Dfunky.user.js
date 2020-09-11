@@ -5,6 +5,7 @@
 // @description Cotg Dfunky
 // @author Dhruv, cfunky
 // @match https://*.crownofthegods.com
+// @include https://*.crownofthegods.com/?s=*
 // @grant none
 // @updateURL https://raw.githubusercontent.com/DKhub85/COTG-Dfunky/master/Dfunky.user.js
 // @downloadURL https://raw.githubusercontent.com/DKhub85/COTG-Dfunky/master/Dfunky.user.js
