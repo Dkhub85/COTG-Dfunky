@@ -2229,16 +2229,6 @@
              context.beginPath();
              context.moveTo(txx,tyy);
              context.lineTo(sxx,syy);
-             var siege=$(':nth-child(2)',this).text();
-             if(siege=="Sieging")
-             {
-                 context.strokeStyle = '#FF0000';
-                 context.stroke();
-             }
-             else{
-                 context.strokeStyle = '#000000';
-                 context.stroke();
-             }
   //end of attack drawings on world map
             var tcont=Math.floor(tx/100)+Math.floor(ty/100)*10;
             var scont=Math.floor(sx/100)+Math.floor(sy/100)*10;
@@ -2324,6 +2314,12 @@
                     $(':nth-child(16)',this).css("color", "red");
                 }
             }
+            var siege=$(':nth-child(2)',this).text();
+            if(siege=="Sieging")
+            {
+                context.strokeStyle = '#C70039';
+                context.stroke();
+            }
             if ($(':nth-child(2)',this).text()=="-") {
                 // below will return -1 if calculated speed is not found inside the speed arrays and the correct index if it is found within the speed arrays
                 var zns = navyspeed.indexOf(nspeed);
@@ -2332,59 +2328,178 @@
                 var zis = infspeed.indexOf(ispeed);
                 var zas = artspeed.indexOf(ispeed);
                 var zsn = senspeed.indexOf(ispeed);
-                // below use ispeed and above return values to get the correct incoming troop type
+                // below use ispeed and above return values to get the correct incoming troop type               
                 if (tcont==scont) {
                     if (ispeed>30) {
-                        if(zsn == -1){$(':nth-child(2)',this).text("Tower?/Sen");}
+                        if(zsn == -1){
+                            $(':nth-child(2)',this).text("Tower?/Sen");
+                            context.strokeStyle = '#000000';//BLACK
+                            context.stroke();
+                        }
                         else
-                        {$(':nth-child(2)',this).text("senator "+speeeed[zsn]+"%");}
+                        {
+                            $(':nth-child(2)',this).text("senator "+speeeed[zsn]+"%");
+                            context.strokeStyle = '#FF0000';//RED
+                            context.stroke();
+                        }
                     }
                     if (ispeed>20 && ispeed<=30) {
-                        if(zsn == -1 && zas == -1){$(':nth-child(2)',this).text("Tower?/Art/Sen");}
-                        if(zsn == -1 && zas != -1){$(':nth-child(2)',this).text("Artillery "+speeeed[zas]+"%");}
-                        if(zsn != -1 && zas == -1){$(':nth-child(2)',this).text("Senator "+speeeed[zsn]+"%");}
-                        if(zsn != -1 && zas != -1){$(':nth-child(2)',this).text("Art "+speeeed[zas]+"%"+"/"+"Sen "+speeeed[zsn]+"%");}
+                        if(zsn == -1 && zas == -1){
+                            $(':nth-child(2)',this).text("Tower?/Art/Sen");
+                            context.strokeStyle = '#000000';//BLACK
+                            context.stroke();
+                        }
+                        if(zsn == -1 && zas != -1){
+                            $(':nth-child(2)',this).text("Artillery "+speeeed[zas]+"%");
+                            context.strokeStyle = '#00FFFB';//LIGHT BLUE
+                            context.stroke();
+                        }
+                        if(zsn != -1 && zas == -1){
+                            $(':nth-child(2)',this).text("Senator "+speeeed[zsn]+"%");
+                            context.strokeStyle = '#FF0000';//RED
+                            context.stroke();
+                        }
+                        if(zsn != -1 && zas != -1){
+                            $(':nth-child(2)',this).text("Art "+speeeed[zas]+"%"+"/"+"Sen "+speeeed[zsn]+"%");
+                            context.strokeStyle = '#0076FF ';//BLUE
+                            context.stroke();
+                        }
                     }
-                    if (ispeed==20){$(':nth-child(2)',this).text("Inf 0%/Art 50%/Sen 100%");}
+                    if (ispeed==20){
+                        $(':nth-child(2)',this).text("Inf 0%/Art 50%/Sen 100%");
+                        context.strokeStyle = '#27FF0A';//GREEN
+                        context.stroke();
+                    }
                     if (ispeed>=15 && ispeed<20) {
-                        if(zis == -1 && zas == -1){$(':nth-child(2)',this).text("Tower?/Inf &above");}
-                        if(zis == -1 && zas != -1){$(':nth-child(2)',this).text("Artillery "+speeeed[zas]+"%");}
-                        if(zis != -1 && zas == -1){$(':nth-child(2)',this).text("Infantry "+speeeed[zis]+"%");}
-                        if(zis != -1 && zas != -1){$(':nth-child(2)',this).text("Inf "+speeeed[zis]+"%"+"/"+"Art "+speeeed[zas]+"%");}
+                        if(zis == -1 && zas == -1){
+                            $(':nth-child(2)',this).text("Tower?/Inf &above");
+                            context.strokeStyle = '#000000';//BLACK
+                            context.stroke();
+                        }
+                        if(zis == -1 && zas != -1){
+                            $(':nth-child(2)',this).text("Artillery "+speeeed[zas]+"%");
+                            context.strokeStyle = '#00FFFB';//LIGHT BLUE
+                            context.stroke();
+                        }
+                        if(zis != -1 && zas == -1){
+                            $(':nth-child(2)',this).text("Infantry "+speeeed[zis]+"%");
+                            context.strokeStyle = '#27FF0A';//GREEN
+                            context.stroke();
+                        }
+                        if(zis != -1 && zas != -1){
+                            $(':nth-child(2)',this).text("Inf "+speeeed[zis]+"%"+"/"+"Art "+speeeed[zas]+"%");
+                            context.strokeStyle = '#27FF0A';//GREEN
+                            context.stroke();
+                        }
                     }
                     if (ispeed>=10 && ispeed<15) {
-                        if(zis == -1 && zcs == -1){$(':nth-child(2)',this).text("Tower?/Cav &above");}
-                        if(zis == -1 && zcs != -1){$(':nth-child(2)',this).text("Cav "+speeeed[zcs]+"%");}
-                        if(zis != -1 && zcs == -1){$(':nth-child(2)',this).text("Inf "+speeeed[zis]+"%");}
-                        if(zis != -1 && zcs != -1){$(':nth-child(2)',this).text("Cav "+speeeed[zcs]+"%"+"/"+"Inf "+speeeed[zis]+"%");}
+                        if(zis == -1 && zcs == -1){
+                            $(':nth-child(2)',this).text("Tower?/Cav &above");
+                            context.strokeStyle = '#000000';//BLACK
+                            context.stroke();
+                        }
+                        if(zis == -1 && zcs != -1){
+                            $(':nth-child(2)',this).text("Cav "+speeeed[zcs]+"%");
+                            context.strokeStyle = '#FFFB0A';//YELLOW
+                            context.stroke();
+                        }
+                        if(zis != -1 && zcs == -1){
+                            $(':nth-child(2)',this).text("Inf "+speeeed[zis]+"%");
+                            context.strokeStyle = '#27FF0A';//GREEN
+                            context.stroke();
+                        }
+                        if(zis != -1 && zcs != -1){
+                            $(':nth-child(2)',this).text("Cav "+speeeed[zcs]+"%"+"/"+"Inf "+speeeed[zis]+"%");
+                            context.strokeStyle = '#FFFB0A';//YELLOW
+                            context.stroke();
+                        }
                     }
                     if (ispeed>8 && ispeed<10) {
-                        if(zcs == -1){$(':nth-child(2)',this).text("Tower?/Cav &above");}
-                        else
-                        {$(':nth-child(2)',this).text("Cav "+speeeed[zcs]+"%");}
+                        if(zcs == -1){
+                            $(':nth-child(2)',this).text("Tower?/Cav &above");
+                            context.strokeStyle = '#000000';//BLACK
+                            context.stroke();
+                        }
+                        else{
+                            $(':nth-child(2)',this).text("Cav "+speeeed[zcs]+"%");
+                            context.strokeStyle = '#FFFB0A';//YELLOW
+                            context.stroke();
+                        }
                     }
                     if (ispeed>5 && ispeed<=8){
-                        if(zss == -1 && zcs == -1){$(':nth-child(2)',this).text("Tower?/Scout &above");}
-                        if(zss == -1 && zcs != -1){$(':nth-child(2)',this).text("Cav "+speeeed[zcs]+"%");}
-                        if(zss != -1 && zcs == -1){$(':nth-child(2)',this).text("Scout "+speeeed[zss]+"%");}
-                        if(zss != -1 && zcs != -1){$(':nth-child(2)',this).text("Scout "+speeeed[zss]+"%"+"/"+"Cav "+speeeed[zcs]+"%");}
+                        if(zss == -1 && zcs == -1){
+                            $(':nth-child(2)',this).text("Tower?/Scout &above");
+                            context.strokeStyle = '#000000';//BLACK
+                            context.stroke();
+                        }
+                        if(zss == -1 && zcs != -1){
+                            $(':nth-child(2)',this).text("Cav "+speeeed[zcs]+"%");
+                            context.strokeStyle = '#FFFB0A';//YELLOW
+                            context.stroke();
+                        }
+                        if(zss != -1 && zcs == -1){
+                            $(':nth-child(2)',this).text("Scout "+speeeed[zss]+"%");
+                            context.strokeStyle = '#FF9D00';//ORANGE
+                            context.stroke();
+                        }
+                        if(zss != -1 && zcs != -1){
+                            $(':nth-child(2)',this).text("Scout "+speeeed[zss]+"%"+"/"+"Cav "+speeeed[zcs]+"%");
+                            context.strokeStyle = '#FF9D00';//ORANGE
+                            context.stroke();
+                        }
                     }
-                    if (ispeed==5){$(':nth-child(2)',this).text("Navy 0%/Scout 60%/Cav 100%");}
+                    if (ispeed==5){
+                        $(':nth-child(2)',this).text("Navy 0%/Scout 60%/Cav 100%");
+                        context.strokeStyle = '#000000';//BLACK
+                        context.stroke();
+                    }
                     if (ispeed>=4 && ispeed<5) {
-                        if(zss == -1 && zns == -1){$(':nth-child(2)',this).text("Tower?/scout &above");}
-                        if(zss == -1 && zns != -1){$(':nth-child(2)',this).text("Navy "+speeeed[zns]+"%");}
-                        if(zss != -1 && zns == -1){$(':nth-child(2)',this).text("Scout "+speeeed[zss]+"%");}
-                        if(zss != -1 && zns != -1){$(':nth-child(2)',this).text("Navy "+speeeed[zns]+"%"+"/"+"Scout "+speeeed[zss]+"%");}
+                        if(zss == -1 && zns == -1){
+                            $(':nth-child(2)',this).text("Tower?/scout &above");
+                            context.strokeStyle = '#000000';//BLACK
+                            context.stroke();
+                        }
+                        if(zss == -1 && zns != -1){
+                            $(':nth-child(2)',this).text("Navy "+speeeed[zns]+"%");
+                            context.strokeStyle = '#000000';//BLACK
+                            context.stroke();
+                        }
+                        if(zss != -1 && zns == -1){
+                            $(':nth-child(2)',this).text("Scout "+speeeed[zss]+"%");
+                            context.strokeStyle = '#FF9D00';//ORANGE
+                            context.stroke();
+                        }
+                        if(zss != -1 && zns != -1){
+                            $(':nth-child(2)',this).text("Navy "+speeeed[zns]+"%"+"/"+"Scout "+speeeed[zss]+"%");
+                            context.strokeStyle = '#000000';//BLACK
+                            context.stroke();
+                        }
                     }
                     if (ispeed<4){
-                        if(zns == -1){$(':nth-child(2)',this).text("Tower?/Navy &above");}
+                        if(zns == -1){
+                            $(':nth-child(2)',this).text("Tower?/Navy &above");
+                            context.strokeStyle = '#000000';//BLACK
+                            context.stroke();
+                        }
                         else
-                        {$(':nth-child(2)',this).text("Navy "+speeeed[zns]+"%");}
+                        {
+                            $(':nth-child(2)',this).text("Navy "+speeeed[zns]+"%");
+                            context.strokeStyle = '#000000';
+                            context.stroke();//BLACK
+                        }
                     }
-                } else if ($(':nth-child(1)',this).html()) {$(':nth-child(2)',this).text("Portal");}
+                } else if ($(':nth-child(1)',this).html()) {
+                    $(':nth-child(2)',this).text("Portal");
+                    context.strokeStyle = '#AB924F';//BROWN
+                    context.stroke();
+                }
                 else {
                     if(zns != -1){$(':nth-child(2)',this).text("Navy "+speeeed[zns]+"%");}
-                    else{$(':nth-child(2)',this).text("Tower?/Navy");}
+                    else{
+                        $(':nth-child(2)',this).text("Tower?/Navy");
+                        context.strokeStyle = '#000000';//BLACK
+                        context.stroke();
+                    }
                 }
             }
         });
