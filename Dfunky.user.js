@@ -2176,12 +2176,58 @@
         $("#incomingsPic").click(function() {
             setTimeout(function(){incomings();}, 5000);
         });
+        $("#allianceOutgoings").parent().click(function() {
+            setTimeout(function(){outgoing();}, 5000);
+        });
+        $("#outgoingsPic").click(function() {
+            setTimeout(function(){outgoing();}, 5000);
+        });
     });
 	function roundingto2(num) {
         return +(Math.round(num + "e+2")  + "e-2");
     }
     function twodigitnum(n){
     return n > 9 ? "" + n: "0" + n;
+    }
+    function outgoing() {
+        var canvas = document.getElementById('worldcanv');
+        var context = canvas.getContext('2d');
+        $("#oaBody tr").each(function() {
+            var tid=$(':nth-child(7)',this).children().children().attr("data");//our cords
+            var sid=$(':nth-child(10)',this).children().attr("data");//enemy cords
+            var tx=tid%65536;
+            var sx=sid%65536;
+            var ty=(tid-tx)/65536;
+            var sy=(sid-sx)/65536;
+            var txx = Number((tx * 4.2216666666666)+2);
+            var tyy = Number((ty * 4.2216666666666)+2);
+            var sxx = Number((sx * 4.2216666666666)+2);
+            var syy = Number((sy * 4.2216666666666)+2);
+            context.beginPath();
+            context.moveTo(txx,tyy);
+            context.lineTo(sxx,syy);
+            var siege=$(':nth-child(3)',this).text();
+            if(siege=="Scout")
+            {
+                context.strokeStyle = '#FFA200 ';//orange
+                context.stroke();
+            }
+            if(siege=="Plunder")
+            {
+                context.strokeStyle = '#0031FF';//blue
+                context.stroke();
+            }
+            if(siege=="Siege")
+            {
+                context.strokeStyle = '##FF0303';//red
+                context.stroke();
+            }
+            if(siege=="Assault")
+            {
+                context.strokeStyle = '##000000';//black
+                context.stroke();
+            }    
+        });
     }
     function incomings() {
         //  below will give u a variable called speeeed which contains all the possible speed bonuses that can be in game
