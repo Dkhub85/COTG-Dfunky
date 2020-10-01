@@ -2219,12 +2219,12 @@
             }
             if(siege=="Siege")
             {
-                context.strokeStyle = '##FF0303';//red
+                context.strokeStyle = '#FF0303';//red
                 context.stroke();
             }
             if(siege=="Assault")
             {
-                context.strokeStyle = '##000000';//black
+                context.strokeStyle = '#000000';//black
                 context.stroke();
             }    
         });
