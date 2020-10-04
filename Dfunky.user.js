@@ -2227,6 +2227,11 @@
                 context.strokeStyle = '#000000';//black
                 context.stroke();
             }    
+            if(siege=="Sieging")
+            {
+                context.strokeStyle = '#FF8888 ';//black
+                context.stroke();
+            }
         });
     }
     function incomings() {
