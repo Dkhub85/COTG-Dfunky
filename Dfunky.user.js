@@ -2545,7 +2545,11 @@
                     context.stroke();
                 }
                 else {
-                    if(zns != -1){$(':nth-child(2)',this).text("Navy "+speeeed[zns]+"%");}
+                    if(zns != -1){
+                        $(':nth-child(2)',this).text("Navy "+speeeed[zns]+"%");
+                        context.strokeStyle = '#000000';//BLACK
+                        context.stroke();
+                    }
                     else{
                         $(':nth-child(2)',this).text("Tower?/Navy");
                         context.strokeStyle = '#000000';//BLACK
