@@ -94,6 +94,7 @@
     var buildingdata;
 	var coofz;
     var coon;
+    var ehx=0;
     //getting city lists
     $(document).ready(function() {
         setTimeout(function() {
@@ -144,6 +145,13 @@
                         wdata=JSON.parse(this.response);
                         beentoworld=true;
                         wdata=decwdata(wdata.a);
+                        bossnumber=wdata.bosses.length;
+                         if(bossnumber != ehx){
+                            ehx=bossnumber;
+                             if(bossnumber > 60){
+                             alert("Bosses spawned:"+bossnumber+" left");
+                             }
+                        }
                         getbossinfo();
                     }
                     if (url.indexOf('gPlA.php')!=-1) {
